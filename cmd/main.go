@@ -2,7 +2,7 @@ package main
 
 import "net/http"
 import "log"
-import "msgo-account/api/server/router"
+import "msgo-account/api/server"
 
 func main() {
   router := router.New()

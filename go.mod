@@ -1,4 +1,4 @@
-module github.com/dsipakou/msgo-account
+module msgo-account
 
 go 1.16
 
