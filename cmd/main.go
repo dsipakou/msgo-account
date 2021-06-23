@@ -5,7 +5,7 @@ import "log"
 import "msgo-account/api/server"
 
 func main() {
-  router := router.New()
+  router := server.Init()
 
   http.HandleFunc("/", func(http.ResponseWriter, *http.Request) {
     log.Println("Index page")
