@@ -2,10 +2,10 @@ package main
 
 import "net/http"
 import "log"
-import "msgo-account/api/server"
+// import "msgo-account/api/server"
 
 func main() {
-  router := server.Init()
+  // router := server.Init()
 
   http.HandleFunc("/", func(http.ResponseWriter, *http.Request) {
     log.Println("Index page")
