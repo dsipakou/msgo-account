@@ -2,7 +2,9 @@ package repository
 
 import (
   "fmt"
+  "log"
   "github.com/jmoiron/sqlx"
+   _ "github.com/lib/pq"
 )
 
 type Config struct {
@@ -15,6 +17,8 @@ type Config struct {
 }
 
 func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
+  connStr := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", cfg.Host, cfg.Port, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode)
+  log.Println(connStr)
   db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
     cfg.Host, cfg.Port, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode))
 
@@ -27,5 +31,6 @@ func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
     return nil, err1
   }
 
+  log.Println("Connected to DB")
   return db, nil
 }

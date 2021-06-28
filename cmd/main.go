@@ -16,6 +16,16 @@ func main() {
     log.Fatalf("Cannot open dotenv file: %s", err.Error())
   }
 
+  rep := repository.Config{
+    Host: os.Getenv("DB_HOST"),
+    Port: os.Getenv("DB_PORT"),
+    Username: os.Getenv("DB_USER"),
+    Password: os.Getenv("DB_PASSWORD"),
+    DBName: os.Getenv("DB_NAME"),
+    SSLMode: os.Getenv("DB_SSL_MODE"),
+  }
+
+  log.Printf(rep.Host)
   db, err := repository.NewPostgresDB(repository.Config{
     Host: os.Getenv("DB_HOST"),
     Port: os.Getenv("DB_PORT"),
