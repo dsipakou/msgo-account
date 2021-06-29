@@ -1,10 +1,9 @@
 package db
 
-import "database/sql"
-import _ "github.com/go-sql-driver/postgres"
+import (
+	"msgo-account/pkg/db/models"
+)
 
-type Transaction struct {
-  UserId int
-  Category string
-  Amount int
+type TransactionDB interface {
+	CreateTransation(p *models.Transaction) error
 }
