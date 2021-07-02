@@ -13,3 +13,7 @@ func Init() *Api {
     Router: mux.NewRouter(),
   }
 }
+
+func (a *App) initRoutes() {
+  a.Router.HandleFunc("/", nil).Methods("GET")
+}
