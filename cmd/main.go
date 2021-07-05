@@ -31,9 +31,10 @@ func main() {
 
 	fmt.Println(t)
 
-	err = api.DB.CreateTransaction(t)
+  transactions, err := api.DB.GetTransactions()
 	check(err)
 
+  fmt.Println(transactions)
 	err = http.ListenAndServe(":9091", nil)
 	check(err)
 }
