@@ -5,6 +5,7 @@ import "fmt"
 
 type Api struct {
   Router *mux.Router
+  DB db.DBActions
 }
 
 func Init() *Api {
