@@ -1,20 +1,27 @@
 package server
 
-import "github.com/gorilla/mux"
-import "fmt"
+import (
+	"fmt"
+	"msgo-account/pkg/db"
+
+	"github.com/gorilla/mux"
+)
 
 type Api struct {
-  Router *mux.Router
-  DB db.DBActions
+	Router *mux.Router
+	DB     db.DBActions
 }
 
 func Init() *Api {
-  fmt.Println("Hello from Init")
-  return &Api{
+	fmt.Println("Hello from Init")
+  a := &Api{
     Router: mux.NewRouter(),
   }
+
+  a.initRoutes()
+  return a
 }
 
-func (a *App) initRoutes() {
-  a.Router.HandleFunc("/", nil).Methods("GET")
+func (a *Api) initRoutes() {
+	a.Router.HandleFunc("/", nil).Methods("GET")
 }
