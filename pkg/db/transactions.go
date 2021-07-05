@@ -11,3 +11,13 @@ func (d *DB) CreateTransaction(t *models.Transaction) error {
 	res.LastInsertId()
 	return err
 }
+
+func (d *DB) GetTransactions() ([]*models.Transaction, error) {
+	var transactions []*models.Transaction
+	err := d.db.Select(&transactions, getTransactionsSchema)
+	if err != nil {
+		return transactions, err
+	}
+
+	return transactions, nil
+}

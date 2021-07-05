@@ -10,10 +10,11 @@ import (
 	"github.com/joho/godotenv"
 )
 
-type DBActions interface {
+type GeneralDB interface {
 	Open() error
-  Close() error
-  CreateTransaction(p *models.Transaction) error
+	Close() error
+	CreateTransaction(p *models.Transaction) error
+	GetTransactions() ([]*models.Transaction, error)
 }
 
 type DB struct {
@@ -44,5 +45,5 @@ func (d *DB) Open() error {
 }
 
 func (d *DB) Close() error {
-  return d.db.Close()
+	return d.db.Close()
 }

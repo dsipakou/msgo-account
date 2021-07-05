@@ -9,17 +9,17 @@ import (
 
 type Api struct {
 	Router *mux.Router
-	DB     db.DBActions
+	DB     db.GeneralDB
 }
 
 func Init() *Api {
 	fmt.Println("Hello from Init")
-  a := &Api{
-    Router: mux.NewRouter(),
-  }
+	a := &Api{
+		Router: mux.NewRouter(),
+	}
 
-  a.initRoutes()
-  return a
+	a.initRoutes()
+	return a
 }
 
 func (a *Api) initRoutes() {
