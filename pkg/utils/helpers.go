@@ -7,11 +7,11 @@ import (
 	"net/http"
 )
 
-func parse(w http.ResponseWriter, r *http.Request, data interface{}) error {
+func Parse(w http.ResponseWriter, r *http.Request, data interface{}) error {
 	return json.NewDecoder(r.Body).Decode(data)
 }
 
-func mapTransactionToJson(t *models.Transaction) models.JsonTransaction {
+func MapTransactionToJson(t *models.Transaction) models.JsonTransaction {
 	return models.JsonTransaction{
 		Id:       t.Id,
 		UserId:   t.UserId,
@@ -20,7 +20,7 @@ func mapTransactionToJson(t *models.Transaction) models.JsonTransaction {
 	}
 }
 
-func sendResponse(w http.ResponseWriter, _ *http.Request, data interface{}, status int) {
+func SendResponse(w http.ResponseWriter, _ *http.Request, data interface{}, status int) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(status)
 

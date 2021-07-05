@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
+	"msgo-account/pkg/utils"
 	"net/http"
 )
 
@@ -18,15 +19,15 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 		transactions, err := a.DB.GetTransactions()
 		if err != nil {
 			log.Printf("Cannot get transactions, err %v \n", err)
-			sendResponse(w, r, nil, http.StatusInternalServerError)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
 
 		var resp = make([]models.JsonTransaction, len(transactions))
 		for idx, transaction := range transactions {
-			resp[idx] = mapTransactionToJson(transaction)
+			resp[idx] = utils.MapTransactionToJson(transaction)
 		}
 
-		sendResponse(w, r, resp, http.StatusOK)
+		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
