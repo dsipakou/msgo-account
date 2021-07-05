@@ -16,7 +16,7 @@ type Config struct {
   SSLMode   string
 }
 
-func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
+func InitDB(cfg Config) (*sqlx.DB, error) {
   connStr := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s", cfg.Host, cfg.Port, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode)
   log.Println(connStr)
   db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
@@ -26,9 +26,9 @@ func NewPostgresDB(cfg Config) (*sqlx.DB, error) {
     return nil, err
   }
 
-  err1 := db.Ping()
-  if err1 != nil {
-    return nil, err1
+  err = db.Ping()
+  if err != nil {
+    return nil, err
   }
 
   log.Println("Connected to DB")
