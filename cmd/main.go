@@ -1,49 +1,24 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"msgo-account/api/server"
+	"msgo-account/pkg/db"
 	"msgo-account/pkg/db/models"
-  "msgo-account/pkg/db"
-	"msgo-account/pkg/repository"
 	"net/http"
 	"os"
-  "fmt"
-	"github.com/joho/godotenv"
 )
 
-// import "msgo-account/api/server"
-
 func main() {
-	// router := server.Init()
+	api := server.Init()
+	api.DB = &db.DB{}
+	err := api.DB.Open()
+	check(err)
 
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("Cannot open dotenv file: %s", err.Error())
-	}
+  fmt.Println(api.DB)
 
-	rep := repository.Config{
-		Host:     os.Getenv("DB_HOST"),
-		Port:     os.Getenv("DB_PORT"),
-		Username: os.Getenv("DB_USER"),
-		Password: os.Getenv("DB_PASSWORD"),
-		DBName:   os.Getenv("DB_NAME"),
-		SSLMode:  os.Getenv("DB_SSL_MODE"),
-	}
-
-	log.Printf(rep.Host)
-	dbConnect, err := repository.InitDB(repository.Config{
-		Host:     os.Getenv("DB_HOST"),
-		Port:     os.Getenv("DB_PORT"),
-		Username: os.Getenv("DB_USER"),
-		Password: os.Getenv("DB_PASSWORD"),
-		DBName:   os.Getenv("DB_NAME"),
-		SSLMode:  os.Getenv("DB_SSL_MODE"),
-	})
-
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
-
-	dbConnect.Ping()
+	defer api.DB.Close()
 	http.HandleFunc("/", func(http.ResponseWriter, *http.Request) {
 		log.Println("Index page")
 	})
@@ -54,16 +29,18 @@ func main() {
 		Amount:   50,
 	}
 
-  fmt.Println(t)
+	fmt.Println(t)
 
-  err = db.CreateTransaction(t)
-	if err != nil {
-		log.Println("Cannot insert record")
-	}
+	err = api.DB.CreateTransaction(t)
+	check(err)
 
 	err = http.ListenAndServe(":9091", nil)
+	check(err)
+}
 
-	if err != nil {
-		log.Println(err)
+func check(e error) {
+	if e != nil {
+		log.Println(e)
+		os.Exit(1)
 	}
 }
