@@ -23,7 +23,7 @@ func main() {
 		log.Println("Index page")
 	})
 
-	t := &models.Transaction{
+	t := &models.TransactionRequest{
 		UserId:   1,
 		Category: "temp_category",
 		Amount:   50,

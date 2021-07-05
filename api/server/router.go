@@ -23,5 +23,6 @@ func Init() *Api {
 }
 
 func (a *Api) initRoutes() {
-	a.Router.HandleFunc("/", nil).Methods("GET")
+	a.Router.HandleFunc("/", a.IndexHandler()).Methods("GET")
+	a.Router.HandleFunc("/api/transactions", a.GetTransactionsHandler()).Methods("GET")
 }
