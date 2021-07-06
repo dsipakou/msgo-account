@@ -32,6 +32,5 @@ func InitDB(cfg Config) (*sqlx.DB, error) {
 		return nil, err
 	}
 
-	log.Println("Connected to DB")
 	return db, nil
 }

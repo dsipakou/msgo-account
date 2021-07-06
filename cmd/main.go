@@ -19,9 +19,6 @@ func main() {
   fmt.Println(api.DB)
 
 	defer api.DB.Close()
-	http.HandleFunc("/", func(http.ResponseWriter, *http.Request) {
-		log.Println("Index page")
-	})
 
 	t := &models.TransactionRequest{
 		UserId:   1,
@@ -34,6 +31,7 @@ func main() {
   transactions, err := api.DB.GetTransactions()
 	check(err)
 
+  http.HandleFunc("/", api.Router.ServeHTTP)
   fmt.Println(transactions)
 	err = http.ListenAndServe(":9091", nil)
 	check(err)

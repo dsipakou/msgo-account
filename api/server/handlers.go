@@ -9,13 +9,17 @@ import (
 )
 
 func (a *Api) IndexHandler() http.HandlerFunc {
+  log.Println("Index requested")
 	return func(w http.ResponseWriter, r *http.Request) {
+    log.Println("Index called")
 		fmt.Fprintf(w, "Welcome to Account API")
 	}
 }
 
 func (a *Api) GetTransactionsHandler() http.HandlerFunc {
+  log.Println("Get transactions requested")
 	return func(w http.ResponseWriter, r *http.Request) {
+    log.Println("Get transactions called")
 		transactions, err := a.DB.GetTransactions()
 		if err != nil {
 			log.Printf("Cannot get transactions, err %v \n", err)
