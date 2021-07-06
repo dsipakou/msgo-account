@@ -9,17 +9,13 @@ import (
 )
 
 func (a *Api) IndexHandler() http.HandlerFunc {
-  log.Println("Index requested")
 	return func(w http.ResponseWriter, r *http.Request) {
-    log.Println("Index called")
 		fmt.Fprintf(w, "Welcome to Account API")
 	}
 }
 
 func (a *Api) GetTransactionsHandler() http.HandlerFunc {
-  log.Println("Get transactions requested")
 	return func(w http.ResponseWriter, r *http.Request) {
-    log.Println("Get transactions called")
 		transactions, err := a.DB.GetTransactions()
 		if err != nil {
 			log.Printf("Cannot get transactions, err %v \n", err)
@@ -32,6 +28,35 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 			resp[idx] = utils.MapTransactionToJson(transaction)
 		}
 
+		utils.SendResponse(w, r, resp, http.StatusOK)
+	}
+}
+
+func (a *Api) CreateTransactionHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.TransactionRequest{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		t := &models.Transaction{
+			Id:       0,
+			UserId:   request.userId,
+			Category: request.category,
+			Amount:   request.amount,
+		}
+
+		err = a.DB.CreateTransaction(t)
+		if err != nil {
+			log.Printf("Cannot save post in DB. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		resp := utils.MapTransactionToJSON(t)
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
