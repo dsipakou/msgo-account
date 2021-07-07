@@ -60,3 +60,26 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
+
+func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.JsonTransactionDelete{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		t := &models.DeleteTransaction{
+			Id: request.Id,
+		}
+
+    err = a.DB.DeleteTransaction(t)
+    if err != nil {
+      log.Printf("Cannot delete transaction. err=%v \n", err)
+      utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+      return
+    }
+	}
+}

@@ -21,3 +21,12 @@ func (d *DB) GetTransactions() ([]*models.Transaction, error) {
 
 	return transactions, nil
 }
+
+func (d *DB) DeleteTransaction(t *models.DeleteTransaction) error {
+  _, err := d.db.Exec(deleteTransactionSchema, t.Id)
+  if err != nil {
+    return err
+  }
+
+  return err
+}

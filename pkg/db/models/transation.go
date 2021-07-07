@@ -13,6 +13,14 @@ type TransactionRequest struct {
 	Amount   int64  `json:"amount"`
 }
 
+type JsonTransactionDelete struct {
+	Id int32 `json:id`
+}
+
+type DeleteTransaction struct {
+	Id int32 `db:id`
+}
+
 type JsonTransaction struct {
 	Id       int32  `json:"id"`
 	UserId   int64  `json:"user_id"`
