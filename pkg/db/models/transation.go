@@ -23,7 +23,7 @@ type DeleteTransaction struct {
 
 type JsonTransaction struct {
 	Id       int32  `json:"id"`
-	UserId   int64  `json:"user_id"`
+	UserId   int64  `json:"userId"`
 	Category string `json:"category"`
 	Amount   int64  `json:"amount"`
 }

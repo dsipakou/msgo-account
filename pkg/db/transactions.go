@@ -30,3 +30,11 @@ func (d *DB) DeleteTransaction(t *models.DeleteTransaction) error {
 
   return err
 }
+
+func (d *DB) UpdateTransaction(t *models.Transaction) error {
+  _, err := d.db.Exec(updateTransactionSchema, t.UserId, t.Category, t.Amount, t.Id)
+  if err != nil {
+    return err
+  }
+  return err
+}

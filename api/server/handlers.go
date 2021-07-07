@@ -51,7 +51,7 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 
 		err = a.DB.CreateTransaction(t)
 		if err != nil {
-			log.Printf("Cannot save post in DB. err=%v \n", err)
+			log.Printf("Cannot save transaction in DB. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
@@ -75,11 +75,37 @@ func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 			Id: request.Id,
 		}
 
-    err = a.DB.DeleteTransaction(t)
-    if err != nil {
-      log.Printf("Cannot delete transaction. err=%v \n", err)
-      utils.SendResponse(w, r, nil, http.StatusInternalServerError)
-      return
-    }
+		err = a.DB.DeleteTransaction(t)
+		if err != nil {
+			log.Printf("Cannot delete transaction. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func (a *Api) UpdateTransactionHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.JsonTransaction{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		t := &models.Transaction{
+			Id:       request.Id,
+			UserId:   request.UserId,
+			Category: request.Category,
+			Amount:   request.Amount,
+		}
+
+		err = a.DB.UpdateTransaction(t)
+		if err != nil {
+			log.Printf("Cannot update transaction. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
 	}
 }

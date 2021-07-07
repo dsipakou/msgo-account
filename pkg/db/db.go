@@ -16,6 +16,7 @@ type GeneralDB interface {
 	CreateTransaction(p *models.Transaction) error
 	GetTransactions() ([]*models.Transaction, error)
   DeleteTransaction(t *models.DeleteTransaction) error
+  UpdateTransaction(t *models.Transaction) error
 }
 
 type DB struct {
