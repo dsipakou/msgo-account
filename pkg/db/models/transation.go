@@ -8,9 +8,9 @@ type Transaction struct {
 }
 
 type TransactionRequest struct {
-	UserId   int64  `db:"user_id"`
-	Category string `db:"category"`
-	Amount   int64  `db:"amount"`
+	UserId   int64  `json:"userId"`
+	Category string `json:"category"`
+	Amount   int64  `json:"amount"`
 }
 
 type JsonTransaction struct {

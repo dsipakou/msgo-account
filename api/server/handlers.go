@@ -44,9 +44,9 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 
 		t := &models.Transaction{
 			Id:       0,
-			UserId:   request.userId,
-			Category: request.category,
-			Amount:   request.amount,
+			UserId:   request.UserId,
+			Category: request.Category,
+			Amount:   request.Amount,
 		}
 
 		err = a.DB.CreateTransaction(t)
@@ -56,7 +56,7 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 			return
 		}
 
-		resp := utils.MapTransactionToJSON(t)
+		resp := utils.MapTransactionToJson(t)
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
