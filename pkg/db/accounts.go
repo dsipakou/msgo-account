@@ -1,11 +1,14 @@
 package db
 
-import "msgo-account/pkg/db/models"
+import (
+	"fmt"
+	"msgo-account/pkg/db/models"
+)
 
 type AccountDB interface {
 	GetAccounts() ([]*models.Account, error)
 	CreateAccount(a *models.Account) error
-	DeleteAccount(a *models.DeleteAccount) error
+	DeleteAccount(a *models.JsonAccountDelete) error
 	UpdateAccount(a *models.Account) error
 }
 
@@ -29,8 +32,9 @@ func (d *DB) CreateAccount(a *models.Account) error {
 	return err
 }
 
-func (d *DB) DeleteAccount(a *models.DeleteAccount) error {
-	_, err := d.db.Exec(deleteAccountSchema, t.Id)
+func (d *DB) DeleteAccount(a *models.JsonAccountDelete) error {
+	fmt.Println("Deleting account...")
+	_, err := d.db.Exec(deleteAccountSchema, a.Id)
 	if err != nil {
 		return err
 	}

@@ -83,7 +83,7 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 
 func (a *Api) CreateAccountHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := models.JsonAccountRequest{}
+		request := models.JsonAccountGet{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -94,7 +94,7 @@ func (a *Api) CreateAccountHandler() http.HandlerFunc {
 		account := &models.Account{
 			Id:          0,
 			UserId:      request.UserId,
-			Source:    request.Source,
+			Source:      request.Source,
 			Amount:      request.Amount,
 			Description: request.Description,
 		}
@@ -110,7 +110,6 @@ func (a *Api) CreateAccountHandler() http.HandlerFunc {
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
-
 
 func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -129,6 +128,29 @@ func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 		err = a.DB.DeleteTransaction(t)
 		if err != nil {
 			log.Printf("Cannot delete transaction. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func (a *Api) DeleteAccountHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.JsonAccountDelete{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		t := &models.JsonAccountDelete{
+			Id: request.Id,
+		}
+
+		err = a.DB.DeleteAccount(t)
+		if err != nil {
+			log.Printf("Cannot delete account. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
@@ -157,6 +179,33 @@ func (a *Api) UpdateTransactionHandler() http.HandlerFunc {
 		err = a.DB.UpdateTransaction(t)
 		if err != nil {
 			log.Printf("Cannot update transaction. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func (a *Api) UpdateAccountHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.JsonAccount{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		account := &models.Account{
+			Id:          request.Id,
+			UserId:      request.UserId,
+			Source:      request.Source,
+			Amount:      request.Amount,
+			Description: request.Description,
+		}
+
+		err = a.DB.UpdateAccount(account)
+		if err != nil {
+			log.Printf("Cannot update account. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}

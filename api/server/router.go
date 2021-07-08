@@ -29,5 +29,7 @@ func (a *Api) initRoutes() {
 	a.Router.HandleFunc("/api/transactions", a.CreateTransactionHandler()).Methods("POST")
   a.Router.HandleFunc("/api/accounts", a.CreateAccountHandler()).Methods("POST")
   a.Router.HandleFunc("/api/transactions", a.DeleteTransactionHandler()).Methods("DELETE")
+  a.Router.HandleFunc("/api/accounts", a.DeleteAccountHandler()).Methods("DELETE")
   a.Router.HandleFunc("/api/transactions", a.UpdateTransactionHandler()).Methods("PATCH")
+  a.Router.HandleFunc("/api/accounts", a.UpdateAccountHandler()).Methods("PATCH")
 }
