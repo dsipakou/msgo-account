@@ -1,7 +1,7 @@
 CREATE TABLE transactions
 (
-  id        serial        not null unique,
-  user_id   int           not null,
-  category  varchar(255)  not null,
-  amount    int           not null
-)
+  id        bigserial     PRIMARY KEY,
+  user_id   int           NOT NULL,
+  category  varchar(255)  NOT NULL,
+  amount    int           NOT NULL
+);
