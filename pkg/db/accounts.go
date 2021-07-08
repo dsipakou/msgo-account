@@ -2,6 +2,23 @@ package db
 
 import "msgo-account/pkg/db/models"
 
+type AccountDB interface {
+	GetAccounts() ([]*models.Account, error)
+	CreateAccount(a *models.Account) error
+	DeleteAccount(a *models.DeleteAccount) error
+	UpdateAccount(a *models.Account) error
+}
+
+func (d *DB) GetAccounts() ([]*models.Account, error) {
+	var accounts []*models.Account
+	err := d.db.Select(&accounts, getAccountsSchema)
+	if err != nil {
+		return accounts, err
+	}
+
+	return accounts, nil
+}
+
 func (d *DB) CreateAccount(a *models.Account) error {
 	res, err := d.db.Exec(insertAccountSchema, a.UserId, a.Source, a.Amount, a.Description)
 	if err != nil {
@@ -12,12 +29,19 @@ func (d *DB) CreateAccount(a *models.Account) error {
 	return err
 }
 
-func (d *DB) GetAccounts() ([]*models.Account, error) {
-  var accounts []*models.Account
-  err := d.db.Select(&accounts, getAccountsSchema) 
-  if err != nil {
-    return accounts, err
-  }
+func (d *DB) DeleteAccount(a *models.DeleteAccount) error {
+	_, err := d.db.Exec(deleteAccountSchema, t.Id)
+	if err != nil {
+		return err
+	}
 
-  return accounts, nil
+	return err
+}
+
+func (d *DB) UpdateAccount(t *models.Account) error {
+	_, err := d.db.Exec(updateAccountSchema, t.UserId, t.Source, t.Amount, t.Description, t.Id)
+	if err != nil {
+		return err
+	}
+	return err
 }

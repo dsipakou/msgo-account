@@ -16,8 +16,6 @@ func main() {
 	err := api.DB.Open()
 	check(err)
 
-  fmt.Println(api.DB)
-
 	defer api.DB.Close()
 
 	t := &models.JsonTransactionRequest{

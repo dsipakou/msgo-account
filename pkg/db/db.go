@@ -2,7 +2,6 @@ package db
 
 import (
 	"log"
-	"msgo-account/pkg/db/models"
 	"msgo-account/pkg/repository"
 	"os"
 
@@ -13,12 +12,8 @@ import (
 type GeneralDB interface {
 	Open() error
 	Close() error
-	CreateTransaction(p *models.Transaction) error
-  CreateAccount(p *models.Account) error
-	GetTransactions() ([]*models.Transaction, error)
-  GetAccounts() ([]*models.Account, error)
-  DeleteTransaction(t *models.DeleteTransaction) error
-  UpdateTransaction(t *models.Transaction) error
+	TransactionDB
+	AccountDB
 }
 
 type DB struct {

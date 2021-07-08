@@ -2,14 +2,11 @@ package db
 
 import "msgo-account/pkg/db/models"
 
-func (d *DB) CreateTransaction(t *models.Transaction) error {
-	res, err := d.db.Exec(insertTransactionSchema, t.UserId, t.Category, t.Amount, t.AccountId, t.Description)
-	if err != nil {
-		return err
-	}
-
-	res.LastInsertId()
-	return err
+type TransactionDB interface {
+	GetTransactions() ([]*models.Transaction, error)
+	CreateTransaction(t *models.Transaction) error
+  DeleteTransaction(t *models.DeleteTransaction) error
+  UpdateTransaction(t *models.Transaction) error
 }
 
 func (d *DB) GetTransactions() ([]*models.Transaction, error) {
@@ -20,6 +17,16 @@ func (d *DB) GetTransactions() ([]*models.Transaction, error) {
 	}
 
 	return transactions, nil
+}
+
+func (d *DB) CreateTransaction(t *models.Transaction) error {
+	res, err := d.db.Exec(insertTransactionSchema, t.UserId, t.Category, t.Amount, t.AccountId, t.Description)
+	if err != nil {
+		return err
+	}
+
+	res.LastInsertId()
+	return err
 }
 
 func (d *DB) DeleteTransaction(t *models.DeleteTransaction) error {
