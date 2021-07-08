@@ -20,7 +20,7 @@ func main() {
 
 	defer api.DB.Close()
 
-	t := &models.TransactionRequest{
+	t := &models.JsonTransactionRequest{
 		UserId:   1,
 		Category: "temp_category",
 		Amount:   50,

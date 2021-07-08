@@ -3,7 +3,7 @@ package db
 import "msgo-account/pkg/db/models"
 
 func (d *DB) CreateTransaction(t *models.Transaction) error {
-	res, err := d.db.Exec(insertTransactionSchema, t.UserId, t.Category, t.Amount)
+	res, err := d.db.Exec(insertTransactionSchema, t.UserId, t.Category, t.Amount, t.AccountId, t.Description)
 	if err != nil {
 		return err
 	}
@@ -23,18 +23,18 @@ func (d *DB) GetTransactions() ([]*models.Transaction, error) {
 }
 
 func (d *DB) DeleteTransaction(t *models.DeleteTransaction) error {
-  _, err := d.db.Exec(deleteTransactionSchema, t.Id)
-  if err != nil {
-    return err
-  }
+	_, err := d.db.Exec(deleteTransactionSchema, t.Id)
+	if err != nil {
+		return err
+	}
 
-  return err
+	return err
 }
 
 func (d *DB) UpdateTransaction(t *models.Transaction) error {
-  _, err := d.db.Exec(updateTransactionSchema, t.UserId, t.Category, t.Amount, t.Id)
-  if err != nil {
-    return err
-  }
-  return err
+	_, err := d.db.Exec(updateTransactionSchema, t.UserId, t.Category, t.Amount, t.AccountId, t.Description, t.Id)
+	if err != nil {
+		return err
+	}
+	return err
 }

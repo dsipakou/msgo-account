@@ -24,6 +24,18 @@ func MapTransactionToJson(t *models.Transaction) models.JsonTransaction {
 	}
 }
 
+func MapAccountToJson(a *models.Account) models.JsonAccount {
+	return models.JsonAccount{
+		Id:          a.Id,
+		UserId:      a.UserId,
+		Source:      a.Source,
+		Amount:      a.Amount,
+		Description: a.Description,
+		CreatedAt:   a.CreatedAt,
+		UpdatedAt:   a.UpdatedAt,
+	}
+}
+
 func SendResponse(w http.ResponseWriter, _ *http.Request, data interface{}, status int) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(status)

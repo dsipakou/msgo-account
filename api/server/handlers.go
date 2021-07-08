@@ -34,7 +34,7 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 
 func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := models.TransactionRequest{}
+		request := models.JsonTransactionRequest{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -62,6 +62,37 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
+
+func (a *Api) CreateAccountHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.JsonAccountRequest{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		account := &models.Account{
+			Id:          0,
+			UserId:      request.UserId,
+			Source:    request.Source,
+			Amount:      request.Amount,
+			Description: request.Description,
+		}
+
+		err = a.DB.CreateAccount(account)
+		if err != nil {
+			log.Printf("Cannot save account in DB. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		resp := utils.MapAccountToJson(account)
+		utils.SendResponse(w, r, resp, http.StatusOK)
+	}
+}
+
 
 func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
