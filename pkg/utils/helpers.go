@@ -13,10 +13,14 @@ func Parse(w http.ResponseWriter, r *http.Request, data interface{}) error {
 
 func MapTransactionToJson(t *models.Transaction) models.JsonTransaction {
 	return models.JsonTransaction{
-		Id:       t.Id,
-		UserId:   t.UserId,
-		Category: t.Category,
-		Amount:   t.Amount,
+		Id:          t.Id,
+		UserId:      t.UserId,
+		Category:    t.Category,
+		Amount:      t.Amount,
+		AccountId:   t.AccountId,
+		Description: t.Description,
+		CreatedAt:   t.CreatedAt,
+		UpdatedAt:   t.UpdatedAt,
 	}
 }
 
