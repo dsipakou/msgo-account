@@ -32,6 +32,24 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 	}
 }
 
+func (a *Api) GetAccountsHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		accounts, err := a.DB.GetAccounts()
+		if err != nil {
+			log.Printf("Cannot get accounts, err %v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		var resp = make([]models.JsonAccount, len(accounts))
+		for idx, account := range accounts {
+			resp[idx] = utils.MapAccountToJson(account)
+		}
+
+		utils.SendResponse(w, r, resp, http.StatusOK)
+	}
+}
+
 func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonTransactionRequest{}

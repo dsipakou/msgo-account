@@ -16,6 +16,7 @@ type GeneralDB interface {
 	CreateTransaction(p *models.Transaction) error
   CreateAccount(p *models.Account) error
 	GetTransactions() ([]*models.Transaction, error)
+  GetAccounts() ([]*models.Account, error)
   DeleteTransaction(t *models.DeleteTransaction) error
   UpdateTransaction(t *models.Transaction) error
 }

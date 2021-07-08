@@ -25,6 +25,7 @@ func Init() *Api {
 func (a *Api) initRoutes() {
 	a.Router.HandleFunc("/", a.IndexHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/transactions", a.GetTransactionsHandler()).Methods("GET")
+	a.Router.HandleFunc("/api/accounts", a.GetAccountsHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/transactions", a.CreateTransactionHandler()).Methods("POST")
   a.Router.HandleFunc("/api/accounts", a.CreateAccountHandler()).Methods("POST")
   a.Router.HandleFunc("/api/transactions", a.DeleteTransactionHandler()).Methods("DELETE")
