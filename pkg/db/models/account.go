@@ -13,9 +13,9 @@ type Account struct {
 
 // Json structures
 type JsonAccountGet struct {
-	UserId      int32   `json:"userId"`
+	UserId      int32   `json:"userId,string"`
 	Source      string  `json:"source"`
-	Amount      float32 `json:"amount"`
+	Amount      float32 `json:"amount,string,omitempty"`
 	Description string  `json:"description"`
 }
 
@@ -26,7 +26,7 @@ type JsonAccountDelete struct {
 type JsonAccount struct {
 	Id          int32   `json:"id"`
 	UserId      int32   `json:"userId"`
-	Source      string  `json"source"`
+  Source      string  `json:"source"`
 	Amount      float32 `json:"amount"`
 	Description string  `json:"description"`
 	CreatedAt   string  `json:"createdAt"`

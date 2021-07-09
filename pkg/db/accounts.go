@@ -23,6 +23,7 @@ func (d *DB) GetAccounts() ([]*models.Account, error) {
 }
 
 func (d *DB) CreateAccount(a *models.Account) error {
+  fmt.Println(a.UserId, a.Source, a.Amount, a.Description)
 	res, err := d.db.Exec(insertAccountSchema, a.UserId, a.Source, a.Amount, a.Description)
 	if err != nil {
 		return err
