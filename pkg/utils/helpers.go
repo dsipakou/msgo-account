@@ -2,12 +2,14 @@ package utils
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 	"net/http"
 )
 
 func Parse(w http.ResponseWriter, r *http.Request, data interface{}) error {
+	fmt.Println(r.Body)
 	return json.NewDecoder(r.Body).Decode(data)
 }
 
@@ -38,11 +40,11 @@ func MapAccountToJson(a *models.Account) models.JsonAccount {
 
 func MapUserToJson(a *models.User) models.JsonUser {
 	return models.JsonUser{
-		Id:          a.Id,
+		Id:        a.Id,
 		Name:      a.Name,
-		Email:      a.Email,
-		Password:      a.Password,
-		CreatedAt:   a.CreatedAt,
+		Email:     a.Email,
+		Password:  a.Password,
+		CreatedAt: a.CreatedAt,
 	}
 }
 

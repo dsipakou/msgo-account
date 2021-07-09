@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
+	"github.com/gorilla/handlers"
 	"log"
 	"msgo-account/api/server"
 	"msgo-account/pkg/db"
-	"msgo-account/pkg/db/models"
 	"net/http"
 	"os"
 )
@@ -18,20 +18,13 @@ func main() {
 
 	defer api.DB.Close()
 
-	t := &models.JsonTransactionRequest{
-		UserId:   1,
-		Category: "temp_category",
-		Amount:   50,
-	}
+	fmt.Println(api.Router)
+	headers := handlers.AllowedHeaders([]string{"Authorization"})
+	methods := handlers.AllowedMethods([]string{"GET", "POST", "PATCH", "DELETE"})
+	origins := handlers.AllowedOrigins([]string{"*"})
 
-	fmt.Println(t)
-
-  transactions, err := api.DB.GetTransactions()
-	check(err)
-
-  http.HandleFunc("/", api.Router.ServeHTTP)
-  fmt.Println(transactions)
-	err = http.ListenAndServe(":9091", nil)
+	// http.HandleFunc("/", api.Router.ServeHTTP)
+	err = http.ListenAndServe(":9091", handlers.CORS(headers, methods, origins)(api.Router))
 	check(err)
 }
 

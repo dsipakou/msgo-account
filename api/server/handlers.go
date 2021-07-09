@@ -129,6 +129,36 @@ func (a *Api) CreateAccountHandler() http.HandlerFunc {
 	}
 }
 
+func (a *Api) CreateUserHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.JsonUserGet{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		user := &models.User{
+			Id:       0,
+			Name:     request.Name,
+			Email:    request.Email,
+			Password: request.Password,
+		}
+
+		fmt.Println(user)
+		err = a.DB.CreateUser(user)
+		if err != nil {
+			log.Printf("Cannot save user in DB. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		resp := utils.MapUserToJson(user)
+		utils.SendResponse(w, r, resp, http.StatusOK)
+	}
+}
+
 func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonTransactionDelete{}
