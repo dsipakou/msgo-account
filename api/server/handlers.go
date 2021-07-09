@@ -50,6 +50,24 @@ func (a *Api) GetAccountsHandler() http.HandlerFunc {
 	}
 }
 
+func (a *Api) GetUsersHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		users, err := a.DB.GetUsers()
+		if err != nil {
+			log.Printf("Cannot get users, err %v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		var resp = make([]models.JsonUser, len(users))
+		for idx, user := range users {
+			resp[idx] = utils.MapUserToJson(user)
+		}
+
+		utils.SendResponse(w, r, resp, http.StatusOK)
+	}
+}
+
 func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonTransactionRequest{}

@@ -1,5 +1,6 @@
 package models
 
+// DB structures
 type Account struct {
 	Id          int32   `db:"id"`
 	UserId      int32   `db:"user_id"`
@@ -10,6 +11,7 @@ type Account struct {
 	UpdatedAt   string  `db:"updated_at"`
 }
 
+// Json structures
 type JsonAccountGet struct {
 	UserId      int32   `json:"userId"`
 	Source      string  `json:"source"`

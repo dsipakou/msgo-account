@@ -36,6 +36,16 @@ func MapAccountToJson(a *models.Account) models.JsonAccount {
 	}
 }
 
+func MapUserToJson(a *models.User) models.JsonUser {
+	return models.JsonUser{
+		Id:          a.Id,
+		Name:      a.Name,
+		Email:      a.Email,
+		Password:      a.Password,
+		CreatedAt:   a.CreatedAt,
+	}
+}
+
 func SendResponse(w http.ResponseWriter, _ *http.Request, data interface{}, status int) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(status)

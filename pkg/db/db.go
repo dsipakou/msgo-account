@@ -14,6 +14,7 @@ type GeneralDB interface {
 	Close() error
 	TransactionDB
 	AccountDB
+  UserDB
 }
 
 type DB struct {
