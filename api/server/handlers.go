@@ -184,6 +184,7 @@ func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 
 func (a *Api) DeleteAccountHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("Start delete account...")
 		request := models.JsonAccountDelete{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
@@ -199,6 +200,30 @@ func (a *Api) DeleteAccountHandler() http.HandlerFunc {
 		err = a.DB.DeleteAccount(t)
 		if err != nil {
 			log.Printf("Cannot delete account. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func (a *Api) DeleteUserHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("Start delete user....")
+		request := models.JsonUserDelete{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		user := &models.JsonUserDelete{
+			Id: request.Id,
+		}
+
+		err = a.DB.DeleteUser(user)
+		if err != nil {
+			log.Printf("Cannot delete user. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
@@ -254,6 +279,31 @@ func (a *Api) UpdateAccountHandler() http.HandlerFunc {
 		err = a.DB.UpdateAccount(account)
 		if err != nil {
 			log.Printf("Cannot update account. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+	}
+}
+
+func (a *Api) UpdateUserHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.JsonUser{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		user := &models.User{
+			Name:     request.Name,
+			Email:    request.Email,
+			Password: request.Password,
+		}
+
+		err = a.DB.UpdateUser(user)
+		if err != nil {
+			log.Printf("Cannot update user. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
