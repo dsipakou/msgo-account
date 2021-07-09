@@ -13,7 +13,7 @@ type Account struct {
 
 // Json structures
 type JsonAccountGet struct {
-	UserId      int32   `json:"userId,string"`
+	UserId      int32   `json:"userId"`
 	Source      string  `json:"source"`
 	Amount      float32 `json:"amount,string,omitempty"`
 	Description string  `json:"description"`
