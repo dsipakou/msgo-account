@@ -1,12 +1,15 @@
 package db
 
-import "msgo-account/pkg/db/models"
+import (
+	"fmt"
+	"msgo-account/pkg/db/models"
+)
 
 type TransactionDB interface {
 	GetTransactions() ([]*models.Transaction, error)
 	CreateTransaction(t *models.Transaction) error
-  DeleteTransaction(t *models.DeleteTransaction) error
-  UpdateTransaction(t *models.Transaction) error
+	DeleteTransaction(t *models.DeleteTransaction) error
+	UpdateTransaction(t *models.Transaction) error
 }
 
 func (d *DB) GetTransactions() ([]*models.Transaction, error) {
@@ -20,6 +23,7 @@ func (d *DB) GetTransactions() ([]*models.Transaction, error) {
 }
 
 func (d *DB) CreateTransaction(t *models.Transaction) error {
+	fmt.Println(t.UserId, t.Category, t.Amount, t.AccountId, t.Description)
 	res, err := d.db.Exec(insertTransactionSchema, t.UserId, t.Category, t.Amount, t.AccountId, t.Description)
 	if err != nil {
 		return err

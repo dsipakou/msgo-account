@@ -14,8 +14,8 @@ type Transaction struct {
 type JsonTransactionRequest struct {
 	UserId      int32   `json:"userId"`
 	Category    string  `json:"category"`
-	Amount      float32 `json:"amount"`
-	AccountId   int32   `json:"account_id"`
+	Amount      float32 `json:"amount,string,omitempty"`
+	AccountId   int32   `json:"accountId"`
 	Description string  `json:"description"`
 }
 
