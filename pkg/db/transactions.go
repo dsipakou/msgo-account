@@ -23,8 +23,8 @@ func (d *DB) GetTransactions() ([]*models.Transaction, error) {
 }
 
 func (d *DB) CreateTransaction(t *models.Transaction) error {
-	fmt.Println(t.UserId, t.Category, t.Amount, t.AccountId, t.Description)
-	res, err := d.db.Exec(insertTransactionSchema, t.UserId, t.Category, t.Amount, t.AccountId, t.Description)
+	fmt.Println(t.UserId, t.CategoryId, t.Amount, t.AccountId, t.Description)
+	res, err := d.db.Exec(insertTransactionSchema, t.UserId, t.CategoryId, t.Amount, t.AccountId, t.Description)
 	if err != nil {
 		return err
 	}
@@ -43,7 +43,7 @@ func (d *DB) DeleteTransaction(t *models.DeleteTransaction) error {
 }
 
 func (d *DB) UpdateTransaction(t *models.Transaction) error {
-	_, err := d.db.Exec(updateTransactionSchema, t.UserId, t.Category, t.Amount, t.AccountId, t.Description, t.Id)
+	_, err := d.db.Exec(updateTransactionSchema, t.UserId, t.CategoryId, t.Amount, t.AccountId, t.Description, t.Id)
 	if err != nil {
 		return err
 	}

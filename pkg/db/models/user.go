@@ -7,6 +7,7 @@ type User struct {
 	Email     string `db:"email"`
 	Password  string `db:"password"`
 	CreatedAt string `db:"created_at"`
+  UpdatedAt string `db:"updated_at"`
 }
 
 // Json structures
@@ -26,4 +27,5 @@ type JsonUser struct {
   Email string `json:"email"`
   Password string `json:"password"`
   CreatedAt string `json:"createdAt"`
+  UpdatedAt string `json:"updatedAt"`
 }

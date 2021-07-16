@@ -17,7 +17,7 @@ func MapTransactionToJson(t *models.Transaction) models.JsonTransaction {
 	return models.JsonTransaction{
 		Id:          t.Id,
 		UserId:      t.UserId,
-		Category:    t.Category,
+		CategoryId:  t.CategoryId,
 		Amount:      t.Amount,
 		AccountId:   t.AccountId,
 		Description: t.Description,
@@ -45,6 +45,16 @@ func MapUserToJson(a *models.User) models.JsonUser {
 		Email:     a.Email,
 		Password:  a.Password,
 		CreatedAt: a.CreatedAt,
+	}
+}
+
+func MapCategoryToJson(a *models.Category) models.JsonCategoryResponse {
+	return models.JsonCategoryResponse{
+		Id:        a.Id,
+		Name:      a.Name,
+		Parent:    a.Parent,
+		CreatedAt: a.CreatedAt,
+		UpdatedAt: a.UpdatedAt,
 	}
 }
 

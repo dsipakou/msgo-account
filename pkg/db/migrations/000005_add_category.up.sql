@@ -4,6 +4,7 @@ CREATE TABLE categories
   name        varchar(128)        NOT NULL,
   parent      varchar(128)        DEFAULT NULL,
   created_at  timestamptz         DEFAULT NOW(),
+  updated_at  timestamptz         DEFAULT NOW(),
   CONSTRAINT  unique_name_parent  UNIQUE (name, parent)
 );
 

@@ -38,7 +38,7 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 		t := &models.Transaction{
 			Id:          0,
 			UserId:      request.UserId,
-			Category:    request.Category,
+			CategoryId:  request.CategoryId,
 			AccountId:   request.AccountId,
 			Amount:      request.Amount,
 			Description: request.Description,
@@ -92,7 +92,7 @@ func (a *Api) UpdateTransactionHandler() http.HandlerFunc {
 		t := &models.Transaction{
 			Id:          request.Id,
 			UserId:      request.UserId,
-			Category:    request.Category,
+			CategoryId:  request.CategoryId,
 			AccountId:   request.AccountId,
 			Amount:      request.Amount,
 			Description: request.Description,

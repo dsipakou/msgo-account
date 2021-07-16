@@ -3,7 +3,7 @@ package models
 type Transaction struct {
 	Id          int32   `db:"id"`
 	UserId      int32   `db:"user_id"`
-	Category    string  `db:"category"`
+	CategoryId  int32   `db:"category_id"`
 	AccountId   int32   `db:"account_id"`
 	Amount      float32 `db:"amount"`
 	Description string  `db:"description"`
@@ -13,7 +13,7 @@ type Transaction struct {
 
 type JsonTransactionRequest struct {
 	UserId      int32   `json:"userId"`
-	Category    string  `json:"category"`
+	CategoryId  int32   `json:"categoryId"`
 	Amount      float32 `json:"amount,string,omitempty"`
 	AccountId   int32   `json:"accountId"`
 	Description string  `json:"description"`
@@ -30,7 +30,7 @@ type DeleteTransaction struct {
 type JsonTransaction struct {
 	Id          int32   `json:"id"`
 	UserId      int32   `json:"userId"`
-	Category    string  `json:"category"`
+	CategoryId  int32   `json:"categoryId"`
 	AccountId   int32   `json:"accountId"`
 	Amount      float32 `json:"amount"`
 	Description string  `json:"description"`

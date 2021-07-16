@@ -4,7 +4,8 @@ CREATE TABLE users
   name        varchar(128)  NOT NULL,
   email       varchar(128)  NOT NULL,
   password    varchar(128)  NOT NULL,
-  created_at  timestamptz   DEFAULT NOW()
+  created_at  timestamptz   DEFAULT NOW(),
+  updated_at  timestamptz   DEFAULT NOW()
 );
 
 ALTER TABLE transactions

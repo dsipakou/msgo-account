@@ -15,6 +15,7 @@ type GeneralDB interface {
 	TransactionDB
 	AccountDB
   UserDB
+  CategoryDB
 }
 
 type DB struct {
