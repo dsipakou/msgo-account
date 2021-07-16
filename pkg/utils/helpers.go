@@ -13,13 +13,14 @@ func Parse(w http.ResponseWriter, r *http.Request, data interface{}) error {
 	return json.NewDecoder(r.Body).Decode(data)
 }
 
-func MapTransactionToJson(t *models.Transaction) models.JsonTransaction {
-	return models.JsonTransaction{
+func MapTransactionToJson(t *models.Transaction) models.JsonTransactionResponse {
+	return models.JsonTransactionResponse{
 		Id:          t.Id,
 		UserId:      t.UserId,
 		CategoryId:  t.CategoryId,
 		Amount:      t.Amount,
 		AccountId:   t.AccountId,
+    TransactionDate: t.TransactionDate,
 		Description: t.Description,
 		CreatedAt:   t.CreatedAt,
 		UpdatedAt:   t.UpdatedAt,

@@ -16,7 +16,7 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 			return
 		}
 
-		var resp = make([]models.JsonTransaction, len(transactions))
+		var resp = make([]models.JsonTransactionResponse, len(transactions))
 		for idx, transaction := range transactions {
 			resp[idx] = utils.MapTransactionToJson(transaction)
 		}
@@ -27,7 +27,7 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 
 func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := models.JsonTransactionRequest{}
+		request := models.JsonTransactionCreate{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -36,12 +36,13 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 		}
 
 		t := &models.Transaction{
-			Id:          0,
-			UserId:      request.UserId,
-			CategoryId:  request.CategoryId,
-			AccountId:   request.AccountId,
-			Amount:      request.Amount,
-			Description: request.Description,
+			Id:              0,
+			UserId:          request.UserId,
+			CategoryId:      request.CategoryId,
+			AccountId:       request.AccountId,
+			Amount:          request.Amount,
+			TransactionDate: request.TransactionDate,
+			Description:     request.Description,
 		}
 
 		err = a.DB.CreateTransaction(t)
@@ -66,10 +67,9 @@ func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 			return
 		}
 
-		t := &models.DeleteTransaction{
-			Id: request.Id,
-		}
-
+    t := &models.JsonTransactionDelete{
+      Id: request.Id,
+    }
 		err = a.DB.DeleteTransaction(t)
 		if err != nil {
 			log.Printf("Cannot delete transaction. err=%v \n", err)
@@ -81,7 +81,7 @@ func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 
 func (a *Api) UpdateTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := models.JsonTransaction{}
+		request := models.JsonTransactionUpdate{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -90,12 +90,13 @@ func (a *Api) UpdateTransactionHandler() http.HandlerFunc {
 		}
 
 		t := &models.Transaction{
-			Id:          request.Id,
-			UserId:      request.UserId,
-			CategoryId:  request.CategoryId,
-			AccountId:   request.AccountId,
-			Amount:      request.Amount,
-			Description: request.Description,
+			Id:              request.Id,
+			UserId:          request.UserId,
+			CategoryId:      request.CategoryId,
+			AccountId:       request.AccountId,
+			Amount:          request.Amount,
+			TransactionDate: request.TransactionDate,
+			Description:     request.Description,
 		}
 
 		err = a.DB.UpdateTransaction(t)

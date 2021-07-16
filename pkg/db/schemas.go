@@ -1,9 +1,9 @@
 package db
 
 var getTransactionsSchema = `SELECT * FROM transactions`
-var insertTransactionSchema = `INSERT INTO transactions(user_id, category_id, amount, account_id, description) VALUES($1, $2, $3, $4, $5) RETURNING id`
+var insertTransactionSchema = `INSERT INTO transactions(user_id, category_id, amount, account_id, transaction_date, description) VALUES($1, $2, $3, $4, $5, $6) RETURNING id`
 var deleteTransactionSchema = `DELETE FROM transactions WHERE id=$1`
-var updateTransactionSchema = `UPDATE transactions SET user_id=$1, category_id=$2, amount=$3, account_id=$4 description=$5 WHERE id=$6`
+var updateTransactionSchema = `UPDATE transactions SET user_id=$1, category_id=$2, amount=$3, account_id=$4, transaction_date=$5, description=$6 WHERE id=$7`
 
 var getAccountsSchema = `SELECT * FROM accounts`
 var insertAccountSchema = `INSERT INTO accounts(user_id, source, amount, description) VALUES($1, $2, $3, $4) RETURNING id`

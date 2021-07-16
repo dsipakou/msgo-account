@@ -8,7 +8,7 @@ import (
 type TransactionDB interface {
 	GetTransactions() ([]*models.Transaction, error)
 	CreateTransaction(t *models.Transaction) error
-	DeleteTransaction(t *models.DeleteTransaction) error
+	DeleteTransaction(t *models.JsonTransactionDelete) error
 	UpdateTransaction(t *models.Transaction) error
 }
 
@@ -23,8 +23,16 @@ func (d *DB) GetTransactions() ([]*models.Transaction, error) {
 }
 
 func (d *DB) CreateTransaction(t *models.Transaction) error {
-	fmt.Println(t.UserId, t.CategoryId, t.Amount, t.AccountId, t.Description)
-	res, err := d.db.Exec(insertTransactionSchema, t.UserId, t.CategoryId, t.Amount, t.AccountId, t.Description)
+	res, err := d.db.Exec(
+    insertTransactionSchema,
+    t.UserId,
+    t.CategoryId,
+    t.Amount,
+    t.AccountId,
+    t.TransactionDate,
+    t.Description,
+  )
+
 	if err != nil {
 		return err
 	}
@@ -33,7 +41,8 @@ func (d *DB) CreateTransaction(t *models.Transaction) error {
 	return err
 }
 
-func (d *DB) DeleteTransaction(t *models.DeleteTransaction) error {
+func (d *DB) DeleteTransaction(t *models.JsonTransactionDelete) error {
+	fmt.Println(t)
 	_, err := d.db.Exec(deleteTransactionSchema, t.Id)
 	if err != nil {
 		return err
@@ -43,7 +52,7 @@ func (d *DB) DeleteTransaction(t *models.DeleteTransaction) error {
 }
 
 func (d *DB) UpdateTransaction(t *models.Transaction) error {
-	_, err := d.db.Exec(updateTransactionSchema, t.UserId, t.CategoryId, t.Amount, t.AccountId, t.Description, t.Id)
+	_, err := d.db.Exec(updateTransactionSchema, t.UserId, t.CategoryId, t.Amount, t.AccountId, t.TransactionDate, t.Description, t.Id)
 	if err != nil {
 		return err
 	}
