@@ -17,7 +17,7 @@ type JsonTransactionCreate struct {
 	CategoryId      int32   `json:"categoryId"`
 	Amount          float32 `json:"amount,string,omitempty"`
 	AccountId       int32   `json:"accountId"`
-	TransactionDate string  `json:"transaction_date"`
+	TransactionDate string  `json:"transactionDate"`
 	Description     string  `json:"description"`
 }
 
