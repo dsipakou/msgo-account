@@ -9,7 +9,9 @@ import (
 )
 
 func Parse(w http.ResponseWriter, r *http.Request, data interface{}) error {
+  fmt.Println("------- body below --------")
 	fmt.Println(r.Body)
+  fmt.Println(data)
 	return json.NewDecoder(r.Body).Decode(data)
 }
 

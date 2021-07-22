@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 	"msgo-account/pkg/utils"
@@ -36,7 +35,6 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 			return
 		}
 
-		fmt.Println(request)
 		t := &models.Transaction{
 			Id:              0,
 			UserId:          request.UserId,
@@ -47,15 +45,17 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 			Description:     request.Description,
 		}
 
-		err = a.DB.CreateTransaction(t)
+		id, err := a.DB.CreateTransaction(t)
 		if err != nil {
 			log.Printf("Cannot save transaction in DB. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
 
+		t.Id = int32(id)
+
 		resp := utils.MapTransactionToJson(t)
-		utils.SendResponse(w, r, resp, http.StatusOK)
+		utils.SendResponse(w, r, resp, http.StatusCreated)
 	}
 }
 
@@ -78,6 +78,8 @@ func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
+
+		utils.SendResponse(w, r, nil, http.StatusNoContent)
 	}
 }
 
@@ -107,5 +109,7 @@ func (a *Api) UpdateTransactionHandler() http.HandlerFunc {
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
+
+		utils.SendResponse(w, r, nil, http.StatusOK)
 	}
 }
