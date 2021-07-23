@@ -20,7 +20,6 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 		for idx, transaction := range transactions {
 			resp[idx] = utils.MapTransactionToJson(transaction)
 		}
-
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
@@ -35,33 +34,21 @@ func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 			return
 		}
 
-		t := &models.Transaction{
-			Id:              0,
-			UserId:          request.UserId,
-			CategoryId:      request.CategoryId,
-			AccountId:       request.AccountId,
-			Amount:          request.Amount,
-			TransactionDate: request.TransactionDate,
-			Description:     request.Description,
-		}
-
-		id, err := a.DB.CreateTransaction(t)
+		transaction, err := a.DB.CreateTransaction(&request)
 		if err != nil {
 			log.Printf("Cannot save transaction in DB. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
 
-		t.Id = int32(id)
-
-		resp := utils.MapTransactionToJson(t)
+		resp := utils.MapTransactionToJson(transaction)
 		utils.SendResponse(w, r, resp, http.StatusCreated)
 	}
 }
 
 func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := models.JsonTransactionDelete{}
+		request := &models.JsonTransactionDelete{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -69,10 +56,7 @@ func (a *Api) DeleteTransactionHandler() http.HandlerFunc {
 			return
 		}
 
-		t := &models.JsonTransactionDelete{
-			Id: request.Id,
-		}
-		err = a.DB.DeleteTransaction(t)
+		err = a.DB.DeleteTransaction(request)
 		if err != nil {
 			log.Printf("Cannot delete transaction. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
@@ -93,23 +77,13 @@ func (a *Api) UpdateTransactionHandler() http.HandlerFunc {
 			return
 		}
 
-		t := &models.Transaction{
-			Id:              request.Id,
-			UserId:          request.UserId,
-			CategoryId:      request.CategoryId,
-			AccountId:       request.AccountId,
-			Amount:          request.Amount,
-			TransactionDate: request.TransactionDate,
-			Description:     request.Description,
-		}
-
-		err = a.DB.UpdateTransaction(t)
+		transaction, err := a.DB.UpdateTransaction(&request)
 		if err != nil {
 			log.Printf("Cannot update transaction. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
-
-		utils.SendResponse(w, r, nil, http.StatusOK)
+		resp := utils.MapTransactionToJson(transaction)
+		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }

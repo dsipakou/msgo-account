@@ -2,30 +2,26 @@ package utils
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 	"net/http"
 )
 
 func Parse(w http.ResponseWriter, r *http.Request, data interface{}) error {
-  fmt.Println("------- body below --------")
-	fmt.Println(r.Body)
-  fmt.Println(data)
 	return json.NewDecoder(r.Body).Decode(data)
 }
 
-func MapTransactionToJson(t *models.Transaction) models.JsonTransactionResponse {
+func MapTransactionToJson(t models.Transaction) models.JsonTransactionResponse {
 	return models.JsonTransactionResponse{
-		Id:          t.Id,
-		UserId:      t.UserId,
-		CategoryId:  t.CategoryId,
-		Amount:      t.Amount,
-		AccountId:   t.AccountId,
-    TransactionDate: t.TransactionDate,
-		Description: t.Description,
-		CreatedAt:   t.CreatedAt,
-		UpdatedAt:   t.UpdatedAt,
+		Id:              t.Id,
+		UserId:          t.UserId,
+		CategoryId:      t.CategoryId,
+		Amount:          t.Amount,
+		AccountId:       t.AccountId,
+		TransactionDate: t.TransactionDate,
+		Description:     t.Description,
+		CreatedAt:       t.CreatedAt,
+		UpdatedAt:       t.UpdatedAt,
 	}
 }
 

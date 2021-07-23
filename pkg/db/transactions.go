@@ -1,21 +1,20 @@
 package db
 
 import (
-	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 )
 
 type TransactionDB interface {
-	GetTransactions() ([]*models.Transaction, error)
-	CreateTransaction(t *models.Transaction) (int, error)
+	GetTransactions() ([]models.Transaction, error)
+	CreateTransaction(t *models.JsonTransactionCreate) (models.Transaction, error)
 	DeleteTransaction(t *models.JsonTransactionDelete) error
-	UpdateTransaction(t *models.Transaction) error
+	UpdateTransaction(t *models.JsonTransactionUpdate) (models.Transaction, error)
 }
 
-func (d *DB) GetTransactions() ([]*models.Transaction, error) {
-	var transactions []*models.Transaction
-	err := d.db.Select(&transactions, getTransactionsSchema)
+func (d *DB) GetTransactions() ([]models.Transaction, error) {
+	var transactions []models.Transaction
+	err := d.db.Select(&transactions, getAllTransactionsSchema)
 	if err != nil {
 		return transactions, err
 	}
@@ -23,11 +22,11 @@ func (d *DB) GetTransactions() ([]*models.Transaction, error) {
 	return transactions, nil
 }
 
-func (d *DB) CreateTransaction(t *models.Transaction) (int, error) {
+func (d *DB) CreateTransaction(t *models.JsonTransactionCreate) (models.Transaction, error) {
 	stmt, err := d.db.Prepare(insertTransactionSchema)
 	if err != nil {
 		log.Fatal(err)
-		return -1, err
+		return models.Transaction{}, err
 	}
 	defer stmt.Close()
 
@@ -44,14 +43,24 @@ func (d *DB) CreateTransaction(t *models.Transaction) (int, error) {
 		t.Description,
 	).Scan(&id, &created_at, &updated_at)
 
-	fmt.Println(id, created_at, updated_at)
+	transaction := models.Transaction{
+		Id:              int32(id),
+		UserId:          t.UserId,
+		CategoryId:      t.CategoryId,
+		AccountId:       t.AccountId,
+		Amount:          t.Amount,
+		TransactionDate: t.TransactionDate,
+		Description:     t.Description,
+		CreatedAt:       created_at,
+		UpdatedAt:       updated_at,
+	}
 
 	if err != nil {
 		log.Fatal(err)
-		return -1, err
+		return models.Transaction{}, err
 	}
 
-	return id, err
+	return transaction, err
 }
 
 func (d *DB) DeleteTransaction(t *models.JsonTransactionDelete) error {
@@ -63,11 +72,17 @@ func (d *DB) DeleteTransaction(t *models.JsonTransactionDelete) error {
 	return err
 }
 
-func (d *DB) UpdateTransaction(t *models.Transaction) error {
-	fmt.Println(t)
+func (d *DB) UpdateTransaction(t *models.JsonTransactionUpdate) (models.Transaction, error) {
 	_, err := d.db.Exec(updateTransactionSchema, t.UserId, t.CategoryId, t.Amount, t.AccountId, t.TransactionDate, t.Description, t.Id)
 	if err != nil {
-		return err
+		return models.Transaction{}, err
 	}
-	return err
+
+	var transaction models.Transaction
+	err = d.db.Get(&transaction, getTransactionSchema, t.Id)
+
+	if err != nil {
+		return models.Transaction{}, err
+	}
+	return transaction, nil
 }
