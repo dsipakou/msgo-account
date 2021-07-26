@@ -60,7 +60,7 @@ func (a *Api) CreateAccountHandler() http.HandlerFunc {
 			return
 		}
 
-    account, err := a.DB.CreateAccount(&request)
+		account, err := a.DB.CreateAccount(&request)
 		if err != nil {
 			log.Printf("Cannot save account in DB. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
