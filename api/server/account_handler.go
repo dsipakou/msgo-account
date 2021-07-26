@@ -17,7 +17,7 @@ func (a *Api) GetAccountsHandler() http.HandlerFunc {
 			return
 		}
 
-		var resp = make([]models.JsonAccount, len(accounts))
+		var resp = make([]models.JsonAccountResponse, len(accounts))
 		for idx, account := range accounts {
 			resp[idx] = utils.MapAccountToJson(account)
 		}
@@ -52,7 +52,7 @@ func (a *Api) DeleteAccountHandler() http.HandlerFunc {
 
 func (a *Api) CreateAccountHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := models.JsonAccountGet{}
+		request := models.JsonAccountCreate{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -60,16 +60,7 @@ func (a *Api) CreateAccountHandler() http.HandlerFunc {
 			return
 		}
 
-		account := &models.Account{
-			Id:          0,
-			UserId:      request.UserId,
-			Source:      request.Source,
-			Amount:      request.Amount,
-			Description: request.Description,
-		}
-
-		fmt.Println(account)
-		err = a.DB.CreateAccount(account)
+    account, err := a.DB.CreateAccount(&request)
 		if err != nil {
 			log.Printf("Cannot save account in DB. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
@@ -77,13 +68,13 @@ func (a *Api) CreateAccountHandler() http.HandlerFunc {
 		}
 
 		resp := utils.MapAccountToJson(account)
-		utils.SendResponse(w, r, resp, http.StatusOK)
+		utils.SendResponse(w, r, resp, http.StatusCreated)
 	}
 }
 
 func (a *Api) UpdateAccountHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := models.JsonAccount{}
+		request := models.JsonAccountUpdate{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)

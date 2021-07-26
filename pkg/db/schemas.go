@@ -7,7 +7,7 @@ var deleteTransactionSchema = `DELETE FROM transactions WHERE id=$1`
 var updateTransactionSchema = `UPDATE transactions SET user_id=$1, category_id=$2, amount=$3, account_id=$4, transaction_date=$5, description=$6, updated_at=NOW() WHERE id=$7`
 
 var getAccountsSchema = `SELECT * FROM accounts`
-var insertAccountSchema = `INSERT INTO accounts(user_id, source, amount, description) VALUES($1, $2, $3, $4) RETURNING id`
+var insertAccountSchema = `INSERT INTO accounts(user_id, source, amount, description) VALUES($1, $2, $3, $4) RETURNING id, created_at, updated_at`
 var deleteAccountSchema = `DELETE FROM accounts WHERE id=$1`
 var updateAccountSchema = `UPDATE accounts SET user_id=$1, source=$2, amount=$3, desciption=$4 WHERE id=$5`
 

@@ -7,7 +7,7 @@ import (
 
 type TransactionDB interface {
 	GetTransactions() ([]models.Transaction, error)
-	CreateTransaction(t *models.JsonTransactionCreate) (models.Transaction, error)
+	CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error)
 	DeleteTransaction(t *models.JsonTransactionDelete) error
 	UpdateTransaction(t *models.JsonTransactionUpdate) (models.Transaction, error)
 }
@@ -22,7 +22,7 @@ func (d *DB) GetTransactions() ([]models.Transaction, error) {
 	return transactions, nil
 }
 
-func (d *DB) CreateTransaction(t *models.JsonTransactionCreate) (models.Transaction, error) {
+func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error) {
 	stmt, err := d.db.Prepare(insertTransactionSchema)
 	if err != nil {
 		log.Fatal(err)
@@ -35,29 +35,29 @@ func (d *DB) CreateTransaction(t *models.JsonTransactionCreate) (models.Transact
 	var updated_at string
 
 	err = stmt.QueryRow(
-		t.UserId,
-		t.CategoryId,
-		t.Amount,
-		t.AccountId,
-		t.TransactionDate,
-		t.Description,
+		m.UserId,
+		m.CategoryId,
+		m.Amount,
+		m.AccountId,
+		m.TransactionDate,
+		m.Description,
 	).Scan(&id, &created_at, &updated_at)
-
-	transaction := models.Transaction{
-		Id:              int32(id),
-		UserId:          t.UserId,
-		CategoryId:      t.CategoryId,
-		AccountId:       t.AccountId,
-		Amount:          t.Amount,
-		TransactionDate: t.TransactionDate,
-		Description:     t.Description,
-		CreatedAt:       created_at,
-		UpdatedAt:       updated_at,
-	}
 
 	if err != nil {
 		log.Fatal(err)
 		return models.Transaction{}, err
+	}
+
+	transaction := models.Transaction{
+		Id:              int32(id),
+		UserId:          m.UserId,
+		CategoryId:      m.CategoryId,
+		AccountId:       m.AccountId,
+		Amount:          m.Amount,
+		TransactionDate: m.TransactionDate,
+		Description:     m.Description,
+		CreatedAt:       created_at,
+		UpdatedAt:       updated_at,
 	}
 
 	return transaction, err

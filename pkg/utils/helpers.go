@@ -11,29 +11,29 @@ func Parse(w http.ResponseWriter, r *http.Request, data interface{}) error {
 	return json.NewDecoder(r.Body).Decode(data)
 }
 
-func MapTransactionToJson(t models.Transaction) models.JsonTransactionResponse {
+func MapTransactionToJson(m models.Transaction) models.JsonTransactionResponse {
 	return models.JsonTransactionResponse{
-		Id:              t.Id,
-		UserId:          t.UserId,
-		CategoryId:      t.CategoryId,
-		Amount:          t.Amount,
-		AccountId:       t.AccountId,
-		TransactionDate: t.TransactionDate,
-		Description:     t.Description,
-		CreatedAt:       t.CreatedAt,
-		UpdatedAt:       t.UpdatedAt,
+		Id:              m.Id,
+		UserId:          m.UserId,
+		CategoryId:      m.CategoryId,
+		Amount:          m.Amount,
+		AccountId:       m.AccountId,
+		TransactionDate: m.TransactionDate,
+		Description:     m.Description,
+		CreatedAt:       m.CreatedAt,
+		UpdatedAt:       m.UpdatedAt,
 	}
 }
 
-func MapAccountToJson(a *models.Account) models.JsonAccount {
-	return models.JsonAccount{
-		Id:          a.Id,
-		UserId:      a.UserId,
-		Source:      a.Source,
-		Amount:      a.Amount,
-		Description: a.Description,
-		CreatedAt:   a.CreatedAt,
-		UpdatedAt:   a.UpdatedAt,
+func MapAccountToJson(m models.Account) models.JsonAccountResponse {
+	return models.JsonAccountResponse{
+		Id:          m.Id,
+		UserId:      m.UserId,
+		Source:      m.Source,
+		Amount:      m.Amount,
+		Description: m.Description,
+		CreatedAt:   m.CreatedAt,
+		UpdatedAt:   m.UpdatedAt,
 	}
 }
 

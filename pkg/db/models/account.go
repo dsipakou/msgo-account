@@ -12,7 +12,7 @@ type Account struct {
 }
 
 // Json structures
-type JsonAccountGet struct {
+type JsonAccountCreate struct {
 	UserId      int32   `json:"userId"`
 	Source      string  `json:"source"`
 	Amount      float32 `json:"amount,string,omitempty"`
@@ -23,10 +23,18 @@ type JsonAccountDelete struct {
 	Id int32 `db:"id"`
 }
 
-type JsonAccount struct {
+type JsonAccountUpdate struct {
 	Id          int32   `json:"id"`
 	UserId      int32   `json:"userId"`
-  Source      string  `json:"source"`
+	Source      string  `json:"source"`
+	Amount      float32 `json:"amount,string,omitempty"`
+	Description string  `json:"description"`
+}
+
+type JsonAccountResponse struct {
+	Id          int32   `json:"id"`
+	UserId      int32   `json:"userId"`
+	Source      string  `json:"source"`
 	Amount      float32 `json:"amount"`
 	Description string  `json:"description"`
 	CreatedAt   string  `json:"createdAt"`
