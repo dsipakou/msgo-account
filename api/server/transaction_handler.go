@@ -83,6 +83,7 @@ func (a *Api) UpdateTransactionHandler() http.HandlerFunc {
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
+
 		resp := utils.MapTransactionToJson(transaction)
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}

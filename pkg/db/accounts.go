@@ -8,8 +8,8 @@ import (
 type AccountDB interface {
 	GetAccounts() ([]models.Account, error)
 	CreateAccount(m *models.JsonAccountCreate) (models.Account, error)
-	DeleteAccount(a *models.JsonAccountDelete) error
-	UpdateAccount(a *models.Account) error
+	DeleteAccount(m *models.JsonAccountDelete) error
+	UpdateAccount(m *models.JsonAccountUpdate) (models.Account, error)
 }
 
 func (d *DB) GetAccounts() ([]models.Account, error) {
@@ -59,8 +59,8 @@ func (d *DB) CreateAccount(m *models.JsonAccountCreate) (models.Account, error) 
 	return account, err
 }
 
-func (d *DB) DeleteAccount(a *models.JsonAccountDelete) error {
-	_, err := d.db.Exec(deleteAccountSchema, a.Id)
+func (d *DB) DeleteAccount(m *models.JsonAccountDelete) error {
+	_, err := d.db.Exec(deleteAccountSchema, m.Id)
 	if err != nil {
 		return err
 	}
@@ -68,10 +68,17 @@ func (d *DB) DeleteAccount(a *models.JsonAccountDelete) error {
 	return err
 }
 
-func (d *DB) UpdateAccount(t *models.Account) error {
-	_, err := d.db.Exec(updateAccountSchema, t.UserId, t.Source, t.Amount, t.Description, t.Id)
+func (d *DB) UpdateAccount(m *models.JsonAccountUpdate) (models.Account, error) {
+	_, err := d.db.Exec(updateAccountSchema, m.UserId, m.Source, m.Amount, m.Description, m.Id)
 	if err != nil {
-		return err
+		return models.Account{}, err
 	}
-	return err
+
+	var account models.Account
+	err = d.db.Get(&account, getAccountSchema, m.Id)
+	if err != nil {
+		return models.Account{}, err
+	}
+
+	return account, nil
 }

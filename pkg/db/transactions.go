@@ -84,5 +84,6 @@ func (d *DB) UpdateTransaction(t *models.JsonTransactionUpdate) (models.Transact
 	if err != nil {
 		return models.Transaction{}, err
 	}
+
 	return transaction, nil
 }

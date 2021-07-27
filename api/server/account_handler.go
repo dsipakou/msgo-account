@@ -78,19 +78,14 @@ func (a *Api) UpdateAccountHandler() http.HandlerFunc {
 			return
 		}
 
-		account := &models.Account{
-			Id:          request.Id,
-			UserId:      request.UserId,
-			Source:      request.Source,
-			Amount:      request.Amount,
-			Description: request.Description,
-		}
-
-		err = a.DB.UpdateAccount(account)
+    account, err := a.DB.UpdateAccount(&request)
 		if err != nil {
 			log.Printf("Cannot update account. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
+
+    resp := utils.MapAccountToJson(account)
+    utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
