@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 	"msgo-account/pkg/utils"
@@ -28,8 +27,7 @@ func (a *Api) GetAccountsHandler() http.HandlerFunc {
 
 func (a *Api) DeleteAccountHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("Start delete account...")
-		request := models.JsonAccountDelete{}
+		request := &models.JsonAccountDelete{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -37,16 +35,14 @@ func (a *Api) DeleteAccountHandler() http.HandlerFunc {
 			return
 		}
 
-		t := &models.JsonAccountDelete{
-			Id: request.Id,
-		}
-
-		err = a.DB.DeleteAccount(t)
+		err = a.DB.DeleteAccount(request)
 		if err != nil {
 			log.Printf("Cannot delete account. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
+
+		utils.SendResponse(w, r, nil, http.StatusNoContent)
 	}
 }
 
