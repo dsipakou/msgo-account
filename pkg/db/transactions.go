@@ -8,8 +8,8 @@ import (
 type TransactionDB interface {
 	GetTransactions() ([]models.Transaction, error)
 	CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error)
-	DeleteTransaction(t *models.JsonTransactionDelete) error
-	UpdateTransaction(t *models.JsonTransactionUpdate) (models.Transaction, error)
+	DeleteTransaction(m *models.JsonTransactionDelete) error
+	UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error)
 }
 
 func (d *DB) GetTransactions() ([]models.Transaction, error) {
@@ -63,8 +63,8 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 	return transaction, err
 }
 
-func (d *DB) DeleteTransaction(t *models.JsonTransactionDelete) error {
-	_, err := d.db.Exec(deleteTransactionSchema, t.Id)
+func (d *DB) DeleteTransaction(m *models.JsonTransactionDelete) error {
+	_, err := d.db.Exec(deleteTransactionSchema, m.Id)
 	if err != nil {
 		return err
 	}
@@ -72,14 +72,23 @@ func (d *DB) DeleteTransaction(t *models.JsonTransactionDelete) error {
 	return err
 }
 
-func (d *DB) UpdateTransaction(t *models.JsonTransactionUpdate) (models.Transaction, error) {
-	_, err := d.db.Exec(updateTransactionSchema, t.UserId, t.CategoryId, t.Amount, t.AccountId, t.TransactionDate, t.Description, t.Id)
+func (d *DB) UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error) {
+	_, err := d.db.Exec(
+		updateTransactionSchema,
+		m.UserId,
+		m.CategoryId,
+		m.Amount,
+		m.AccountId,
+		m.TransactionDate,
+		m.Description,
+		m.Id,
+	)
 	if err != nil {
 		return models.Transaction{}, err
 	}
 
 	var transaction models.Transaction
-	err = d.db.Get(&transaction, getTransactionSchema, t.Id)
+	err = d.db.Get(&transaction, getTransactionSchema, m.Id)
 
 	if err != nil {
 		return models.Transaction{}, err

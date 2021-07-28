@@ -47,13 +47,13 @@ func MapUserToJson(a *models.User) models.JsonUser {
 	}
 }
 
-func MapCategoryToJson(a *models.Category) models.JsonCategoryResponse {
+func MapCategoryToJson(m models.Category) models.JsonCategoryResponse {
 	return models.JsonCategoryResponse{
-		Id:        a.Id,
-		Name:      a.Name,
-		Parent:    a.Parent,
-		CreatedAt: a.CreatedAt,
-		UpdatedAt: a.UpdatedAt,
+		Id:        m.Id,
+		Name:      m.Name,
+		Parent:    m.Parent,
+		CreatedAt: m.CreatedAt,
+		UpdatedAt: m.UpdatedAt,
 	}
 }
 
