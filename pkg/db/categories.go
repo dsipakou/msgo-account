@@ -67,7 +67,7 @@ func (d *DB) DeleteCategory(m *models.JsonCategoryDelete) error {
 }
 
 func (d *DB) UpdateCategory(m *models.JsonCategoryUpdate) (models.Category, error) {
-	_, err := d.db.Exec(updateCategorySchema, m.Name, m.Parent, m.Id)
+	_, err := d.db.Exec(updateCategorySchema, m.Name, m.Parent, m.IsParent, m.Id)
 	if err != nil {
 		return models.Category{}, err
 	}

@@ -19,6 +19,6 @@ var updateUserSchema = `UPDATE users SET name=$1, email=$2, password=$3 WHERE id
 
 var getCategoriesSchema = `SELECT * FROM categories`
 var getCategorySchema = `SELECT * FROM categories WHERE id=$1`
-var insertCategorySchema = `INSERT INTO categories(name, parent) VALUES($1, $2) RETURNING id, created_at, updated_at`
+var insertCategorySchema = `INSERT INTO categories(name, parent, is_parent) VALUES($1, $2, $3) RETURNING id, created_at, updated_at`
 var deleteCategorySchema = `DELETE FROM categories WHERE id=$1`
-var updateCategorySchema = `UPDATE categories SET name=$1, parent=$2 WHERE id=$3`
+var updateCategorySchema = `UPDATE categories SET name=$1, parent=$2, is_parent=$3 WHERE id=$4`

@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 	"msgo-account/pkg/utils"
@@ -27,6 +28,8 @@ func (a *Api) GetCategoriesHandler() http.HandlerFunc {
 
 func (a *Api) CreateCategoryHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("Body below --------------")
+		fmt.Println(r.Body)
 		request := models.JsonCategoryCreate{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
@@ -70,6 +73,8 @@ func (a *Api) DeleteCategoryHandler() http.HandlerFunc {
 
 func (a *Api) UpdateCategoryHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+    fmt.Println("Body below --------------")
+		fmt.Println(r.Body)
 		request := models.JsonCategoryUpdate{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
