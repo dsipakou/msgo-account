@@ -37,6 +37,7 @@ func (d *DB) CreateCategory(m *models.JsonCategoryCreate) (models.Category, erro
 	err = stmt.QueryRow(
 		m.Name,
 		m.Parent,
+		m.IsParent,
 	).Scan(&id, &created_at, &updated_at)
 
 	if err != nil {
@@ -48,6 +49,7 @@ func (d *DB) CreateCategory(m *models.JsonCategoryCreate) (models.Category, erro
 		Id:        int32(id),
 		Name:      m.Name,
 		Parent:    m.Parent,
+		IsParent:  m.IsParent,
 		CreatedAt: created_at,
 		UpdatedAt: updated_at,
 	}
