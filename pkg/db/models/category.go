@@ -6,7 +6,7 @@ type Category struct {
 	Name      string `db:"name"`
 	Parent    string `db:"parent"`
 	IsParent  bool   `db:"is_parent"`
-  IsSystem bool `db:"is_system"`
+	IsSystem  bool   `db:"is_system"`
 	CreatedAt string `db:"created_at"`
 	UpdatedAt string `db:"updated_at"`
 }
@@ -23,7 +23,6 @@ type JsonCategoryUpdate struct {
 	Name     string `json:"name"`
 	Parent   string `json:"parentName"`
 	IsParent bool   `json:"isParent"`
-  IsSystem bool `json:"isSystem"`
 }
 
 type JsonCategoryDelete struct {
@@ -35,6 +34,7 @@ type JsonCategoryResponse struct {
 	Name      string `json:"name"`
 	Parent    string `json:"parentName"`
 	IsParent  bool   `json:"isParent"`
+	IsSystem  bool   `json:"isSystem"`
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`
 }

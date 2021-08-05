@@ -53,6 +53,7 @@ func MapCategoryToJson(m models.Category) models.JsonCategoryResponse {
 		Name:      m.Name,
 		Parent:    m.Parent,
 		IsParent:  m.IsParent,
+		IsSystem:  m.IsSystem,
 		CreatedAt: m.CreatedAt,
 		UpdatedAt: m.UpdatedAt,
 	}
