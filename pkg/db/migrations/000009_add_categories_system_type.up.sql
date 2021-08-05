@@ -1,2 +1,2 @@
-ALTER TABLE transactions
+ALTER TABLE categories
   ADD COLUMN is_system boolean DEFAULT false;
