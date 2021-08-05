@@ -7,6 +7,7 @@ type Transaction struct {
 	AccountId       int32   `db:"account_id"`
 	Amount          float32 `db:"amount"`
 	TransactionDate string  `db:"transaction_date"`
+	Type            string  `db:"type"`
 	Description     string  `db:"description"`
 	CreatedAt       string  `db:"created_at"`
 	UpdatedAt       string  `db:"updated_at"`
@@ -18,6 +19,7 @@ type JsonTransactionCreate struct {
 	Amount          float32 `json:"amount,string,omitempty"`
 	AccountId       int32   `json:"accountId"`
 	TransactionDate string  `json:"transactionDate"`
+	Type            string  `json:"type"`
 	Description     string  `json:"description"`
 }
 
@@ -29,6 +31,7 @@ type JsonTransactionUpdate struct {
 	AccountId       int32   `json:"accountId"`
 	TransactionDate string  `json:"transactionDate"`
 	Description     string  `json:"description"`
+	Type            string  `json:"type"`
 }
 
 type JsonTransactionDelete struct {
@@ -43,6 +46,7 @@ type JsonTransactionResponse struct {
 	Amount          float32 `json:"amount"`
 	TransactionDate string  `json:"transactionDate"`
 	Description     string  `json:"description"`
+	Type            string  `json:"type"`
 	CreatedAt       string  `json:"createdAt"`
 	UpdatedAt       string  `json:"updatedAt"`
 }

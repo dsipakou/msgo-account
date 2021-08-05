@@ -40,6 +40,7 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 		m.Amount,
 		m.AccountId,
 		m.TransactionDate,
+		m.Type,
 		m.Description,
 	).Scan(&id, &created_at, &updated_at)
 
@@ -55,6 +56,7 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 		AccountId:       m.AccountId,
 		Amount:          m.Amount,
 		TransactionDate: m.TransactionDate,
+		Type:            m.Type,
 		Description:     m.Description,
 		CreatedAt:       created_at,
 		UpdatedAt:       updated_at,
@@ -80,6 +82,7 @@ func (d *DB) UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transact
 		m.Amount,
 		m.AccountId,
 		m.TransactionDate,
+		m.Type,
 		m.Description,
 		m.Id,
 	)
