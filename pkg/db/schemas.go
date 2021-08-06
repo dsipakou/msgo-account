@@ -22,3 +22,9 @@ var getCategorySchema = `SELECT * FROM categories WHERE id=$1`
 var insertCategorySchema = `INSERT INTO categories(name, parent, is_parent) VALUES($1, $2, $3) RETURNING id, created_at, updated_at`
 var deleteCategorySchema = `DELETE FROM categories WHERE id=$1`
 var updateCategorySchema = `UPDATE categories SET name=$1, parent=$2, is_parent=$3 WHERE id=$4`
+
+var getAllCurrenciesSchema = `SELECT * FROM currencies`
+var getCurrencySchema = `SELECT * FROM currencies WHERE id=$1`
+var insertCurrencySchema = `INSERT INTO currencies(code, sign, verbal_name, rate, comments) VALUES($1, $2, $3, $4, $5) RETURNING id, created_at, updated_at`
+var deleteCurrencySchema = `DELETE FROM currencies WHERE id=$1`
+var updateCurrencySchema = `UPDATE currencies SET code=$1, sign=$2, verbal_name=$3, rate=$4, comments=%5 WHERE id=$6`

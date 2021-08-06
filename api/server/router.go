@@ -40,4 +40,8 @@ func (a *Api) initRoutes() {
 	a.Router.HandleFunc("/api/categories", a.CreateCategoryHandler()).Methods("POST")
 	a.Router.HandleFunc("/api/categories", a.DeleteCategoryHandler()).Methods("DELETE")
 	a.Router.HandleFunc("/api/categories", a.UpdateCategoryHandler()).Methods("PATCH")
+	a.Router.HandleFunc("/api/currencies", a.GetCurrenciesHandler()).Methods("GET")
+	a.Router.HandleFunc("/api/currencies", a.CreateCurrencyHandler()).Methods("POST")
+	a.Router.HandleFunc("/api/currencies", a.DeleteCurrencyHandler()).Methods("DELETE")
+	a.Router.HandleFunc("/api/currencies", a.UpdateCurrencyHandler()).Methods("PATCH")
 }

@@ -20,7 +20,7 @@ func MapTransactionToJson(m models.Transaction) models.JsonTransactionResponse {
 		AccountId:       m.AccountId,
 		TransactionDate: m.TransactionDate,
 		Description:     m.Description,
-    Type: m.Type,
+		Type:            m.Type,
 		CreatedAt:       m.CreatedAt,
 		UpdatedAt:       m.UpdatedAt,
 	}
@@ -60,6 +60,18 @@ func MapCategoryToJson(m models.Category) models.JsonCategoryResponse {
 	}
 }
 
+func MapCurrencyToJson(m models.Currency) models.JsonCurrencyResponse {
+	return models.JsonCurrencyResponse{
+		Id:         m.Id,
+		Code:       m.Code,
+		Sign:       m.Sign,
+		VerbalName: m.VerbalName,
+		Rate:       m.Rate,
+		Comments:   m.Comments,
+		CreatedAt:  m.CreatedAt,
+		UpdatedAt:  m.UpdatedAt,
+	}
+}
 func SendResponse(w http.ResponseWriter, _ *http.Request, data interface{}, status int) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(status)

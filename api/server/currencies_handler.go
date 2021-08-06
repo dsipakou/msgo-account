@@ -1,34 +1,32 @@
 package server
 
 import (
-	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 	"msgo-account/pkg/utils"
 	"net/http"
 )
 
-func (a *Api) GetCategoriesHandler() http.HandlerFunc {
+func (a *Api) GetCurrenciesHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		categories, err := a.DB.GetCategories()
+		currencies, err := a.DB.GetCurrencies()
 		if err != nil {
-			log.Printf("Cannot get categories, err %v \n", err)
+			log.Printf("Cannot get currencies, err %v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
 
-		var resp = make([]models.JsonCategoryResponse, len(categories))
-		for idx, category := range categories {
-			resp[idx] = utils.MapCategoryToJson(category)
+		var resp = make([]models.JsonCurrencyResponse, len(currencies))
+		for idx, currency := range currencies {
+			resp[idx] = utils.MapCurrencyToJson(currency)
 		}
-
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
 
-func (a *Api) CreateCategoryHandler() http.HandlerFunc {
+func (a *Api) CreateCurrencyHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := models.JsonCategoryCreate{}
+		request := models.JsonCurrencyCreate{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -36,21 +34,21 @@ func (a *Api) CreateCategoryHandler() http.HandlerFunc {
 			return
 		}
 
-		category, err := a.DB.CreateCategory(&request)
+		currency, err := a.DB.CreateCurrency(&request)
 		if err != nil {
-			log.Printf("Cannot save category in DB. err=%v \n", err)
+			log.Printf("Cannot save currency in DB. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
 
-		resp := utils.MapCategoryToJson(category)
+		resp := utils.MapCurrencyToJson(currency)
 		utils.SendResponse(w, r, resp, http.StatusCreated)
 	}
 }
 
-func (a *Api) DeleteCategoryHandler() http.HandlerFunc {
+func (a *Api) DeleteCurrencyHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := &models.JsonCategoryDelete{}
+		request := &models.JsonCurrencyDelete{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -58,9 +56,9 @@ func (a *Api) DeleteCategoryHandler() http.HandlerFunc {
 			return
 		}
 
-		err = a.DB.DeleteCategory(request)
+		err = a.DB.DeleteCurrency(request)
 		if err != nil {
-			log.Printf("Cannot delete category. err=%v \n", err)
+			log.Printf("Cannot delete currency. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
@@ -69,11 +67,9 @@ func (a *Api) DeleteCategoryHandler() http.HandlerFunc {
 	}
 }
 
-func (a *Api) UpdateCategoryHandler() http.HandlerFunc {
+func (a *Api) UpdateCurrencyHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("Body below --------------")
-		fmt.Println(r.Body)
-		request := models.JsonCategoryUpdate{}
+		request := models.JsonCurrencyUpdate{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -81,14 +77,14 @@ func (a *Api) UpdateCategoryHandler() http.HandlerFunc {
 			return
 		}
 
-		category, err := a.DB.UpdateCategory(&request)
+		currency, err := a.DB.UpdateCurrency(&request)
 		if err != nil {
-			log.Printf("Cannot update category. err=%v \n", err)
+			log.Printf("Cannot update currency. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
 
-		resp := utils.MapCategoryToJson(category)
+		resp := utils.MapCurrencyToJson(currency)
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
