@@ -20,6 +20,7 @@ func MapTransactionToJson(m models.Transaction) models.JsonTransactionResponse {
 		AccountId:       m.AccountId,
 		TransactionDate: m.TransactionDate,
 		Description:     m.Description,
+    Type: m.Type,
 		CreatedAt:       m.CreatedAt,
 		UpdatedAt:       m.UpdatedAt,
 	}
