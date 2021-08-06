@@ -44,4 +44,8 @@ func (a *Api) initRoutes() {
 	a.Router.HandleFunc("/api/currencies", a.CreateCurrencyHandler()).Methods("POST")
 	a.Router.HandleFunc("/api/currencies", a.DeleteCurrencyHandler()).Methods("DELETE")
 	a.Router.HandleFunc("/api/currencies", a.UpdateCurrencyHandler()).Methods("PATCH")
+	a.Router.HandleFunc("/api/rates", a.GetRatesHandler()).Methods("GET")
+	a.Router.HandleFunc("/api/rates", a.CreateRateHandler()).Methods("POST")
+	a.Router.HandleFunc("/api/rates", a.DeleteRateHandler()).Methods("DELETE")
+	a.Router.HandleFunc("/api/rates", a.UpdateRateHandler()).Methods("PATCH")
 }

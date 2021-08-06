@@ -28,3 +28,9 @@ var getCurrencySchema = `SELECT * FROM currencies WHERE id=$1`
 var insertCurrencySchema = `INSERT INTO currencies(code, sign, verbal_name, rate, comments) VALUES($1, $2, $3, $4, $5) RETURNING id, created_at, updated_at`
 var deleteCurrencySchema = `DELETE FROM currencies WHERE id=$1`
 var updateCurrencySchema = `UPDATE currencies SET code=$1, sign=$2, verbal_name=$3, rate=$4, comments=%5 WHERE id=$6`
+
+var getAllRatesSchema = `SELECT * FROM rates`
+var getRateSchema = `SELECT * FROM rates WHERE id=$1`
+var insertRateSchema = `INSERT INTO rates(currency_id, rate_date, rate, description) VALUES($1, $2, $3, $4) RETURNING id, created_at, updated_at`
+var deleteRateSchema = `DELETE FROM rates WHERE id=$1`
+var updateRateSchema = `UPDATE rates SET currency_id=$1, rate_date=$2, rate=$3, description=$4 WHERE id=$5`

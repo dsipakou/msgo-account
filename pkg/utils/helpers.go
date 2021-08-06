@@ -72,6 +72,19 @@ func MapCurrencyToJson(m models.Currency) models.JsonCurrencyResponse {
 		UpdatedAt:  m.UpdatedAt,
 	}
 }
+
+func MapRateToJson(m models.Rate) models.JsonRateResponse {
+	return models.JsonRateResponse{
+		Id:          m.Id,
+		CurrencyId:  m.CurrencyId,
+		RateDate:    m.RateDate,
+		Rate:        m.Rate,
+		Description: m.Description,
+		CreatedAt:   m.CreatedAt,
+		UpdatedAt:   m.UpdatedAt,
+	}
+}
+
 func SendResponse(w http.ResponseWriter, _ *http.Request, data interface{}, status int) {
 	w.Header().Add("Content-Type", "application/json")
 	w.WriteHeader(status)
