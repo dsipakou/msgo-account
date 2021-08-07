@@ -38,7 +38,7 @@ func (d *DB) CreateCurrency(m *models.JsonCurrencyCreate) (models.Currency, erro
 		m.Code,
 		m.Sign,
 		m.VerbalName,
-		m.Rate,
+    m.IsDefault,
 		m.Comments,
 	).Scan(&id, &created_at, &updated_at)
 
@@ -52,7 +52,7 @@ func (d *DB) CreateCurrency(m *models.JsonCurrencyCreate) (models.Currency, erro
 		Code:       m.Code,
 		Sign:       m.Sign,
 		VerbalName: m.VerbalName,
-		Rate:       m.Rate,
+    IsDefault: m.IsDefault,
 		Comments:   m.Comments,
 		CreatedAt:  created_at,
 		UpdatedAt:  updated_at,
@@ -76,7 +76,7 @@ func (d *DB) UpdateCurrency(m *models.JsonCurrencyUpdate) (models.Currency, erro
 		m.Code,
 		m.Sign,
 		m.VerbalName,
-		m.Rate,
+    m.IsDefault,
 		m.Comments,
 		m.Id,
 	)

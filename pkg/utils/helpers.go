@@ -66,7 +66,7 @@ func MapCurrencyToJson(m models.Currency) models.JsonCurrencyResponse {
 		Code:       m.Code,
 		Sign:       m.Sign,
 		VerbalName: m.VerbalName,
-		Rate:       m.Rate,
+		IsDefault:  m.IsDefault,
 		Comments:   m.Comments,
 		CreatedAt:  m.CreatedAt,
 		UpdatedAt:  m.UpdatedAt,

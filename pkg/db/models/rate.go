@@ -11,16 +11,16 @@ type Rate struct {
 }
 
 type JsonRateCreate struct {
-	CurrencyId  int32   `json:"currency_id"`
-	RateDate    string  `json:"rate_date"`
+	CurrencyId  int32   `json:"currencyId"`
+	RateDate    string  `json:"rateDate"`
 	Rate        float32 `json:"rate"`
 	Description string  `json:"description"`
 }
 
 type JsonRateUpdate struct {
 	Id          int32   `json:"id"`
-	CurrencyId  int32   `json:"currency_id"`
-	RateDate    string  `json:"rate_date"`
+	CurrencyId  int32   `json:"currencyId"`
+	RateDate    string  `json:"rateDate"`
 	Rate        float32 `json:"rate"`
 	Description string  `json:"description"`
 }
@@ -31,8 +31,8 @@ type JsonRateDelete struct {
 
 type JsonRateResponse struct {
 	Id          int32   `json:"id"`
-	CurrencyId  int32   `json:"currency_id"`
-	RateDate    string  `json:"rate_date"`
+	CurrencyId  int32   `json:"currencyId"`
+	RateDate    string  `json:"rateDate"`
 	Rate        float32 `json:"rate"`
 	Description string  `json:"description"`
 	CreatedAt   string  `json:"createdAt"`

@@ -1,31 +1,31 @@
 package models
 
 type Currency struct {
-	Id         int32   `db:"id"`
-	Code       string  `db:"code"`
-	Sign       string  `db:"sign"`
-	VerbalName string  `db:"verbal_name"`
-	Rate       float32 `db:"rate"`
-	Comments   string  `db:"comments"`
-	CreatedAt  string  `db:"created_at"`
-	UpdatedAt  string  `db:"updated_at"`
+	Id         int32  `db:"id"`
+	Code       string `db:"code"`
+	Sign       string `db:"sign"`
+	VerbalName string `db:"verbal_name"`
+	IsDefault  bool   `db:"is_default"`
+	Comments   string `db:"comments"`
+	CreatedAt  string `db:"created_at"`
+	UpdatedAt  string `db:"updated_at"`
 }
 
 type JsonCurrencyCreate struct {
-	Code       string  `json:"code"`
-	Sign       string  `json:"sign"`
-	VerbalName string  `json:"verbal_name"`
-	Rate       float32 `json:"rate"`
-	Comments   string  `json:"comments"`
+	Code       string `json:"code"`
+	Sign       string `json:"sign"`
+	VerbalName string `json:"verbalName"`
+	IsDefault  bool   `json:"isDefault"`
+	Comments   string `json:"comments"`
 }
 
 type JsonCurrencyUpdate struct {
-	Id         int32   `json:"id"`
-	Code       string  `json:"code"`
-	Sign       string  `json:"sign"`
-	VerbalName string  `json:"verbal_name"`
-	Rate       float32 `json:"rate"`
-	Comments   string  `json:"comments"`
+	Id         int32  `json:"id"`
+	Code       string `json:"code"`
+	Sign       string `json:"sign"`
+	VerbalName string `json:"verbalName"`
+	IsDefault  bool   `json:"isDefault"`
+	Comments   string `json:"comments"`
 }
 
 type JsonCurrencyDelete struct {
@@ -33,12 +33,12 @@ type JsonCurrencyDelete struct {
 }
 
 type JsonCurrencyResponse struct {
-	Id         int32   `json:"id"`
-	Code       string  `json:"code"`
-	Sign       string  `json:"sign"`
-	VerbalName string  `json:"verbal_name"`
-	Rate       float32 `json:"rate"`
-	Comments   string  `json:"comments"`
-	CreatedAt  string  `json:"createdAt"`
-	UpdatedAt  string  `json:"updatedAt"`
+	Id         int32  `json:"id"`
+	Code       string `json:"code"`
+	Sign       string `json:"sign"`
+	VerbalName string `json:"verbalName"`
+	IsDefault  bool   `json:"isDefault"`
+	Comments   string `json:"comments"`
+	CreatedAt  string `json:"createdAt"`
+	UpdatedAt  string `json:"updatedAt"`
 }
