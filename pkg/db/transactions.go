@@ -34,10 +34,12 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 	var created_at string
 	var updated_at string
 
+  ratedAmount := m.Amount * m.Rate
+
 	err = stmt.QueryRow(
 		m.UserId,
 		m.CategoryId,
-		m.Amount,
+    ratedAmount,
 		m.AccountId,
 		m.TransactionDate,
 		m.Type,
@@ -54,7 +56,7 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 		UserId:          m.UserId,
 		CategoryId:      m.CategoryId,
 		AccountId:       m.AccountId,
-		Amount:          m.Amount,
+		Amount:          ratedAmount,
 		TransactionDate: m.TransactionDate,
 		Type:            m.Type,
 		Description:     m.Description,
@@ -75,17 +77,20 @@ func (d *DB) DeleteTransaction(m *models.JsonTransactionDelete) error {
 }
 
 func (d *DB) UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error) {
+  ratedAmount := m.Amount * m.Rate
+
 	_, err := d.db.Exec(
 		updateTransactionSchema,
 		m.UserId,
 		m.CategoryId,
-		m.Amount,
+    ratedAmount,
 		m.AccountId,
 		m.TransactionDate,
 		m.Type,
 		m.Description,
 		m.Id,
 	)
+
 	if err != nil {
 		return models.Transaction{}, err
 	}

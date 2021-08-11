@@ -20,6 +20,7 @@ type JsonTransactionCreate struct {
 	UserId          int32   `json:"userId"`
 	CategoryId      int32   `json:"categoryId"`
 	Amount          float32 `json:"amount,string,omitempty"`
+	Rate            float32 `json:"rate"`
 	AccountId       int32   `json:"accountId"`
 	CurrencyId      int32   `json:"currencyId"`
 	TransactionDate string  `json:"transactionDate"`
@@ -32,6 +33,7 @@ type JsonTransactionUpdate struct {
 	UserId          int32   `json:"userId"`
 	CategoryId      int32   `json:"categoryId"`
 	Amount          float32 `json:"amount,string,omitempty"`
+	Rate            float32 `json:"rate"`
 	AccountId       int32   `json:"accountId"`
 	CurrencyId      int32   `json:"currencyId"`
 	TransactionDate string  `json:"transactionDate"`
@@ -55,4 +57,9 @@ type JsonTransactionResponse struct {
 	Description     string  `json:"description"`
 	CreatedAt       string  `json:"createdAt"`
 	UpdatedAt       string  `json:"updatedAt"`
+}
+
+type JsonTransactionsForPeriod struct {
+	FromDate string `json:"fromDate"`
+	ToDate   string `json:"toDate"`
 }
