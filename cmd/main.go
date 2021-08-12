@@ -1,13 +1,13 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gorilla/handlers"
 	"log"
 	"msgo-account/api/server"
 	"msgo-account/pkg/db"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/handlers"
 )
 
 func main() {
@@ -18,7 +18,6 @@ func main() {
 
 	defer api.DB.Close()
 
-	fmt.Println(api.Router)
 	headers := handlers.AllowedHeaders([]string{"Authorization"})
 	methods := handlers.AllowedMethods([]string{"GET", "POST", "PATCH", "DELETE"})
 	origins := handlers.AllowedOrigins([]string{"*"})

@@ -1,7 +1,15 @@
 package db
 
 var getAllTransactionsSchema = `SELECT * FROM transactions ORDER BY id DESC`
-var getGroupedTransactionsSchema = `SELECT SUM(amount) FROM transactions GROUP BY transaction_date, type HAVING type='outcome' AND transaction_date >= '2021-08-01' AND transaction_date <= '2021-08-31' ORDER BY transaction_date`
+var getGroupedTransactionsSchema = `
+  SELECT 
+    CONCAT(EXTRACT(YEAR FROM transaction_date), '-', EXTRACT(MONTH FROM transaction_date)) AS month, 
+    EXTRACT(DAY FROM transaction_date) AS day, 
+    SUM(amount) AS grouped_amount 
+  FROM transactions 
+  GROUP BY transaction_date, type 
+  HAVING type='outcome' AND transaction_date >= '%s' AND transaction_date <= '%s' 
+  ORDER BY transaction_date`
 var getTransactionSchema = `SELECT * FROM transactions WHERE id=$1`
 var insertTransactionSchema = `INSERT INTO transactions("user_id", "category_id", "amount", "account_id", "transaction_date", "type", "description") VALUES($1, $2, $3, $4, $5, $6, $7) RETURNING id, created_at, updated_at`
 var deleteTransactionSchema = `DELETE FROM transactions WHERE id=$1`

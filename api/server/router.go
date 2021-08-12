@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"msgo-account/pkg/db"
 
 	"github.com/gorilla/mux"
@@ -13,7 +12,6 @@ type Api struct {
 }
 
 func Init() *Api {
-	fmt.Println("Hello from Init")
 	a := &Api{
 		Router: mux.NewRouter(),
 	}
@@ -25,7 +23,7 @@ func Init() *Api {
 func (a *Api) initRoutes() {
 	a.Router.HandleFunc("/", a.IndexHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/transactions", a.GetTransactionsHandler()).Methods("GET")
-	a.Router.HandleFunc("/api/transactions/month", a.GetGroupedTransactionsHandler()).Methods("GET")
+	a.Router.HandleFunc("/api/transactions/month/{dateFrom:[0-9-]+}", a.GetGroupedTransactionsHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/transactions", a.CreateTransactionHandler()).Methods("POST")
 	a.Router.HandleFunc("/api/transactions", a.DeleteTransactionHandler()).Methods("DELETE")
 	a.Router.HandleFunc("/api/transactions", a.UpdateTransactionHandler()).Methods("PATCH")

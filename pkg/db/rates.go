@@ -34,8 +34,6 @@ func (d *DB) CreateRate(m *models.JsonRateCreate) (models.Rate, error) {
 	var created_at string
 	var updated_at string
 
-  log.Println(m)
-
 	err = stmt.QueryRow(
 		m.CurrencyId,
 		m.RateDate,

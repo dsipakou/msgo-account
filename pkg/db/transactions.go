@@ -1,13 +1,14 @@
 package db
 
 import (
+	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 )
 
 type TransactionDB interface {
 	GetTransactions() ([]models.Transaction, error)
-	GetGroupedTransactions(m models.JsonTransactionsForPeriodRequest) ([]models.GroupedSum, error)
+	GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([]models.GroupedSum, error)
 	CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error)
 	DeleteTransaction(m *models.JsonTransactionDelete) error
 	UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error)
@@ -23,9 +24,13 @@ func (d *DB) GetTransactions() ([]models.Transaction, error) {
 	return transactions, nil
 }
 
-func (d *DB) GetGroupedTransactions(m models.JsonTransactionsForPeriodRequest) ([]models.GroupedSum, error) {
+func (d *DB) GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([]models.GroupedSum, error) {
 	var groupedSum []models.GroupedSum
-	err := d.db.Select(&groupedSum, getGroupedTransactionsSchema)
+
+	dateFrom := m.DateFrom + "-01"
+	dateTo := m.DateFrom + "-31"
+	query := fmt.Sprintf(getGroupedTransactionsSchema, dateFrom, dateTo)
+	err := d.db.Select(&groupedSum, query)
 	if err != nil {
 		return groupedSum, err
 	}

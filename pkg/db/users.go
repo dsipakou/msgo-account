@@ -1,7 +1,6 @@
 package db
 
 import (
-	"fmt"
 	"msgo-account/pkg/db/models"
 )
 
@@ -33,7 +32,6 @@ func (d *DB) CreateUser(a *models.User) error {
 }
 
 func (d *DB) DeleteUser(a *models.JsonUserDelete) error {
-	fmt.Println("Deleting user...")
 	_, err := d.db.Exec(deleteUserSchema, a.Id)
 	if err != nil {
 		return err

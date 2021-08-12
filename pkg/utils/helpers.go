@@ -26,9 +26,11 @@ func MapTransactionToJson(m models.Transaction) models.JsonTransactionResponse {
 	}
 }
 
-func MapGroupSumToJson(m models.GroupedSum) models.JsonTransactionsForPeriodResponse {
-	return models.JsonTransactionsForPeriodResponse{
+func MapGroupSumToJson(m models.GroupedSum) models.JsonTransactionsForMonthResponse {
+	return models.JsonTransactionsForMonthResponse{
 		AmountSum: m.AmountSum,
+		Month:     m.Month,
+		Day:       m.Day,
 	}
 }
 

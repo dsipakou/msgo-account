@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 	"msgo-account/pkg/utils"
@@ -43,7 +42,6 @@ func (a *Api) CreateUserHandler() http.HandlerFunc {
 			Password: request.Password,
 		}
 
-		fmt.Println(user)
 		err = a.DB.CreateUser(user)
 		if err != nil {
 			log.Printf("Cannot save user in DB. err=%v \n", err)
@@ -58,7 +56,6 @@ func (a *Api) CreateUserHandler() http.HandlerFunc {
 
 func (a *Api) DeleteUserHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("Start delete user....")
 		request := models.JsonUserDelete{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
