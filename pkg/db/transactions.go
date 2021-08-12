@@ -7,6 +7,7 @@ import (
 
 type TransactionDB interface {
 	GetTransactions() ([]models.Transaction, error)
+	GetGroupedTransactions(m models.JsonTransactionsForPeriodRequest) ([]models.GroupedSum, error)
 	CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error)
 	DeleteTransaction(m *models.JsonTransactionDelete) error
 	UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error)
@@ -22,6 +23,16 @@ func (d *DB) GetTransactions() ([]models.Transaction, error) {
 	return transactions, nil
 }
 
+func (d *DB) GetGroupedTransactions(m models.JsonTransactionsForPeriodRequest) ([]models.GroupedSum, error) {
+	var groupedSum []models.GroupedSum
+	err := d.db.Select(&groupedSum, getGroupedTransactionsSchema)
+	if err != nil {
+		return groupedSum, err
+	}
+
+	return groupedSum, nil
+}
+
 func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error) {
 	stmt, err := d.db.Prepare(insertTransactionSchema)
 	if err != nil {
@@ -34,12 +45,12 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 	var created_at string
 	var updated_at string
 
-  ratedAmount := m.Amount * m.Rate
+	ratedAmount := m.Amount * m.Rate
 
 	err = stmt.QueryRow(
 		m.UserId,
 		m.CategoryId,
-    ratedAmount,
+		ratedAmount,
 		m.AccountId,
 		m.TransactionDate,
 		m.Type,
@@ -77,13 +88,13 @@ func (d *DB) DeleteTransaction(m *models.JsonTransactionDelete) error {
 }
 
 func (d *DB) UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error) {
-  ratedAmount := m.Amount * m.Rate
+	ratedAmount := m.Amount * m.Rate
 
 	_, err := d.db.Exec(
 		updateTransactionSchema,
 		m.UserId,
 		m.CategoryId,
-    ratedAmount,
+		ratedAmount,
 		m.AccountId,
 		m.TransactionDate,
 		m.Type,

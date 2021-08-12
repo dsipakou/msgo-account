@@ -16,6 +16,10 @@ type Transaction struct {
 	UpdatedAt       string        `db:"updated_at"`
 }
 
+type GroupedSum struct {
+  AmountSum float32 `db:"sum"`
+}
+
 type JsonTransactionCreate struct {
 	UserId          int32   `json:"userId"`
 	CategoryId      int32   `json:"categoryId"`
@@ -59,7 +63,11 @@ type JsonTransactionResponse struct {
 	UpdatedAt       string  `json:"updatedAt"`
 }
 
-type JsonTransactionsForPeriod struct {
+type JsonTransactionsForPeriodRequest struct {
 	FromDate string `json:"fromDate"`
 	ToDate   string `json:"toDate"`
+}
+
+type JsonTransactionsForPeriodResponse struct {
+  AmountSum float32 `json:"amountSum"`
 }

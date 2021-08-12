@@ -24,6 +24,24 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 	}
 }
 
+func (a *Api) GetGroupedTransactionsHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+    request := models.JsonTransactionsForPeriodRequest{}
+		groupedSums, err := a.DB.GetGroupedTransactions(request)
+		if err != nil {
+			log.Printf("Cannot get grouped transactions, err %v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		var resp = make([]models.JsonTransactionsForPeriodResponse, len(groupedSums))
+		for idx, groupSum := range groupedSums {
+			resp[idx] = utils.MapGroupSumToJson(groupSum)
+		}
+		utils.SendResponse(w, r, resp, http.StatusOK)
+	}
+}
+
 func (a *Api) CreateTransactionHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonTransactionCreate{}
