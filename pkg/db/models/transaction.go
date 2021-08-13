@@ -67,6 +67,7 @@ type JsonTransactionResponse struct {
 
 type JsonTransactionsForMonthRequest struct {
 	DateFrom string `json:"dateFrom"`
+	DateTo   string `json:"dateTo"`
 }
 
 type JsonTransactionsForMonthResponse struct {

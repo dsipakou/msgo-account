@@ -26,9 +26,10 @@ func (d *DB) GetTransactions() ([]models.Transaction, error) {
 
 func (d *DB) GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([]models.GroupedSum, error) {
 	var groupedSum []models.GroupedSum
+  const POSTFIX = "-01"
 
-	dateFrom := m.DateFrom + "-01"
-	dateTo := m.DateFrom + "-31"
+	dateFrom := m.DateFrom + POSTFIX
+	dateTo := m.DateTo + POSTFIX
 	query := fmt.Sprintf(getGroupedTransactionsSchema, dateFrom, dateTo)
 	err := d.db.Select(&groupedSum, query)
 	if err != nil {

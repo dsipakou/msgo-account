@@ -30,7 +30,9 @@ func (a *Api) GetGroupedTransactionsHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonTransactionsForMonthRequest{}
     dateFrom := mux.Vars(r)["dateFrom"]
+    dateTo := mux.Vars(r)["dateTo"]
     request.DateFrom = dateFrom
+    request.DateTo = dateTo
 		groupedSums, err := a.DB.GetGroupedTransactions(request)
 		if err != nil {
 			log.Printf("Cannot get grouped transactions, err %v \n", err)
