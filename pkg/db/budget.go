@@ -14,7 +14,7 @@ type BudgetDB interface {
 
 func (d *DB) GetBudget() ([]models.Budget, error) {
 	var budget []models.Budget
-	err := d.db.Select(&budget, getBudgetSchema)
+	err := d.db.Select(&budget, getAllBudgetSchema)
 	if err != nil {
 		return budget, err
 	}
@@ -36,7 +36,7 @@ func (d *DB) CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error) {
 
 	err = stmt.QueryRow(
 		m.BudgetDate,
-		m.Name,
+		m.Title,
 		m.Amount,
 		m.Description,
 	).Scan(&id, &created_at, &updated_at)
@@ -68,7 +68,7 @@ func (d *DB) DeleteBudget(m *models.JsonBudgetDelete) error {
 }
 
 func (d *DB) UpdateBudget(m *models.JsonBudgetUpdate) (models.Budget, error) {
-	_, err := d.db.Exec(updateBudgetSchema, m.BudgetDate, m.Name, m.Amount, m.Description, m.Id)
+	_, err := d.db.Exec(updateBudgetSchema, m.BudgetDate, m.Title, m.Amount, m.Description, m.Id)
 	if err != nil {
 		return models.Budget{}, err
 	}

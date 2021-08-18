@@ -3,7 +3,7 @@ CREATE TABLE budget
   id          bigserial     PRIMARY KEY,
   title       varchar(40)   NOT NULL,
   amount      numeric(9, 4) NOT NULL,
-  item_date   date          NOT NULL,
+  budget_date   date          NOT NULL,
   description text
 );
 
