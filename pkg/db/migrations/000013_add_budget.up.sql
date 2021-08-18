@@ -3,8 +3,10 @@ CREATE TABLE budget
   id          bigserial     PRIMARY KEY,
   title       varchar(40)   NOT NULL,
   amount      numeric(9, 4) NOT NULL,
-  budget_date   date          NOT NULL,
-  description text
+  budget_date date          NOT NULL,
+  description text,
+  created_at  timestamptz   DEFAULT NOW(),
+  updated_at  timestamptz   DEFAULT NOW()
 );
 
 ALTER TABLE transactions

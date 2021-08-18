@@ -49,6 +49,7 @@ func (d *DB) CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error) {
 	budget := models.Budget{
 		Id:          int32(id),
 		BudgetDate:  m.BudgetDate,
+    Title: m.Title,
 		Amount:      m.Amount,
 		Description: m.Description,
 		CreatedAt:   created_at,

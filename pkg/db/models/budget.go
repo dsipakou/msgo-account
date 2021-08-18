@@ -16,7 +16,7 @@ type Budget struct {
 type JsonBudgetCreate struct {
 	BudgetDate  string  `json:"budgetDate"`
 	Title       string  `json:"title"`
-	Amount      float32 `json:"amount"`
+	Amount      float32 `json:"amount,string,omitempty"`
 	Description string  `json:"description"`
 }
 
@@ -24,7 +24,7 @@ type JsonBudgetUpdate struct {
 	Id          int32   `json:"id"`
 	BudgetDate  string  `json:"budgetDate"`
 	Title       string  `json:"title"`
-	Amount      float32 `json:"amount"`
+	Amount      float32 `json:"amount,string,omitempty"`
 	Description string  `json:"description"`
 }
 
