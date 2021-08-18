@@ -18,6 +18,7 @@ type GeneralDB interface {
   CategoryDB
   CurrencyDB
   RateDB
+  BudgetDB
 }
 
 type DB struct {
