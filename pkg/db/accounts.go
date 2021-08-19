@@ -22,8 +22,7 @@ func (d *DB) GetAccounts() ([]models.Account, error) {
 	return accounts, nil
 }
 
-func (d *DB) CreateAccount(m *models.JsonAccountCreate) (models.Account, error) {
-	stmt, err := d.db.Prepare(insertAccountSchema)
+func (d *DB) CreateAccount(m *models.JsonAccountCreate) (models.Account, error) { stmt, err := d.db.Prepare(insertAccountSchema)
 	if err != nil {
 		log.Fatal(err)
 		return models.Account{}, err

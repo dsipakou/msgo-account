@@ -26,7 +26,7 @@ func (d *DB) GetTransactions() ([]models.Transaction, error) {
 
 func (d *DB) GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([]models.GroupedSum, error) {
 	var groupedSum []models.GroupedSum
-  const POSTFIX = "-01"
+	const POSTFIX = "-01"
 
 	dateFrom := m.DateFrom + POSTFIX
 	dateTo := m.DateTo + POSTFIX
@@ -58,6 +58,7 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 		m.CategoryId,
 		ratedAmount,
 		m.AccountId,
+		m.BudgetId,
 		m.TransactionDate,
 		m.Type,
 		m.Description,
@@ -73,6 +74,7 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 		UserId:          m.UserId,
 		CategoryId:      m.CategoryId,
 		AccountId:       m.AccountId,
+		BudgetId:        m.BudgetId,
 		Amount:          ratedAmount,
 		TransactionDate: m.TransactionDate,
 		Type:            m.Type,
@@ -102,6 +104,7 @@ func (d *DB) UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transact
 		m.CategoryId,
 		ratedAmount,
 		m.AccountId,
+    m.BudgetId,
 		m.TransactionDate,
 		m.Type,
 		m.Description,

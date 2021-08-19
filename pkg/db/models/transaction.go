@@ -11,7 +11,7 @@ type Transaction struct {
 	Amount          float32       `db:"amount"`
 	TransactionDate string        `db:"transaction_date"`
 	Type            string        `db:"type"`
-	BudgetId        sql.NullInt32 `db:"budget_id"`
+	BudgetId        *int32        `db:"budget_id"`
 	Description     string        `db:"description"`
 	CreatedAt       string        `db:"created_at"`
 	UpdatedAt       string        `db:"updated_at"`
@@ -30,7 +30,7 @@ type JsonTransactionCreate struct {
 	Rate            float32 `json:"rate"`
 	AccountId       int32   `json:"accountId"`
 	CurrencyId      int32   `json:"currencyId"`
-	BudgetId        int32   `json:"budgetId"`
+	BudgetId        *int32  `json:"budgetId,omitempty"`
 	TransactionDate string  `json:"transactionDate"`
 	Type            string  `json:"type"`
 	Description     string  `json:"description"`
@@ -44,7 +44,7 @@ type JsonTransactionUpdate struct {
 	Rate            float32 `json:"rate"`
 	AccountId       int32   `json:"accountId"`
 	CurrencyId      int32   `json:"currencyId"`
-	BudgetId        int32   `json:"budgetId"`
+	BudgetId        *int32  `json:"budgetId,omitempty"`
 	TransactionDate string  `json:"transactionDate"`
 	Type            string  `json:"type"`
 	Description     string  `json:"description"`
@@ -55,17 +55,17 @@ type JsonTransactionDelete struct {
 }
 
 type JsonTransactionResponse struct {
-	Id              int32   `json:"id"`
-	UserId          int32   `json:"userId"`
-	CategoryId      int32   `json:"categoryId"`
-	AccountId       int32   `json:"accountId"`
-	BudgetId        sql.NullInt32   `json:"budgetId"`
-	Amount          float32 `json:"amount"`
-	TransactionDate string  `json:"transactionDate"`
-	Type            string  `json:"type"`
-	Description     string  `json:"description"`
-	CreatedAt       string  `json:"createdAt"`
-	UpdatedAt       string  `json:"updatedAt"`
+	Id              int32         `json:"id"`
+	UserId          int32         `json:"userId"`
+	CategoryId      int32         `json:"categoryId"`
+	AccountId       int32         `json:"accountId"`
+	BudgetId        *int32 `json:"budgetId"`
+	Amount          float32       `json:"amount"`
+	TransactionDate string        `json:"transactionDate"`
+	Type            string        `json:"type"`
+	Description     string        `json:"description"`
+	CreatedAt       string        `json:"createdAt"`
+	UpdatedAt       string        `json:"updatedAt"`
 }
 
 type JsonTransactionsForMonthRequest struct {
