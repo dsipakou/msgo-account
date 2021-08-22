@@ -48,4 +48,4 @@ var getAllBudgetSchema = `SELECT * FROM budget`
 var getBudgetSchema = `SELECT * FROM budget WHERE id=$1`
 var insertBudgetSchema = `INSERT INTO budget(budget_date, title, amount, description) VALUES($1, $2, $3, $4) RETURNING id, created_at, updated_at`
 var deleteBudgetSchema = `DELETE FROM budget WHERE id=$1`
-var updateBudgetSchema = `UPDATE budget SET budget_date=$1, title=$2, amount=$3, description=$4 WHERE id=$5`
+var updateBudgetSchema = `UPDATE budget SET budget_date=$1, title=$2, amount=$3, description=$4, is_completed=$5 WHERE id=$6`

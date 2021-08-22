@@ -51,6 +51,7 @@ func (d *DB) CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error) {
 		BudgetDate:  m.BudgetDate,
 		Title:       m.Title,
 		Amount:      m.Amount,
+    IsCompleted: false,
 		Description: m.Description,
 		CreatedAt:   created_at,
 		UpdatedAt:   updated_at,
@@ -69,7 +70,7 @@ func (d *DB) DeleteBudget(m *models.JsonBudgetDelete) error {
 }
 
 func (d *DB) UpdateBudget(m *models.JsonBudgetUpdate) (models.Budget, error) {
-	_, err := d.db.Exec(updateBudgetSchema, m.BudgetDate, m.Title, m.Amount, m.Description, m.Id)
+	_, err := d.db.Exec(updateBudgetSchema, m.BudgetDate, m.Title, m.Amount, m.Description, m.IsCompleted, m.Id)
 	if err != nil {
 		return models.Budget{}, err
 	}
