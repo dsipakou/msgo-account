@@ -54,6 +54,7 @@ func MapBudgetToJson(m models.Budget) models.JsonBudgetResponse {
 		Title:       m.Title,
 		Amount:      m.Amount,
 		Description: m.Description,
+    IsCompleted: m.IsCompleted,
 		CreatedAt:   m.CreatedAt,
 		UpdatedAt:   m.UpdatedAt,
 	}

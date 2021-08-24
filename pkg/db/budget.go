@@ -76,7 +76,7 @@ func (d *DB) UpdateBudget(m *models.JsonBudgetUpdate) (models.Budget, error) {
 	}
 
 	var budget models.Budget
-	err = d.db.Get(&budget, getAccountSchema, m.Id)
+	err = d.db.Get(&budget, getBudgetSchema, m.Id)
 	if err != nil {
 		return models.Budget{}, err
 	}

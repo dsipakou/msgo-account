@@ -25,7 +25,7 @@ type JsonBudgetUpdate struct {
 	Id          int32   `json:"id"`
 	BudgetDate  string  `json:"budgetDate"`
 	Title       string  `json:"title"`
-	Amount      float32 `json:"amount,string,omitempty"`
+	Amount      float32 `json:"amount,omitempty"`
 	Description string  `json:"description"`
 	IsCompleted bool    `json:"isCompleted"`
 }
