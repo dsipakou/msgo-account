@@ -17,7 +17,7 @@ type Budget struct {
 type JsonBudgetCreate struct {
 	BudgetDate  string  `json:"budgetDate"`
 	Title       string  `json:"title"`
-	Amount      float32 `json:"amount,string,omitempty"`
+	Amount      float32 `json:"amount,omitempty"`
 	Description string  `json:"description"`
 }
 
