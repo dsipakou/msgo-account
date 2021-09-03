@@ -22,7 +22,8 @@ func (d *DB) GetAccounts() ([]models.Account, error) {
 	return accounts, nil
 }
 
-func (d *DB) CreateAccount(m *models.JsonAccountCreate) (models.Account, error) { stmt, err := d.db.Prepare(insertAccountSchema)
+func (d *DB) CreateAccount(m *models.JsonAccountCreate) (models.Account, error) {
+	stmt, err := d.db.Prepare(insertAccountSchema)
 	if err != nil {
 		log.Fatal(err)
 		return models.Account{}, err
@@ -38,6 +39,7 @@ func (d *DB) CreateAccount(m *models.JsonAccountCreate) (models.Account, error) 
 		m.Source,
 		m.Amount,
 		m.Description,
+		m.IsMain,
 	).Scan(&id, &created_at, &updated_at)
 
 	if err != nil {
@@ -51,6 +53,7 @@ func (d *DB) CreateAccount(m *models.JsonAccountCreate) (models.Account, error) 
 		Source:      m.Source,
 		Amount:      m.Amount,
 		Description: m.Description,
+		IsMain:      m.IsMain,
 		CreatedAt:   created_at,
 		UpdatedAt:   updated_at,
 	}
@@ -68,7 +71,7 @@ func (d *DB) DeleteAccount(m *models.JsonAccountDelete) error {
 }
 
 func (d *DB) UpdateAccount(m *models.JsonAccountUpdate) (models.Account, error) {
-	_, err := d.db.Exec(updateAccountSchema, m.UserId, m.Source, m.Amount, m.Description, m.Id)
+	_, err := d.db.Exec(updateAccountSchema, m.UserId, m.Source, m.Amount, m.Description, m.IsMain, m.Id)
 	if err != nil {
 		return models.Account{}, err
 	}

@@ -42,6 +42,7 @@ func MapAccountToJson(m models.Account) models.JsonAccountResponse {
 		Source:      m.Source,
 		Amount:      m.Amount,
 		Description: m.Description,
+		IsMain:      m.IsMain,
 		CreatedAt:   m.CreatedAt,
 		UpdatedAt:   m.UpdatedAt,
 	}
@@ -54,7 +55,7 @@ func MapBudgetToJson(m models.Budget) models.JsonBudgetResponse {
 		Title:       m.Title,
 		Amount:      m.Amount,
 		Description: m.Description,
-    IsCompleted: m.IsCompleted,
+		IsCompleted: m.IsCompleted,
 		CreatedAt:   m.CreatedAt,
 		UpdatedAt:   m.UpdatedAt,
 	}

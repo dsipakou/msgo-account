@@ -17,9 +17,9 @@ var updateTransactionSchema = `UPDATE transactions SET user_id=$1, category_id=$
 
 var getAccountsSchema = `SELECT * FROM accounts`
 var getAccountSchema = `SELECT * FROM accounts WHERE id=$1`
-var insertAccountSchema = `INSERT INTO accounts(user_id, source, amount, description) VALUES($1, $2, $3, $4) RETURNING id, created_at, updated_at`
+var insertAccountSchema = `INSERT INTO accounts(user_id, source, amount, description, is_main) VALUES($1, $2, $3, $4, $5) RETURNING id, created_at, updated_at`
 var deleteAccountSchema = `DELETE FROM accounts WHERE id=$1`
-var updateAccountSchema = `UPDATE accounts SET user_id=$1, source=$2, amount=$3, description=$4 WHERE id=$5`
+var updateAccountSchema = `UPDATE accounts SET user_id=$1, source=$2, amount=$3, description=$4, is_main=$5 WHERE id=$6`
 
 var getUsersSchema = `SELECT * FROM users`
 var insertUserSchema = `INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING id`

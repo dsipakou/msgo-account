@@ -7,6 +7,7 @@ type Account struct {
 	Source      string  `db:"source"`
 	Amount      float32 `db:"amount"`
 	Description string  `db:"description"`
+	IsMain      bool    `db:"is_main"`
 	CreatedAt   string  `db:"created_at"`
 	UpdatedAt   string  `db:"updated_at"`
 }
@@ -17,6 +18,7 @@ type JsonAccountCreate struct {
 	Source      string  `json:"source"`
 	Amount      float32 `json:"amount,string,omitempty"`
 	Description string  `json:"description"`
+	IsMain      bool    `json:"isMain"`
 }
 
 type JsonAccountDelete struct {
@@ -29,6 +31,7 @@ type JsonAccountUpdate struct {
 	Source      string  `json:"source"`
 	Amount      float32 `json:"amount,string,omitempty"`
 	Description string  `json:"description"`
+	IsMain      bool    `json:"isMain"`
 }
 
 type JsonAccountResponse struct {
@@ -37,6 +40,7 @@ type JsonAccountResponse struct {
 	Source      string  `json:"source"`
 	Amount      float32 `json:"amount"`
 	Description string  `json:"description"`
+	IsMain      bool    `json:"isMain"`
 	CreatedAt   string  `json:"createdAt"`
 	UpdatedAt   string  `json:"updatedAt"`
 }
