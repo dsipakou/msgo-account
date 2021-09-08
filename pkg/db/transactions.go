@@ -7,16 +7,18 @@ import (
 )
 
 type TransactionDB interface {
-	GetTransactions() ([]models.Transaction, error)
+	GetTransactions(m models.JsonTransactionsGet) ([]models.Transaction, error)
 	GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([]models.GroupedSum, error)
 	CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error)
 	DeleteTransaction(m *models.JsonTransactionDelete) error
 	UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error)
 }
 
-func (d *DB) GetTransactions() ([]models.Transaction, error) {
+func (d *DB) GetTransactions(m models.JsonTransactionsGet) ([]models.Transaction, error) {
 	var transactions []models.Transaction
-	err := d.db.Select(&transactions, getAllTransactionsSchema)
+	query := fmt.Sprintf(getAllTransactionsSchema, m.Sorting)
+  log.Println(query)
+	err := d.db.Select(&transactions, query)
 	if err != nil {
 		return transactions, err
 	}
@@ -106,7 +108,7 @@ func (d *DB) UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transact
 		m.CategoryId,
 		ratedAmount,
 		m.AccountId,
-    m.DestAccountId,
+		m.DestAccountId,
 		m.BudgetId,
 		m.TransactionDate,
 		m.Type,

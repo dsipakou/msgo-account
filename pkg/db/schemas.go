@@ -1,6 +1,6 @@
 package db
 
-var getAllTransactionsSchema = `SELECT * FROM transactions ORDER BY id DESC`
+var getAllTransactionsSchema = `SELECT * FROM transactions ORDER BY %s DESC`
 var getGroupedTransactionsSchema = `
   SELECT 
     CONCAT(EXTRACT(YEAR FROM transaction_date), '-', EXTRACT(MONTH FROM transaction_date)) AS month, 

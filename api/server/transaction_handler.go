@@ -1,17 +1,27 @@
 package server
 
 import (
+	"github.com/gorilla/mux"
 	"log"
 	"msgo-account/pkg/db/models"
 	"msgo-account/pkg/utils"
 	"net/http"
-
-	"github.com/gorilla/mux"
 )
 
 func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		transactions, err := a.DB.GetTransactions()
+    request := models.JsonTransactionsGet{}
+		switch sortParam := r.FormValue("sorting"); sortParam {
+		case "date":
+			request.Sorting = "transaction_date"
+		case "added":
+			request.Sorting = "id"
+    default:
+      request.Sorting = "id"
+		}
+
+		transactions, err := a.DB.GetTransactions(request)
+
 		if err != nil {
 			log.Printf("Cannot get transactions, err %v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
@@ -29,10 +39,10 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 func (a *Api) GetGroupedTransactionsHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonTransactionsForMonthRequest{}
-    dateFrom := mux.Vars(r)["dateFrom"]
-    dateTo := mux.Vars(r)["dateTo"]
-    request.DateFrom = dateFrom
-    request.DateTo = dateTo
+		dateFrom := mux.Vars(r)["dateFrom"]
+		dateTo := mux.Vars(r)["dateTo"]
+		request.DateFrom = dateFrom
+		request.DateTo = dateTo
 		groupedSums, err := a.DB.GetGroupedTransactions(request)
 		if err != nil {
 			log.Printf("Cannot get grouped transactions, err %v \n", err)

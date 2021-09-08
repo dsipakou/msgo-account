@@ -39,6 +39,7 @@ func (d *DB) CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error) {
 		m.Title,
 		m.Amount,
 		m.Description,
+		m.CategoryId,
 	).Scan(&id, &created_at, &updated_at)
 
 	if err != nil {
@@ -51,7 +52,8 @@ func (d *DB) CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error) {
 		BudgetDate:  m.BudgetDate,
 		Title:       m.Title,
 		Amount:      m.Amount,
-    IsCompleted: false,
+		CategoryId:  m.CategoryId,
+		IsCompleted: false,
 		Description: m.Description,
 		CreatedAt:   created_at,
 		UpdatedAt:   updated_at,

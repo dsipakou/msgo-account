@@ -23,6 +23,7 @@ func Init() *Api {
 func (a *Api) initRoutes() {
 	a.Router.HandleFunc("/", a.IndexHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/transactions", a.GetTransactionsHandler()).Methods("GET")
+	a.Router.HandleFunc("/api/transactions", a.GetTransactionsHandler()).Methods("GET").Queries("sorting", "{[a-zA-Z]+}")
   a.Router.HandleFunc("/api/transactions/month/{dateFrom:[0-9-]+}/{dateTo:[0-9-]+}", a.GetGroupedTransactionsHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/transactions", a.CreateTransactionHandler()).Methods("POST")
 	a.Router.HandleFunc("/api/transactions", a.DeleteTransactionHandler()).Methods("DELETE")

@@ -6,6 +6,7 @@ type Budget struct {
 	BudgetDate  string  `db:"budget_date"`
 	Title       string  `db:"title"`
 	Amount      float32 `db:"amount"`
+	CategoryId  *int32  `db:"category_id"`
 	Description string  `db:"description"`
 	IsCompleted bool    `db:"is_completed"`
 	CreatedAt   string  `db:"created_at"`
@@ -18,6 +19,7 @@ type JsonBudgetCreate struct {
 	BudgetDate  string  `json:"budgetDate"`
 	Title       string  `json:"title"`
 	Amount      float32 `json:"amount,omitempty"`
+	CategoryId  *int32   `json:"categoryId"`
 	Description string  `json:"description"`
 }
 
@@ -26,6 +28,7 @@ type JsonBudgetUpdate struct {
 	BudgetDate  string  `json:"budgetDate"`
 	Title       string  `json:"title"`
 	Amount      float32 `json:"amount,omitempty"`
+	CategoryId  *int32   `json:"categoryId"`
 	Description string  `json:"description"`
 	IsCompleted bool    `json:"isCompleted"`
 }
@@ -39,6 +42,7 @@ type JsonBudgetResponse struct {
 	BudgetDate  string  `json:"budgetDate"`
 	Title       string  `json:"title"`
 	Amount      float32 `json:"amount"`
+	CategoryId  *int32  `json:"categoryId"`
 	Description string  `json:"description"`
 	IsCompleted bool    `json:"isCompleted"`
 	CreatedAt   string  `json:"createdAt"`

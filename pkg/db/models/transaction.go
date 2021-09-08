@@ -24,6 +24,10 @@ type GroupedSum struct {
 	Day       int32   `db:"day"`
 }
 
+type JsonTransactionsGet struct {
+	Sorting string
+}
+
 type JsonTransactionCreate struct {
 	UserId          int32   `json:"userId"`
 	CategoryId      *int32  `json:"categoryId"`
@@ -60,9 +64,9 @@ type JsonTransactionDelete struct {
 type JsonTransactionResponse struct {
 	Id              int32   `json:"id"`
 	UserId          int32   `json:"userId"`
-	CategoryId      *int32   `json:"categoryId"`
+	CategoryId      *int32  `json:"categoryId"`
 	AccountId       int32   `json:"accountId"`
-	DestAccountId   *int32   `json:"destAccountId"`
+	DestAccountId   *int32  `json:"destAccountId"`
 	BudgetId        *int32  `json:"budgetId"`
 	Amount          float32 `json:"amount"`
 	TransactionDate string  `json:"transactionDate"`
