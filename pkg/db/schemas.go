@@ -46,6 +46,13 @@ var updateRateSchema = `UPDATE rates SET currency_id=$1, rate_date=$2, rate=$3, 
 
 var getAllBudgetSchema = `SELECT * FROM budget`
 var getBudgetSchema = `SELECT * FROM budget WHERE id=$1`
-var insertBudgetSchema = `INSERT INTO budget(budget_date, title, amount, description) VALUES($1, $2, $3, $4) RETURNING id, created_at, updated_at`
+var insertBudgetSchema = `INSERT INTO budget(budget_date, title, amount, category_id, description) VALUES($1, $2, $3, $4, $5) RETURNING id, created_at, updated_at`
 var deleteBudgetSchema = `DELETE FROM budget WHERE id=$1`
-var updateBudgetSchema = `UPDATE budget SET budget_date=$1, title=$2, amount=$3, description=$4, is_completed=$5 WHERE id=$6`
+var updateBudgetSchema = `UPDATE budget SET budget_date=$1, title=$2, amount=$3, category_id=$4, description=$5, is_completed=$6 WHERE id=$7`
+var getPeriodBudgetUsage = `
+  SELECT sum(t.amount) AS amount, c.parent
+  FROM transactions as t
+  INNER JOIN categories c on c.id = t.category_id
+  WHERE t.transaction_date >= '%s' AND t.transaction_date < '%s'
+  GROUP BY c.parent;
+`

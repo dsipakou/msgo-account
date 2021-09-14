@@ -38,8 +38,8 @@ func (d *DB) CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error) {
 		m.BudgetDate,
 		m.Title,
 		m.Amount,
-		m.Description,
 		m.CategoryId,
+		m.Description,
 	).Scan(&id, &created_at, &updated_at)
 
 	if err != nil {
@@ -72,7 +72,7 @@ func (d *DB) DeleteBudget(m *models.JsonBudgetDelete) error {
 }
 
 func (d *DB) UpdateBudget(m *models.JsonBudgetUpdate) (models.Budget, error) {
-	_, err := d.db.Exec(updateBudgetSchema, m.BudgetDate, m.Title, m.Amount, m.Description, m.IsCompleted, m.Id)
+	_, err := d.db.Exec(updateBudgetSchema, m.BudgetDate, m.Title, m.Amount, m.CategoryId, m.Description, m.IsCompleted, m.Id)
 	if err != nil {
 		return models.Budget{}, err
 	}

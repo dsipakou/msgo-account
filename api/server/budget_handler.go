@@ -27,6 +27,7 @@ func (a *Api) GetBudgetHandler() http.HandlerFunc {
 func (a *Api) CreateBudgetHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonBudgetCreate{}
+    log.Println(r)
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
