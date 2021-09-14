@@ -50,7 +50,7 @@ var insertBudgetSchema = `INSERT INTO budget(budget_date, title, amount, categor
 var deleteBudgetSchema = `DELETE FROM budget WHERE id=$1`
 var updateBudgetSchema = `UPDATE budget SET budget_date=$1, title=$2, amount=$3, category_id=$4, description=$5, is_completed=$6 WHERE id=$7`
 var getPeriodBudgetUsage = `
-  SELECT sum(t.amount) AS amount, c.parent
+  SELECT sum(t.amount) AS amount, c.parent AS name
   FROM transactions as t
   INNER JOIN categories c on c.id = t.category_id
   WHERE t.transaction_date >= '%s' AND t.transaction_date < '%s'

@@ -13,6 +13,11 @@ type Budget struct {
 	UpdatedAt   string  `db:"updated_at"`
 }
 
+type BudgetUsage struct {
+	Name   string  `db:"name"`
+	Amount float32 `db:"amount"`
+}
+
 // Json structures
 
 type JsonBudgetCreate struct {
@@ -47,4 +52,9 @@ type JsonBudgetResponse struct {
 	IsCompleted bool    `json:"isCompleted"`
 	CreatedAt   string  `json:"createdAt"`
 	UpdatedAt   string  `json:"updatedAt"`
+}
+
+type JsonBudgetUsageResponse struct {
+	Name   string `json:"name"`
+	Amount float32  `json:"amount"`
 }

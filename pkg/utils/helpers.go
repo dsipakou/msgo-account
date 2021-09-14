@@ -62,6 +62,13 @@ func MapBudgetToJson(m models.Budget) models.JsonBudgetResponse {
 	}
 }
 
+func MapBudgetUsageToJson(m models.BudgetUsage) models.JsonBudgetUsageResponse {
+  return models.JsonBudgetUsageResponse{
+    Name: m.Name,
+    Amount: m.Amount,
+  }
+}
+
 func MapUserToJson(a *models.User) models.JsonUser {
 	return models.JsonUser{
 		Id:        a.Id,

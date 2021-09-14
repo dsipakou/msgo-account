@@ -1,12 +1,14 @@
 package db
 
 import (
+	"fmt"
 	"log"
 	"msgo-account/pkg/db/models"
 )
 
 type BudgetDB interface {
 	GetBudget() ([]models.Budget, error)
+	GetBudgetUsage(dateFrom string, dateTo string) ([]models.BudgetUsage, error)
 	CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error)
 	DeleteBudget(m *models.JsonBudgetDelete) error
 	UpdateBudget(m *models.JsonBudgetUpdate) (models.Budget, error)
@@ -20,6 +22,17 @@ func (d *DB) GetBudget() ([]models.Budget, error) {
 	}
 
 	return budget, nil
+}
+
+func (d *DB) GetBudgetUsage(dateFrom string, dateTo string) ([]models.BudgetUsage, error) {
+	var usage []models.BudgetUsage
+	query := fmt.Sprintf(getPeriodBudgetUsage, dateFrom, dateTo)
+	err := d.db.Select(&usage, query)
+	if err != nil {
+		return usage, err
+	}
+
+	return usage, nil
 }
 
 func (d *DB) CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error) {

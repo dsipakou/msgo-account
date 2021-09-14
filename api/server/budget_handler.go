@@ -9,6 +9,9 @@ import (
 
 func (a *Api) GetBudgetHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+    dateFrom := r.FormValue("dateFrom")
+    dateTo := r.FormValue("dateTo")
+    log.Println(dateFrom, dateTo)
 		budget, err := a.DB.GetBudget()
 		if err != nil {
 			log.Printf("Cannot get budget, err %v \n", err)
@@ -24,6 +27,29 @@ func (a *Api) GetBudgetHandler() http.HandlerFunc {
 	}
 }
 
+func (a *Api) GetBudgetUsageForPeriodHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+    dateFrom := r.FormValue("dateFrom")
+    dateTo := r.FormValue("dateTo")
+    if dateFrom == "" || dateTo == "" {
+      log.Printf("dateFrom and dateTo are required")
+      utils.SendResponse(w, r, nil, http.StatusBadRequest)
+      return
+    }
+		usage, err := a.DB.GetBudgetUsage(dateFrom, dateTo)
+		if err != nil {
+			log.Printf("Cannot get budget usage, err %v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		var resp = make([]models.JsonBudgetUsageResponse, len(usage))
+		for idx, item := range usage {
+			resp[idx] = utils.MapBudgetUsageToJson(item)
+		}
+		utils.SendResponse(w, r, resp, http.StatusOK)
+	}
+}
 func (a *Api) CreateBudgetHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonBudgetCreate{}
