@@ -5,13 +5,14 @@ import (
 	"msgo-account/pkg/db/models"
 	"msgo-account/pkg/utils"
 	"net/http"
+	"time"
 )
 
 func (a *Api) GetBudgetHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-    dateFrom := r.FormValue("dateFrom")
-    dateTo := r.FormValue("dateTo")
-    log.Println(dateFrom, dateTo)
+		dateFrom := r.FormValue("dateFrom")
+		dateTo := r.FormValue("dateTo")
+		log.Println(dateFrom, dateTo)
 		budget, err := a.DB.GetBudget()
 		if err != nil {
 			log.Printf("Cannot get budget, err %v \n", err)
@@ -29,14 +30,19 @@ func (a *Api) GetBudgetHandler() http.HandlerFunc {
 
 func (a *Api) GetBudgetUsageForPeriodHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-    dateFrom := r.FormValue("dateFrom")
-    dateTo := r.FormValue("dateTo")
-    if dateFrom == "" || dateTo == "" {
-      log.Printf("dateFrom and dateTo are required")
-      utils.SendResponse(w, r, nil, http.StatusBadRequest)
-      return
+		dateFrom, err := time.Parse("2006-01-02", r.FormValue("dateFrom"))
+    if err != nil {
+      log.Printf("dateFrom is not a date, input - %v \n", r.FormValue("dateFrom"))
+			utils.SendResponse(w, r, "Incorrect date format", http.StatusBadRequest)
+			return
     }
-		usage, err := a.DB.GetBudgetUsage(dateFrom, dateTo)
+		dateTo, err := time.Parse("2006-01-02", r.FormValue("dateTo"))
+    if err != nil {
+      log.Printf("dateFrom is not a date, input - %v \n", r.FormValue("dateFrom"))
+			utils.SendResponse(w, r, "Incorrect date format", http.StatusBadRequest)
+			return
+    }
+		usage, err := a.DB.GetBudgetUsage(dateFrom.Format("2006-01-02"), dateTo.Format("2006-01-02"))
 		if err != nil {
 			log.Printf("Cannot get budget usage, err %v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
@@ -53,7 +59,7 @@ func (a *Api) GetBudgetUsageForPeriodHandler() http.HandlerFunc {
 func (a *Api) CreateBudgetHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonBudgetCreate{}
-    log.Println(r)
+		log.Println(r)
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
