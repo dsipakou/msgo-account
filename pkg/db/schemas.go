@@ -10,6 +10,11 @@ var getGroupedTransactionsSchema = `
   GROUP BY transaction_date, type 
   HAVING type='outcome' AND transaction_date >= '%s' AND transaction_date <= '%s' 
   ORDER BY transaction_date`
+var getRangedTransactionsSchema = `
+  SELECT * 
+  FROM transactions
+  WHERE type='outcome' AND transaction_date >= '%s' AND transaction_date <= '%s'
+  ORDER BY transaction_date`
 var getTransactionSchema = `SELECT * FROM transactions WHERE id=$1`
 var insertTransactionSchema = `INSERT INTO transactions("user_id", "category_id", "amount", "account_id", "dest_account_id", "budget_id", "transaction_date", "type", "description") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id, created_at, updated_at`
 var deleteTransactionSchema = `DELETE FROM transactions WHERE id=$1`
@@ -54,5 +59,6 @@ var getPeriodBudgetUsage = `
   FROM transactions as t
   INNER JOIN categories c on c.id = t.category_id
   WHERE t.transaction_date >= '%s' AND t.transaction_date < '%s'
+    AND t.budget_id IS NOT NULL
   GROUP BY c.parent;
 `

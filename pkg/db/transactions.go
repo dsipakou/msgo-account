@@ -9,6 +9,7 @@ import (
 type TransactionDB interface {
 	GetTransactions(m models.JsonTransactionsGet) ([]models.Transaction, error)
 	GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([]models.GroupedSum, error)
+  GetRangedTransactions(dateFrom string, dateTo string) ([]models.Transaction, error)
 	CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error)
 	DeleteTransaction(m *models.JsonTransactionDelete) error
 	UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error)
@@ -39,6 +40,18 @@ func (d *DB) GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([
 	}
 
 	return groupedSum, nil
+}
+
+func (d *DB) GetRangedTransactions(dateFrom string, dateTo string) ([]models.Transaction, error) {
+  var transactions []models.Transaction
+  query := fmt.Sprintf(getRangedTransactionsSchema, dateFrom, dateTo)
+  log.Println(query)
+  err := d.db.Select(&transactions, query)
+  if err != nil {
+    return transactions, err
+  }
+
+  return transactions, nil
 }
 
 func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error) {
