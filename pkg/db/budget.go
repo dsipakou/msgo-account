@@ -27,6 +27,7 @@ func (d *DB) GetBudget() ([]models.Budget, error) {
 func (d *DB) GetBudgetUsage(dateFrom string, dateTo string) ([]models.BudgetUsage, error) {
 	var usage []models.BudgetUsage
 	query := fmt.Sprintf(getPeriodBudgetUsage, dateFrom, dateTo)
+  log.Println(query)
 	err := d.db.Select(&usage, query)
 	if err != nil {
 		return usage, err

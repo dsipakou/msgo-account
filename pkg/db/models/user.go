@@ -7,25 +7,29 @@ type User struct {
 	Email     string `db:"email"`
 	Password  string `db:"password"`
 	CreatedAt string `db:"created_at"`
-  UpdatedAt string `db:"updated_at"`
+	UpdatedAt string `db:"updated_at"`
 }
 
 // Json structures
+type JsonUserLoginRequest struct {
+	Email    string `json:"email"`
+}
+
 type JsonUserGet struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
-  Password string `json:"password"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type JsonUserDelete struct {
-  Id int32 `db:"id"`
+	Id int32 `db:"id"`
 }
 
 type JsonUser struct {
-  Id int32 `json:"id"`
-  Name string `json:"name"`
-  Email string `json:"email"`
-  Password string `json:"password"`
-  CreatedAt string `json:"createdAt"`
-  UpdatedAt string `json:"updatedAt"`
+	Id        int32  `json:"id"`
+	Name      string `json:"name"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
+	CreatedAt string `json:"createdAt"`
+	UpdatedAt string `json:"updatedAt"`
 }

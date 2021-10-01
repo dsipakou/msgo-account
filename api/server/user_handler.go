@@ -7,6 +7,24 @@ import (
 	"net/http"
 )
 
+func (a *Api) UserLoginHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.JsonUserLoginRequest{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+    user, err := a.DB.GetUser(request.Email)
+    log.Println(user)
+    if err != nil {
+      return
+    }
+	}
+}
+
 func (a *Api) GetUsersHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		users, err := a.DB.GetUsers()

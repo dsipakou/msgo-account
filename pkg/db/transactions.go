@@ -18,7 +18,6 @@ type TransactionDB interface {
 func (d *DB) GetTransactions(m models.JsonTransactionsGet) ([]models.Transaction, error) {
 	var transactions []models.Transaction
 	query := fmt.Sprintf(getAllTransactionsSchema, m.Sorting)
-  log.Println(query)
 	err := d.db.Select(&transactions, query)
 	if err != nil {
 		return transactions, err

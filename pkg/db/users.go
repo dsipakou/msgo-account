@@ -1,14 +1,28 @@
 package db
 
 import (
+	"log"
 	"msgo-account/pkg/db/models"
+	"msgo-account/pkg/utils"
 )
 
 type UserDB interface {
+	GetUser(email string) (models.User, error)
 	GetUsers() ([]*models.User, error)
 	CreateUser(u *models.User) error
 	DeleteUser(u *models.JsonUserDelete) error
 	UpdateUser(u *models.User) error
+}
+
+func (d *DB) GetUser(email string) (models.User, error) {
+	var user models.User
+	err := d.db.Get(&user, getUserSchema, email)
+	log.Println(err, user)
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
 }
 
 func (d *DB) GetUsers() ([]*models.User, error) {
@@ -22,7 +36,8 @@ func (d *DB) GetUsers() ([]*models.User, error) {
 }
 
 func (d *DB) CreateUser(a *models.User) error {
-	res, err := d.db.Exec(insertUserSchema, a.Name, a.Email, a.Password)
+	password := utils.GetHash([]byte(a.Password))
+	res, err := d.db.Exec(insertUserSchema, a.Name, a.Email, password)
 	if err != nil {
 		return err
 	}
