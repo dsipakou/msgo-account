@@ -13,6 +13,7 @@ type User struct {
 // Json structures
 type JsonUserLoginRequest struct {
 	Email    string `json:"email"`
+  Password string `json:"password"`
 }
 
 type JsonUserGet struct {

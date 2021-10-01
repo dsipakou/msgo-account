@@ -5,6 +5,8 @@ import (
 	"msgo-account/pkg/db/models"
 	"msgo-account/pkg/utils"
 	"net/http"
+
+	"golang.org/x/crypto/bcrypt"
 )
 
 func (a *Api) UserLoginHandler() http.HandlerFunc {
@@ -17,11 +19,26 @@ func (a *Api) UserLoginHandler() http.HandlerFunc {
 			return
 		}
 
-    user, err := a.DB.GetUser(request.Email)
-    log.Println(user)
-    if err != nil {
-      return
-    }
+		user, err := a.DB.GetUser(request.Email)
+		if err != nil {
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		userPass := []byte(request.Password)
+		dbPass := []byte(user.Password)
+		passErr := bcrypt.CompareHashAndPassword(dbPass, userPass)
+		if passErr != nil {
+			utils.SendResponse(w, r, "incorrect password", http.StatusForbidden)
+			return
+		}
+
+		jwtToken, err := utils.GenerateJWT()
+		if err != nil {
+			utils.SendResponse(w, r, "cannot generate token", http.StatusInternalServerError)
+			return
+		}
+    utils.SendResponse(w, r, jwtToken, http.StatusOK)
 	}
 }
 
