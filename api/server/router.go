@@ -50,6 +50,7 @@ func (a *Api) initRoutes() {
 	a.Router.HandleFunc("/api/rates", a.DeleteRateHandler()).Methods("DELETE")
 	a.Router.HandleFunc("/api/rates", a.UpdateRateHandler()).Methods("PATCH")
 	a.Router.HandleFunc("/api/budget", a.GetBudgetHandler()).Methods("GET")
+	a.Router.HandleFunc("/api/budget", a.GetBudgetForPeriodHandler()).Methods("GET").Queries("dateFrom", "{[0-9-]+}", "dateTo", "{[0-9-]+}")
 	a.Router.HandleFunc("/api/budget/period", a.GetBudgetUsageForPeriodHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/budget", a.CreateBudgetHandler()).Methods("POST")
 	a.Router.HandleFunc("/api/budget", a.DeleteBudgetHandler()).Methods("DELETE")

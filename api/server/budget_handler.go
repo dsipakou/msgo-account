@@ -28,6 +28,25 @@ func (a *Api) GetBudgetHandler() http.HandlerFunc {
 	}
 }
 
+func (a *Api) GetBudgetForPeriodHandler() http.HandlerFunc {
+  return func(w http.ResponseWriter, r *http.Request) {
+    dateFrom := r.FormValue("dateFrom")
+    dateTo := r.FormValue("dateTo")
+		budgetList, err := a.DB.GetBudgetForPeriod(dateFrom, dateTo)
+		if err != nil {
+			log.Printf("Cannot get budget usage, err %v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		var resp = make([]models.JsonBudgetResponse, len(budgetList))
+		for idx, item := range budgetList {
+			resp[idx] = utils.MapBudgetToJson(item)
+		}
+		utils.SendResponse(w, r, resp, http.StatusOK)
+  }
+}
+
 func (a *Api) GetBudgetUsageForPeriodHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		dateFrom, err := time.Parse("2006-01-02", r.FormValue("dateFrom"))

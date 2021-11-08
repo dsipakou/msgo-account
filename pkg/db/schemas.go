@@ -44,7 +44,7 @@ var insertCurrencySchema = `INSERT INTO currencies(code, sign, verbal_name, is_d
 var deleteCurrencySchema = `DELETE FROM currencies WHERE id=$1`
 var updateCurrencySchema = `UPDATE currencies SET code=$1, sign=$2, verbal_name=$3, is_default=$4, comments=%5 WHERE id=$6`
 
-var getAllRatesSchema = `SELECT * FROM rates`
+var getAllRatesSchema = `SELECT * FROM rates ORDER BY rate_date DESC`
 var getRateSchema = `SELECT * FROM rates WHERE id=$1`
 var insertRateSchema = `INSERT INTO rates(currency_id, rate_date, rate, description) VALUES($1, $2, $3, $4) RETURNING id, created_at, updated_at`
 var deleteRateSchema = `DELETE FROM rates WHERE id=$1`
@@ -52,6 +52,7 @@ var updateRateSchema = `UPDATE rates SET currency_id=$1, rate_date=$2, rate=$3, 
 
 var getAllBudgetSchema = `SELECT * FROM budget`
 var getBudgetSchema = `SELECT * FROM budget WHERE id=$1`
+var getBudgetForPeriod = `SELECT * FROM budget WHERE budget_date BETWEEN '%s' AND '%s'`
 var insertBudgetSchema = `INSERT INTO budget(budget_date, title, amount, category_id, description) VALUES($1, $2, $3, $4, $5) RETURNING id, created_at, updated_at`
 var deleteBudgetSchema = `DELETE FROM budget WHERE id=$1`
 var updateBudgetSchema = `UPDATE budget SET budget_date=$1, title=$2, amount=$3, category_id=$4, description=$5, is_completed=$6 WHERE id=$7`
