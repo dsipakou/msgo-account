@@ -52,7 +52,7 @@ var updateRateSchema = `UPDATE rates SET currency_id=$1, rate_date=$2, rate=$3, 
 
 var getAllBudgetSchema = `SELECT * FROM budget`
 var getBudgetSchema = `SELECT * FROM budget WHERE id=$1`
-var getBudgetForPeriod = `SELECT * FROM budget WHERE budget_date BETWEEN '%s' AND '%s'`
+var getBudgetForPeriod = `SELECT * FROM budget WHERE budget_date BETWEEN '%s' AND '%s' ORDER BY title`
 var insertBudgetSchema = `INSERT INTO budget(budget_date, title, amount, category_id, description) VALUES($1, $2, $3, $4, $5) RETURNING id, created_at, updated_at`
 var deleteBudgetSchema = `DELETE FROM budget WHERE id=$1`
 var updateBudgetSchema = `UPDATE budget SET budget_date=$1, title=$2, amount=$3, category_id=$4, description=$5, is_completed=$6 WHERE id=$7`

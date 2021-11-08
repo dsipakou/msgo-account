@@ -28,6 +28,7 @@ func (d *DB) GetBudget() ([]models.Budget, error) {
 func (d *DB) GetBudgetForPeriod(dateFrom string, dateTo string) ([]models.Budget, error) {
   var budgetList []models.Budget
   query := fmt.Sprintf(getBudgetForPeriod, dateFrom, dateTo)
+  log.Println(query)
   err := d.db.Select(&budgetList, query)
   if err != nil {
     return budgetList, err

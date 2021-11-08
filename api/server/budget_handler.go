@@ -30,9 +30,19 @@ func (a *Api) GetBudgetHandler() http.HandlerFunc {
 
 func (a *Api) GetBudgetForPeriodHandler() http.HandlerFunc {
   return func(w http.ResponseWriter, r *http.Request) {
-    dateFrom := r.FormValue("dateFrom")
-    dateTo := r.FormValue("dateTo")
-		budgetList, err := a.DB.GetBudgetForPeriod(dateFrom, dateTo)
+		dateFrom, err := time.Parse("2006-01-02", r.FormValue("dateFrom"))
+    if err != nil {
+      log.Printf("dateFrom is not a date, input - %v \n", r.FormValue("dateFrom"))
+			utils.SendResponse(w, r, "Incorrect date format", http.StatusBadRequest)
+			return
+    }
+		dateTo, err := time.Parse("2006-01-02", r.FormValue("dateTo"))
+    if err != nil {
+      log.Printf("dateFrom is not a date, input - %v \n", r.FormValue("dateFrom"))
+			utils.SendResponse(w, r, "Incorrect date format", http.StatusBadRequest)
+			return
+    }
+		budgetList, err := a.DB.GetBudgetForPeriod(dateFrom.Format("2006-01-02"), dateTo.Format("2006-01-02"))
 		if err != nil {
 			log.Printf("Cannot get budget usage, err %v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
