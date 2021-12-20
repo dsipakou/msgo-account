@@ -17,7 +17,7 @@ type JsonCurrencyCreate struct {
 	Sign       string `json:"sign"`
 	VerbalName string `json:"verbalName"`
 	IsDefault  bool   `json:"isDefault"`
-	IsBase     bool   `db:"is_base"`
+	IsBase     bool   `json:"isBase"`
 	Comments   string `json:"comments"`
 }
 
@@ -27,7 +27,7 @@ type JsonCurrencyUpdate struct {
 	Sign       string `json:"sign"`
 	VerbalName string `json:"verbalName"`
 	IsDefault  bool   `json:"isDefault"`
-	IsBase     bool   `db:"is_base"`
+	IsBase     bool   `json:"isBase"`
 	Comments   string `json:"comments"`
 }
 
@@ -41,7 +41,7 @@ type JsonCurrencyResponse struct {
 	Sign       string `json:"sign"`
 	VerbalName string `json:"verbalName"`
 	IsDefault  bool   `json:"isDefault"`
-	IsBase     bool   `db:"is_base"`
+	IsBase     bool   `json:"isBase"`
 	Comments   string `json:"comments"`
 	CreatedAt  string `json:"createdAt"`
 	UpdatedAt  string `json:"updatedAt"`

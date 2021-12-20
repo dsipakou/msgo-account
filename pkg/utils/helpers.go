@@ -63,10 +63,10 @@ func MapBudgetToJson(m models.Budget) models.JsonBudgetResponse {
 }
 
 func MapBudgetUsageToJson(m models.BudgetUsage) models.JsonBudgetUsageResponse {
-  return models.JsonBudgetUsageResponse{
-    Name: m.Name,
-    Amount: m.Amount,
-  }
+	return models.JsonBudgetUsageResponse{
+		Name:   m.Name,
+		Amount: m.Amount,
+	}
 }
 
 func MapUserToJson(a *models.User) models.JsonUser {
@@ -98,6 +98,7 @@ func MapCurrencyToJson(m models.Currency) models.JsonCurrencyResponse {
 		Sign:       m.Sign,
 		VerbalName: m.VerbalName,
 		IsDefault:  m.IsDefault,
+		IsBase:     m.IsBase,
 		Comments:   m.Comments,
 		CreatedAt:  m.CreatedAt,
 		UpdatedAt:  m.UpdatedAt,
