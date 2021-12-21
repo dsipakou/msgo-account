@@ -43,7 +43,7 @@ var getCurrencySchema = `SELECT * FROM currencies WHERE id=$1`
 var getDefaultCurrencySchema = `SELECT * from currencies WHERE is_default=true`
 var insertCurrencySchema = `INSERT INTO currencies(code, sign, verbal_name, is_default, comments) VALUES($1, $2, $3, $4, $5) RETURNING id, created_at, updated_at`
 var deleteCurrencySchema = `DELETE FROM currencies WHERE id=$1`
-var updateCurrencySchema = `UPDATE currencies SET code=$1, sign=$2, verbal_name=$3, is_default=$4, comments=%5 WHERE id=$6`
+var updateCurrencySchema = `UPDATE currencies SET code=$1, sign=$2, verbal_name=$3, is_default=$4, comments=$5 WHERE id=$6`
 
 var getAllRatesSchema = `SELECT * FROM rates ORDER BY rate_date DESC`
 var getRateSchema = `SELECT * FROM rates WHERE id=$1`
