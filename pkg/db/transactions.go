@@ -73,6 +73,7 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 		ratedAmount,
 		m.AccountId,
 		m.DestAccountId,
+    m.CurrencyId,
 		m.BudgetId,
 		m.TransactionDate,
 		m.Type,

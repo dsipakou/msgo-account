@@ -16,7 +16,7 @@ var getRangedTransactionsSchema = `
   WHERE type='outcome' AND transaction_date >= '%s' AND transaction_date <= '%s'
   ORDER BY transaction_date`
 var getTransactionSchema = `SELECT * FROM transactions WHERE id=$1`
-var insertTransactionSchema = `INSERT INTO transactions("user_id", "category_id", "amount", "account_id", "dest_account_id", "budget_id", "transaction_date", "type", "description") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id, created_at, updated_at`
+var insertTransactionSchema = `INSERT INTO transactions("user_id", "category_id", "amount", "account_id", "dest_account_id", "currency_id", "budget_id", "transaction_date", "type", "description") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id, created_at, updated_at`
 var deleteTransactionSchema = `DELETE FROM transactions WHERE id=$1`
 var updateTransactionSchema = `UPDATE transactions SET user_id=$1, category_id=$2, amount=$3, account_id=$4, dest_account_id=$5, budget_id=$6, transaction_date=$7, type=$8, description=$9, updated_at=NOW() WHERE id=$10`
 
