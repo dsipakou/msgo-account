@@ -8,6 +8,7 @@ type Transaction struct {
 	CurrencyId      *int32  `db:"currency_id"`
 	DestAccountId   *int32  `db:"dest_account_id"`
 	Amount          float32 `db:"amount"`
+	BaseAmount      float32 `db:"base_amount"`
 	TransactionDate string  `db:"transaction_date"`
 	Type            string  `db:"type"`
 	BudgetId        *int32  `db:"budget_id"`
@@ -24,6 +25,7 @@ type GroupedSum struct {
 
 type JsonTransactionsGet struct {
 	Sorting string
+	Limit   string
 }
 
 type JsonTransactionCreate struct {
@@ -68,6 +70,7 @@ type JsonTransactionResponse struct {
 	BudgetId        *int32  `json:"budgetId"`
 	CurrencyId      *int32  `json:"currencyId"`
 	Amount          float32 `json:"amount"`
+	BaseAmount      float32 `json:"baseAmount"`
 	TransactionDate string  `json:"transactionDate"`
 	Type            string  `json:"type"`
 	Description     string  `json:"description"`

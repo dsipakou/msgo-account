@@ -1,6 +1,18 @@
 package db
 
 var getAllTransactionsSchema = `SELECT * FROM transactions ORDER BY %s DESC`
+var getAllTransactionsExtendedSchema = `
+  SELECT 
+    t.*,  
+    CASE WHEN t.currency_id is NULL THEN t.amount
+        WHEN c.is_base THEN t.amount
+        ELSE t.amount * r.rate
+    END as base_amount
+  FROM transactions t 
+    LEFT JOIN rates r ON r.currency_id = t.currency_id AND r.rate_date = t.transaction_date
+    LEFT JOIN currencies c ON c.id = t.currency_id
+  ORDER BY t.%s DESC LIMIT %s;
+`
 var getGroupedTransactionsSchema = `
   SELECT 
     CONCAT(EXTRACT(YEAR FROM transaction_date), '-', EXTRACT(MONTH FROM transaction_date)) AS month, 
