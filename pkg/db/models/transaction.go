@@ -1,21 +1,19 @@
 package models
 
-import "database/sql"
-
 type Transaction struct {
-	Id              int32         `db:"id"`
-	UserId          int32         `db:"user_id"`
-	CategoryId      *int32        `db:"category_id"`
-	AccountId       int32         `db:"account_id"`
-	CurrencyId      sql.NullInt32 `db:"currency_id"`
-	DestAccountId   *int32        `db:"dest_account_id"`
-	Amount          float32       `db:"amount"`
-	TransactionDate string        `db:"transaction_date"`
-	Type            string        `db:"type"`
-	BudgetId        *int32        `db:"budget_id"`
-	Description     string        `db:"description"`
-	CreatedAt       string        `db:"created_at"`
-	UpdatedAt       string        `db:"updated_at"`
+	Id              int32   `db:"id"`
+	UserId          int32   `db:"user_id"`
+	CategoryId      *int32  `db:"category_id"`
+	AccountId       int32   `db:"account_id"`
+	CurrencyId      *int32  `db:"currency_id"`
+	DestAccountId   *int32  `db:"dest_account_id"`
+	Amount          float32 `db:"amount"`
+	TransactionDate string  `db:"transaction_date"`
+	Type            string  `db:"type"`
+	BudgetId        *int32  `db:"budget_id"`
+	Description     string  `db:"description"`
+	CreatedAt       string  `db:"created_at"`
+	UpdatedAt       string  `db:"updated_at"`
 }
 
 type GroupedSum struct {
@@ -35,7 +33,7 @@ type JsonTransactionCreate struct {
 	Rate            float32 `json:"rate"`
 	AccountId       int32   `json:"accountId"`
 	DestAccountId   *int32  `json:"destAccountId"`
-	CurrencyId      int32   `json:"currencyId"`
+	CurrencyId      *int32  `json:"currencyId"`
 	BudgetId        *int32  `json:"budgetId,omitempty"`
 	TransactionDate string  `json:"transactionDate"`
 	Type            string  `json:"type"`
@@ -68,6 +66,7 @@ type JsonTransactionResponse struct {
 	AccountId       int32   `json:"accountId"`
 	DestAccountId   *int32  `json:"destAccountId"`
 	BudgetId        *int32  `json:"budgetId"`
+	CurrencyId      *int32  `json:"currencyId"`
 	Amount          float32 `json:"amount"`
 	TransactionDate string  `json:"transactionDate"`
 	Type            string  `json:"type"`
