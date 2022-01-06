@@ -67,13 +67,15 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 
 	ratedAmount := m.Amount * m.Rate
 
+  // TODO: store real m.CurrencyId instead of 1
+
 	err = stmt.QueryRow(
 		m.UserId,
 		m.CategoryId,
 		ratedAmount,
 		m.AccountId,
 		m.DestAccountId,
-    m.CurrencyId,
+    1,
 		m.BudgetId,
 		m.TransactionDate,
 		m.Type,
