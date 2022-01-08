@@ -32,7 +32,6 @@ type JsonTransactionCreate struct {
 	UserId          int32   `json:"userId"`
 	CategoryId      *int32  `json:"categoryId"`
 	Amount          float32 `json:"amount,string,omitempty"`
-	Rate            float32 `json:"rate"`
 	AccountId       int32   `json:"accountId"`
 	DestAccountId   *int32  `json:"destAccountId"`
 	CurrencyId      *int32  `json:"currencyId"`
@@ -47,7 +46,6 @@ type JsonTransactionUpdate struct {
 	UserId          int32   `json:"userId"`
 	CategoryId      *int32  `json:"categoryId"`
 	Amount          float32 `json:"amount,string,omitempty"`
-	Rate            float32 `json:"rate"`
 	AccountId       int32   `json:"accountId"`
 	DestAccountId   *int32  `json:"destAccountId"`
 	CurrencyId      int32   `json:"currencyId"`

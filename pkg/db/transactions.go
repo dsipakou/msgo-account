@@ -65,10 +65,6 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 	var created_at string
 	var updated_at string
 
-	log.Printf("%f\n", m.Rate)
-
-	// TODO: store real m.CurrencyId instead of 1
-
 	err = stmt.QueryRow(
 		m.UserId,
 		m.CategoryId,
@@ -87,21 +83,8 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 		return models.Transaction{}, err
 	}
 
-	transaction := models.Transaction{
-		Id:              int32(id),
-		UserId:          m.UserId,
-		CategoryId:      m.CategoryId,
-		AccountId:       m.AccountId,
-		DestAccountId:   m.DestAccountId,
-		BudgetId:        m.BudgetId,
-		CurrencyId:      m.CurrencyId,
-		Amount:          m.Amount,
-		TransactionDate: m.TransactionDate,
-		Type:            m.Type,
-		Description:     m.Description,
-		CreatedAt:       created_at,
-		UpdatedAt:       updated_at,
-	}
+	var transaction models.Transaction
+	err = d.db.Get(&transaction, getTransactionSchema, id)
 
 	return transaction, err
 }
@@ -116,13 +99,13 @@ func (d *DB) DeleteTransaction(m *models.JsonTransactionDelete) error {
 }
 
 func (d *DB) UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error) {
-	ratedAmount := m.Amount * m.Rate
-
+  log.Printf("%i", m.CurrencyId)
 	_, err := d.db.Exec(
 		updateTransactionSchema,
 		m.UserId,
 		m.CategoryId,
-		ratedAmount,
+		m.Amount,
+    m.CurrencyId,
 		m.AccountId,
 		m.DestAccountId,
 		m.BudgetId,
