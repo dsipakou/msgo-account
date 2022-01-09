@@ -15,13 +15,20 @@ var getAllTransactionsExtendedSchema = `
 `
 var getGroupedTransactionsSchema = `
   SELECT 
-    CONCAT(EXTRACT(YEAR FROM transaction_date), '-', EXTRACT(MONTH FROM transaction_date)) AS month, 
-    EXTRACT(DAY FROM transaction_date) AS day, 
-    SUM(amount) AS grouped_amount 
-  FROM transactions 
-  GROUP BY transaction_date, type 
-  HAVING type='outcome' AND transaction_date >= '%s' AND transaction_date <= '%s' 
-  ORDER BY transaction_date`
+    CONCAT(EXTRACT(YEAR FROM t.transaction_date), '-', EXTRACT(MONTH FROM t.transaction_date)) AS month, 
+    EXTRACT(DAY FROM t.transaction_date) AS day, 
+    SUM(t.amount) AS original_amount,
+    SUM(CASE WHEN t.currency_id is NULL THEN t.amount
+      WHEN c.is_base THEN t.amount
+      ELSE t.amount * r.rate
+    END) as grouped_amount 
+  FROM transactions t
+    LEFT JOIN rates r ON r.currency_id = t.currency_id AND r.rate_date = t.transaction_date
+    LEFT JOIN currencies c ON c.id = t.currency_id
+  GROUP BY t.transaction_date, t.type 
+  HAVING t.type='outcome' AND t.transaction_date >= '%s' AND t.transaction_date <= '%s' 
+  ORDER BY t.transaction_date;
+`
 var getRangedTransactionsSchema = `
   SELECT 
     t.*,  
@@ -34,7 +41,6 @@ var getRangedTransactionsSchema = `
     LEFT JOIN currencies c ON c.id = t.currency_id
   WHERE type='outcome' AND transaction_date >= '%s' AND transaction_date <= '%s'
   ORDER BY transaction_date`
-// var getTransactionSchema = `SELECT * FROM transactions WHERE id=$1`
 var getTransactionSchema = `
   SELECT 
     t.*,  
