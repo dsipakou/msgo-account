@@ -1,6 +1,18 @@
 package db
 
 var getAllTransactionsSchema = `SELECT * FROM transactions ORDER BY %s DESC`
+var getAllTransactionsExtendedSchema = `
+  SELECT 
+    t.*,  
+    CASE WHEN t.currency_id is NULL THEN t.amount
+        WHEN c.is_base THEN t.amount
+        ELSE t.amount * r.rate
+    END as base_amount
+  FROM transactions t 
+    LEFT JOIN rates r ON r.currency_id = t.currency_id AND r.rate_date = t.transaction_date
+    LEFT JOIN currencies c ON c.id = t.currency_id
+  ORDER BY t.%s DESC LIMIT %s;
+`
 var getGroupedTransactionsSchema = `
   SELECT 
     CONCAT(EXTRACT(YEAR FROM transaction_date), '-', EXTRACT(MONTH FROM transaction_date)) AS month, 
@@ -11,14 +23,33 @@ var getGroupedTransactionsSchema = `
   HAVING type='outcome' AND transaction_date >= '%s' AND transaction_date <= '%s' 
   ORDER BY transaction_date`
 var getRangedTransactionsSchema = `
-  SELECT * 
-  FROM transactions
+  SELECT 
+    t.*,  
+    CASE WHEN t.currency_id is NULL THEN t.amount
+        WHEN c.is_base THEN t.amount
+        ELSE t.amount * r.rate
+    END as base_amount
+  FROM transactions t
+    LEFT JOIN rates r ON r.currency_id = t.currency_id AND r.rate_date = t.transaction_date
+    LEFT JOIN currencies c ON c.id = t.currency_id
   WHERE type='outcome' AND transaction_date >= '%s' AND transaction_date <= '%s'
   ORDER BY transaction_date`
-var getTransactionSchema = `SELECT * FROM transactions WHERE id=$1`
+// var getTransactionSchema = `SELECT * FROM transactions WHERE id=$1`
+var getTransactionSchema = `
+  SELECT 
+    t.*,  
+    CASE WHEN t.currency_id is NULL THEN t.amount
+        WHEN c.is_base THEN t.amount
+        ELSE t.amount * r.rate
+    END as base_amount
+  FROM transactions t 
+    LEFT JOIN rates r ON r.currency_id = t.currency_id AND r.rate_date = t.transaction_date
+    LEFT JOIN currencies c ON c.id = t.currency_id
+  WHERE t.id=$1;
+`
 var insertTransactionSchema = `INSERT INTO transactions("user_id", "category_id", "amount", "account_id", "dest_account_id", "currency_id", "budget_id", "transaction_date", "type", "description") VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id, created_at, updated_at`
 var deleteTransactionSchema = `DELETE FROM transactions WHERE id=$1`
-var updateTransactionSchema = `UPDATE transactions SET user_id=$1, category_id=$2, amount=$3, account_id=$4, dest_account_id=$5, budget_id=$6, transaction_date=$7, type=$8, description=$9, updated_at=NOW() WHERE id=$10`
+var updateTransactionSchema = `UPDATE transactions SET user_id=$1, category_id=$2, amount=$3, currency_id=$4, account_id=$5, dest_account_id=$6, budget_id=$7, transaction_date=$8, type=$9, description=$10, updated_at=NOW() WHERE id=$11`
 
 var getAccountsSchema = `SELECT * FROM accounts`
 var getAccountSchema = `SELECT * FROM accounts WHERE id=$1`

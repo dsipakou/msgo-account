@@ -23,6 +23,13 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 			request.Sorting = "id"
 		}
 
+    limit := r.FormValue("limit")
+    if limit == "" {
+      request.Limit = "15"
+    } else {
+      request.Limit = limit
+    }
+
 		dateFrom := r.FormValue("dateFrom")
 		dateTo := r.FormValue("dateTo")
 

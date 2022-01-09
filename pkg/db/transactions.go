@@ -9,7 +9,7 @@ import (
 type TransactionDB interface {
 	GetTransactions(m models.JsonTransactionsGet) ([]models.Transaction, error)
 	GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([]models.GroupedSum, error)
-  GetRangedTransactions(dateFrom string, dateTo string) ([]models.Transaction, error)
+	GetRangedTransactions(dateFrom string, dateTo string) ([]models.Transaction, error)
 	CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error)
 	DeleteTransaction(m *models.JsonTransactionDelete) error
 	UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error)
@@ -17,7 +17,7 @@ type TransactionDB interface {
 
 func (d *DB) GetTransactions(m models.JsonTransactionsGet) ([]models.Transaction, error) {
 	var transactions []models.Transaction
-	query := fmt.Sprintf(getAllTransactionsSchema, m.Sorting)
+	query := fmt.Sprintf(getAllTransactionsExtendedSchema, m.Sorting, m.Limit)
 	err := d.db.Select(&transactions, query)
 	if err != nil {
 		return transactions, err
@@ -42,15 +42,15 @@ func (d *DB) GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([
 }
 
 func (d *DB) GetRangedTransactions(dateFrom string, dateTo string) ([]models.Transaction, error) {
-  var transactions []models.Transaction
-  query := fmt.Sprintf(getRangedTransactionsSchema, dateFrom, dateTo)
-  log.Println(query)
-  err := d.db.Select(&transactions, query)
-  if err != nil {
-    return transactions, err
-  }
+	var transactions []models.Transaction
+	query := fmt.Sprintf(getRangedTransactionsSchema, dateFrom, dateTo)
+	log.Println(query)
+	err := d.db.Select(&transactions, query)
+	if err != nil {
+		return transactions, err
+	}
 
-  return transactions, nil
+	return transactions, nil
 }
 
 func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transaction, error) {
@@ -65,17 +65,13 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 	var created_at string
 	var updated_at string
 
-	ratedAmount := m.Amount * m.Rate
-
-  // TODO: store real m.CurrencyId instead of 1
-
 	err = stmt.QueryRow(
 		m.UserId,
 		m.CategoryId,
-		ratedAmount,
+		m.Amount,
 		m.AccountId,
 		m.DestAccountId,
-    1,
+		m.CurrencyId,
 		m.BudgetId,
 		m.TransactionDate,
 		m.Type,
@@ -87,20 +83,8 @@ func (d *DB) CreateTransaction(m *models.JsonTransactionCreate) (models.Transact
 		return models.Transaction{}, err
 	}
 
-	transaction := models.Transaction{
-		Id:              int32(id),
-		UserId:          m.UserId,
-		CategoryId:      m.CategoryId,
-		AccountId:       m.AccountId,
-		DestAccountId:   m.DestAccountId,
-		BudgetId:        m.BudgetId,
-		Amount:          ratedAmount,
-		TransactionDate: m.TransactionDate,
-		Type:            m.Type,
-		Description:     m.Description,
-		CreatedAt:       created_at,
-		UpdatedAt:       updated_at,
-	}
+	var transaction models.Transaction
+	err = d.db.Get(&transaction, getTransactionSchema, id)
 
 	return transaction, err
 }
@@ -115,13 +99,13 @@ func (d *DB) DeleteTransaction(m *models.JsonTransactionDelete) error {
 }
 
 func (d *DB) UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error) {
-	ratedAmount := m.Amount * m.Rate
-
+  log.Printf("%i", m.CurrencyId)
 	_, err := d.db.Exec(
 		updateTransactionSchema,
 		m.UserId,
 		m.CategoryId,
-		ratedAmount,
+		m.Amount,
+    m.CurrencyId,
 		m.AccountId,
 		m.DestAccountId,
 		m.BudgetId,
