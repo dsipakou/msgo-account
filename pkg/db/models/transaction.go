@@ -19,6 +19,7 @@ type Transaction struct {
 
 type GroupedSum struct {
 	AmountSum float32 `db:"grouped_amount"`
+  OriginalSum float32 `db:"original_amount"`
 	Month     string  `db:"month"`
 	Day       int32   `db:"day"`
 }
