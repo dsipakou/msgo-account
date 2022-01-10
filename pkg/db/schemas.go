@@ -30,7 +30,7 @@ var getGroupedTransactionsSchema = `
   ORDER BY t.transaction_date;
 `
 var getGroupedTransactionsForCurrencySchema = `
-  SELECT t1.month, t1.day, t1.amount / r.rate as calculated_amount FROM (
+  SELECT t1.month, t1.day, t1.amount / r.rate as grouped_amount FROM (
     SELECT 
       CONCAT(EXTRACT(YEAR FROM t.transaction_date), '-', EXTRACT(MONTH FROM t.transaction_date)) AS month, 
       EXTRACT(DAY FROM t.transaction_date) AS day, 

@@ -6,7 +6,6 @@ import (
 	"msgo-account/pkg/utils"
 	"net/http"
 	"time"
-
 	"github.com/gorilla/mux"
 )
 
@@ -77,10 +76,10 @@ func (a *Api) GetTransactionsHandler() http.HandlerFunc {
 func (a *Api) GetGroupedTransactionsHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonTransactionsForMonthRequest{}
-		dateFrom := mux.Vars(r)["dateFrom"]
-		dateTo := mux.Vars(r)["dateTo"]
-		request.DateFrom = dateFrom
-		request.DateTo = dateTo
+		request.DateFrom = r.FormValue("dateFrom")
+		request.DateTo = r.FormValue("dateTo")
+
+    request.CurrencyCode = r.FormValue("currency")
 		groupedSums, err := a.DB.GetGroupedTransactions(request)
 		if err != nil {
 			log.Printf("Cannot get grouped transactions, err %v \n", err)

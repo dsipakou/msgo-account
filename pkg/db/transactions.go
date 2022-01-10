@@ -32,6 +32,7 @@ func (d *DB) GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([
 
 	dateFrom := m.DateFrom + POSTFIX
 	dateTo := m.DateTo + POSTFIX
+  log.Printf(m.CurrencyCode)
 	query := fmt.Sprintf(getGroupedTransactionsSchema, dateFrom, dateTo)
 	err := d.db.Select(&groupedSum, query)
 	if err != nil {
