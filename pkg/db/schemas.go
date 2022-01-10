@@ -43,10 +43,10 @@ var getGroupedTransactionsForCurrencySchema = `
       LEFT JOIN rates r ON r.currency_id = t.currency_id AND r.rate_date = t.transaction_date
       LEFT JOIN currencies c ON c.id = t.currency_id
     GROUP BY t.transaction_date, t.type, t.transaction_date
-    HAVING t.type='outcome' AND t.transaction_date >= '$s' AND t.transaction_date <= '$s' 
+    HAVING t.type='outcome' AND t.transaction_date >= '%s' AND t.transaction_date <= '%s' 
     ORDER BY t.transaction_date
   ) as t1
-    INNER JOIN currencies c ON c.code = '$s'
+    INNER JOIN currencies c ON c.code = '%s'
     INNER JOIN rates r ON r.currency_id = c.id AND r.rate_date = t1.transaction_date
   ORDER BY r.rate_date;
 `
