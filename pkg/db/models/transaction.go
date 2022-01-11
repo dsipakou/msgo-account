@@ -18,10 +18,10 @@ type Transaction struct {
 }
 
 type GroupedSum struct {
-	AmountSum float32 `db:"grouped_amount"`
-  OriginalSum float32 `db:"original_amount"`
-	Month     string  `db:"month"`
-	Day       int32   `db:"day"`
+	AmountSum   float32 `db:"grouped_amount"`
+	OriginalSum float32 `db:"original_amount,omitempty"`
+	Month       string  `db:"month"`
+	Day         int32   `db:"day"`
 }
 
 type JsonTransactionsGet struct {
@@ -78,8 +78,9 @@ type JsonTransactionResponse struct {
 }
 
 type JsonTransactionsForMonthRequest struct {
-	DateFrom string `json:"dateFrom"`
-	DateTo   string `json:"dateTo"`
+	DateFrom     string `json:"dateFrom"`
+	DateTo       string `json:"dateTo"`
+	CurrencyCode string `json:"currency"`
 }
 
 type JsonTransactionsForMonthResponse struct {

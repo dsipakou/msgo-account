@@ -28,11 +28,16 @@ func (d *DB) GetTransactions(m models.JsonTransactionsGet) ([]models.Transaction
 
 func (d *DB) GetGroupedTransactions(m models.JsonTransactionsForMonthRequest) ([]models.GroupedSum, error) {
 	var groupedSum []models.GroupedSum
+  var query string
 	const POSTFIX = "-01"
 
 	dateFrom := m.DateFrom + POSTFIX
 	dateTo := m.DateTo + POSTFIX
-	query := fmt.Sprintf(getGroupedTransactionsSchema, dateFrom, dateTo)
+  if m.CurrencyCode != "" {
+    query = fmt.Sprintf(getGroupedTransactionsForCurrencySchema, dateFrom, dateTo, m.CurrencyCode)
+  } else {
+    query = fmt.Sprintf(getGroupedTransactionsSchema, dateFrom, dateTo)
+  }
 	err := d.db.Select(&groupedSum, query)
 	if err != nil {
 		return groupedSum, err
