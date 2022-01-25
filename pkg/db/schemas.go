@@ -30,7 +30,14 @@ var getGroupedTransactionsSchema = `
   ORDER BY t.transaction_date;
 `
 var getGroupedTransactionsForCurrencySchema = `
-  SELECT t1.month, t1.day, t1.amount / r.rate as grouped_amount FROM (
+  SELECT 
+    t1.month, 
+    t1.day, 
+    CASE WHEN c1.is_base THEN t1.amount
+      WHEN r1.rate is NULL THEN 0
+      ELSE t1.amount / r1.rate 
+    END as grouped_amount 
+  FROM (
     SELECT 
       CONCAT(EXTRACT(YEAR FROM t.transaction_date), '-', EXTRACT(MONTH FROM t.transaction_date)) AS month, 
       EXTRACT(DAY FROM t.transaction_date) AS day, 
@@ -46,9 +53,9 @@ var getGroupedTransactionsForCurrencySchema = `
     HAVING t.type='outcome' AND t.transaction_date >= '%s' AND t.transaction_date <= '%s' 
     ORDER BY t.transaction_date
   ) as t1
-    INNER JOIN currencies c ON c.code = '%s'
-    INNER JOIN rates r ON r.currency_id = c.id AND r.rate_date = t1.transaction_date
-  ORDER BY r.rate_date;
+    INNER JOIN currencies c1 ON c1.code = '%s'
+    LEFT JOIN rates r1 ON r1.currency_id = c1.id AND r1.rate_date = t1.transaction_date
+  ORDER BY r1.rate_date;
 `
 var getRangedTransactionsSchema = `
   SELECT 
