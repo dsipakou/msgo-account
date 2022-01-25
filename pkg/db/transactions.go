@@ -104,7 +104,7 @@ func (d *DB) DeleteTransaction(m *models.JsonTransactionDelete) error {
 }
 
 func (d *DB) UpdateTransaction(m *models.JsonTransactionUpdate) (models.Transaction, error) {
-  log.Printf("%i", m.CurrencyId)
+  log.Printf("count %i", m.CurrencyId)
 	_, err := d.db.Exec(
 		updateTransactionSchema,
 		m.UserId,

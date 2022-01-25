@@ -11,7 +11,7 @@ type UserDB interface {
 	GetUsers() ([]*models.User, error)
 	CreateUser(u *models.User) error
 	DeleteUser(u *models.JsonUserDelete) error
-	UpdateUser(u *models.User) error
+	UpdateUser(u *models.JsonUserUpdate) error
 }
 
 func (d *DB) GetUser(email string) (models.User, error) {
@@ -55,8 +55,9 @@ func (d *DB) DeleteUser(a *models.JsonUserDelete) error {
 	return err
 }
 
-func (d *DB) UpdateUser(t *models.User) error {
-	_, err := d.db.Exec(updateUserSchema, t.Name, t.Email, t.Password)
+func (d *DB) UpdateUser(t *models.JsonUserUpdate) error {
+  password := utils.GetHash([]byte(t.Password))
+	_, err := d.db.Exec(updateUserSchema, t.Name, t.Email, password)
 	if err != nil {
 		return err
 	}

@@ -13,7 +13,7 @@ type User struct {
 // Json structures
 type JsonUserLoginRequest struct {
 	Email    string `json:"email"`
-  Password string `json:"password"`
+	Password string `json:"password"`
 }
 
 type JsonUserGet struct {
@@ -24,6 +24,13 @@ type JsonUserGet struct {
 
 type JsonUserDelete struct {
 	Id int32 `db:"id"`
+}
+
+type JsonUserUpdate struct {
+	Id       int32  `json:"id"`
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type JsonUser struct {

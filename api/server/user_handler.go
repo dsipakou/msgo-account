@@ -114,7 +114,7 @@ func (a *Api) DeleteUserHandler() http.HandlerFunc {
 
 func (a *Api) UpdateUserHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		request := models.JsonUser{}
+		request := models.JsonUserUpdate{}
 		err := utils.Parse(w, r, &request)
 		if err != nil {
 			log.Printf("Cannot parse body. err=%v \n", err)
@@ -122,13 +122,7 @@ func (a *Api) UpdateUserHandler() http.HandlerFunc {
 			return
 		}
 
-		user := &models.User{
-			Name:     request.Name,
-			Email:    request.Email,
-			Password: request.Password,
-		}
-
-		err = a.DB.UpdateUser(user)
+		err = a.DB.UpdateUser(&request)
 		if err != nil {
 			log.Printf("Cannot update user. err=%v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
