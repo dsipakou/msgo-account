@@ -9,8 +9,9 @@ import (
 
 var SECRET_KEY = []byte("3djIDfjer454DFe3fdc")
 
-func GetHash(pwd []byte) string {
-	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
+func GetHash(pwd string) string {
+  password := []byte(pwd)
+	hash, err := bcrypt.GenerateFromPassword(password, 8)
 	if err != nil {
 		log.Println(err)
 	}

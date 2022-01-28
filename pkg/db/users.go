@@ -12,6 +12,7 @@ type UserDB interface {
 	CreateUser(u *models.User) error
 	DeleteUser(u *models.JsonUserDelete) error
 	UpdateUser(u *models.JsonUserUpdate) error
+  ResetUser(u *models.JsonResetUserRequest) error
 }
 
 func (d *DB) GetUser(email string) (models.User, error) {
@@ -36,7 +37,7 @@ func (d *DB) GetUsers() ([]*models.User, error) {
 }
 
 func (d *DB) CreateUser(a *models.User) error {
-	password := utils.GetHash([]byte(a.Password))
+	password := utils.GetHash(a.Password)
 	res, err := d.db.Exec(insertUserSchema, a.Name, a.Email, password)
 	if err != nil {
 		return err
@@ -56,7 +57,7 @@ func (d *DB) DeleteUser(a *models.JsonUserDelete) error {
 }
 
 func (d *DB) UpdateUser(t *models.JsonUserUpdate) error {
-  password := utils.GetHash([]byte(t.Password))
+  password := utils.GetHash(t.Password)
 	_, err := d.db.Exec(updateUserSchema, t.Name, t.Email, password)
 	if err != nil {
 		return err
@@ -65,7 +66,7 @@ func (d *DB) UpdateUser(t *models.JsonUserUpdate) error {
 }
 
 func (d *DB) ResetUser(t *models.JsonResetUserRequest) error {
-  password := utils.GetHash([]byte(t.Password))
+  password := utils.GetHash(t.Password)
 	_, err := d.db.Exec(resetUserSchema, password, t.Email)
 	if err != nil {
 		return err

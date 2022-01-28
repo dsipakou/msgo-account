@@ -25,9 +25,9 @@ func (a *Api) UserLoginHandler() http.HandlerFunc {
 			return
 		}
 
-		userPass := []byte(request.Password)
-		dbPass := []byte(user.Password)
-		passErr := bcrypt.CompareHashAndPassword(dbPass, userPass)
+		userPass := request.Password
+		dbPass := user.Password
+		passErr := bcrypt.CompareHashAndPassword([]byte(dbPass), []byte(userPass))
 		if passErr != nil {
 			utils.SendResponse(w, r, "incorrect password", http.StatusForbidden)
 			return
@@ -86,6 +86,31 @@ func (a *Api) CreateUserHandler() http.HandlerFunc {
 
 		resp := utils.MapUserToJson(user)
 		utils.SendResponse(w, r, resp, http.StatusOK)
+	}
+}
+
+func (a *Api) ResetUserHandler() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		request := models.JsonResetUserRequest{}
+		err := utils.Parse(w, r, &request)
+		if err != nil {
+			log.Printf("Cannot parse body. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusBadRequest)
+			return
+		}
+
+		err = a.DB.ResetUser(&request)
+		if err != nil {
+			log.Printf("Cannot save user in DB. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
+
+		if err != nil {
+			log.Printf("Cannot update user. err=%v \n", err)
+			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
+			return
+		}
 	}
 }
 
