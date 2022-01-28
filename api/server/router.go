@@ -37,6 +37,7 @@ func (a *Api) initRoutes() {
 	a.Router.HandleFunc("/api/users", a.CreateUserHandler()).Methods("POST")
 	a.Router.HandleFunc("/api/users", a.DeleteUserHandler()).Methods("DELETE")
 	a.Router.HandleFunc("/api/users", a.UpdateUserHandler()).Methods("PATCH")
+	a.Router.HandleFunc("/api/reset", a.ResetUserHandler()).Methods("POST")
 	a.Router.HandleFunc("/api/categories", a.GetCategoriesHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/categories", a.CreateCategoryHandler()).Methods("POST")
 	a.Router.HandleFunc("/api/categories", a.DeleteCategoryHandler()).Methods("DELETE")

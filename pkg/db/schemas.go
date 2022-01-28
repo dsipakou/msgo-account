@@ -96,6 +96,7 @@ var getUsersSchema = `SELECT * FROM users`
 var insertUserSchema = `INSERT INTO users(name, email, password) VALUES($1, $2, $3) RETURNING id`
 var deleteUserSchema = `DELETE FROM users WHERE id=$1`
 var updateUserSchema = `UPDATE users SET name=$1, email=$2, password=$3 WHERE id=$4`
+var resetUserSchema = `UPDATE users SET password=$1 WHERE email=$2`
 
 var getCategoriesSchema = `SELECT * FROM categories ORDER BY name`
 var getCategorySchema = `SELECT * FROM categories WHERE id=$1`

@@ -63,3 +63,12 @@ func (d *DB) UpdateUser(t *models.JsonUserUpdate) error {
 	}
 	return err
 }
+
+func (d *DB) ResetUser(t *models.JsonResetUserRequest) error {
+  password := utils.GetHash([]byte(t.Password))
+	_, err := d.db.Exec(resetUserSchema, password, t.Email)
+	if err != nil {
+		return err
+	}
+	return err
+}
