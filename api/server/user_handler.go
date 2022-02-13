@@ -38,7 +38,10 @@ func (a *Api) UserLoginHandler() http.HandlerFunc {
 			utils.SendResponse(w, r, "cannot generate token", http.StatusInternalServerError)
 			return
 		}
-    utils.SendResponse(w, r, jwtToken, http.StatusOK)
+		resp := &models.JsonUserToken{
+			Token: jwtToken,
+		}
+    utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
 

@@ -21,6 +21,10 @@ type JsonResetUserRequest struct {
 	Password string `json:"password"`
 }
 
+type JsonUserToken struct {
+	Token string `json:"token"`
+}
+
 type JsonUserGet struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
