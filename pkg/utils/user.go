@@ -10,7 +10,7 @@ import (
 var SECRET_KEY = []byte("3djIDfjer454DFe3fdc")
 
 func GetHash(pwd string) string {
-  password := []byte(pwd)
+	password := []byte(pwd)
 	hash, err := bcrypt.GenerateFromPassword(password, 8)
 	if err != nil {
 		log.Println(err)
@@ -18,8 +18,11 @@ func GetHash(pwd string) string {
 	return string(hash)
 }
 
-func GenerateJWT() (string, error) {
-	token := jwt.New(jwt.SigningMethodHS256)
+func GenerateJWT(username string) (string, error) {
+	tokenClaims := jwt.MapClaims{}
+	tokenClaims["authorized"] = true
+	tokenClaims["username"] = username
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tokenClaims)
 	tokenString, err := token.SignedString(SECRET_KEY)
 	if err != nil {
 		log.Println("Error in JWT token generation")

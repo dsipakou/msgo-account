@@ -33,7 +33,7 @@ func (a *Api) UserLoginHandler() http.HandlerFunc {
 			return
 		}
 
-		jwtToken, err := utils.GenerateJWT()
+		jwtToken, err := utils.GenerateJWT(request.Email)
 		if err != nil {
 			utils.SendResponse(w, r, "cannot generate token", http.StatusInternalServerError)
 			return
