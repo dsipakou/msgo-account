@@ -2,7 +2,7 @@ package utils
 
 import (
 	"log"
-
+  "time"
 	jwt "github.com/golang-jwt/jwt/v4"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -22,6 +22,7 @@ func GenerateJWT(username string) (string, error) {
 	tokenClaims := jwt.MapClaims{}
 	tokenClaims["authorized"] = true
 	tokenClaims["username"] = username
+  tokenClaims["exp"] = time.Now().Add(time.Minute * 30).Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, tokenClaims)
 	tokenString, err := token.SignedString(SECRET_KEY)
 	if err != nil {
