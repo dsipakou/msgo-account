@@ -49,9 +49,9 @@ func (a *Api) GetBudgetForPeriodHandler() http.HandlerFunc {
 			return
 		}
 
-		var resp = make([]models.JsonBudgetResponse, len(budgetList))
+		var resp = make([]models.JsonExtendedBudgetResponse, len(budgetList))
 		for idx, item := range budgetList {
-			resp[idx] = utils.MapBudgetToJson(item)
+			resp[idx] = utils.MapExtendedBudgetToJson(item)
 		}
 		utils.SendResponse(w, r, resp, http.StatusOK)
   }

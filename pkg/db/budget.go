@@ -8,7 +8,7 @@ import (
 
 type BudgetDB interface {
 	GetBudget() ([]models.Budget, error)
-  GetBudgetForPeriod(dateFrom string, dateTo string) ([]models.Budget, error)
+  GetBudgetForPeriod(dateFrom string, dateTo string) ([]models.ExtendedBudget, error)
 	GetBudgetUsage(dateFrom string, dateTo string) ([]models.BudgetUsage, error)
 	CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error)
 	DeleteBudget(m *models.JsonBudgetDelete) error
@@ -25,8 +25,8 @@ func (d *DB) GetBudget() ([]models.Budget, error) {
 	return budget, nil
 }
 
-func (d *DB) GetBudgetForPeriod(dateFrom string, dateTo string) ([]models.Budget, error) {
-  var budgetList []models.Budget
+func (d *DB) GetBudgetForPeriod(dateFrom string, dateTo string) ([]models.ExtendedBudget, error) {
+  var budgetList []models.ExtendedBudget
   query := fmt.Sprintf(getBudgetForPeriod, dateFrom, dateTo)
   log.Println(query)
   err := d.db.Select(&budgetList, query)

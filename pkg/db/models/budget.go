@@ -13,6 +13,19 @@ type Budget struct {
 	UpdatedAt   string  `db:"updated_at"`
 }
 
+type ExtendedBudget struct {
+	Id          int32   `db:"id"`
+	BudgetDate  string  `db:"budget_date"`
+	CategoryId  *int32  `db:"category_id"`
+	Title       string  `db:"title"`
+	Amount      float32 `db:"amount"`
+	Description string  `db:"description"`
+	IsCompleted bool    `db:"is_completed"`
+	CreatedAt   string  `db:"created_at"`
+	UpdatedAt   string  `db:"updated_at"`
+	ActualUsage float32 `db:"actual_usage"`
+}
+
 type BudgetUsage struct {
 	Name   string  `db:"name"`
 	Amount float32 `db:"amount"`
@@ -54,7 +67,20 @@ type JsonBudgetResponse struct {
 	UpdatedAt   string  `json:"updatedAt"`
 }
 
+type JsonExtendedBudgetResponse struct {
+	Id          int32   `json:"id"`
+	BudgetDate  string  `json:"budgetDate"`
+	Title       string  `json:"title"`
+	Amount      float32 `json:"amount"`
+	CategoryId  *int32  `json:"categoryId"`
+	Description string  `json:"description"`
+	IsCompleted bool    `json:"isCompleted"`
+	CreatedAt   string  `json:"createdAt"`
+	UpdatedAt   string  `json:"updatedAt"`
+  ActualUsage float32 `json:"actualUsage"`
+}
+
 type JsonBudgetUsageResponse struct {
-	Name   string `json:"name"`
-	Amount float32  `json:"amount"`
+	Name   string  `json:"name"`
+	Amount float32 `json:"amount"`
 }
