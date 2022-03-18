@@ -14,16 +14,17 @@ type Budget struct {
 }
 
 type ExtendedBudget struct {
-	Id          int32   `db:"id"`
-	BudgetDate  string  `db:"budget_date"`
-	CategoryId  *int32  `db:"category_id"`
-	Title       string  `db:"title"`
-	Amount      float32 `db:"amount"`
-	Description string  `db:"description"`
-	IsCompleted bool    `db:"is_completed"`
-	CreatedAt   string  `db:"created_at"`
-	UpdatedAt   string  `db:"updated_at"`
-	ActualUsage float32 `db:"actual_usage"`
+	Id                      int32   `db:"id"`
+	BudgetDate              string  `db:"budget_date"`
+	CategoryId              *int32  `db:"category_id"`
+	Title                   string  `db:"title"`
+	Amount                  float32 `db:"amount"`
+	Description             string  `db:"description"`
+	IsCompleted             bool    `db:"is_completed"`
+	CreatedAt               string  `db:"created_at"`
+	UpdatedAt               string  `db:"updated_at"`
+	SpentInOriginalCurrency float32 `db:"spent_in_original_currency"`
+	SpentInBaseCurrency     float32 `db:"spent_in_base_currency"`
 }
 
 type BudgetUsage struct {
@@ -68,16 +69,17 @@ type JsonBudgetResponse struct {
 }
 
 type JsonExtendedBudgetResponse struct {
-	Id          int32   `json:"id"`
-	BudgetDate  string  `json:"budgetDate"`
-	Title       string  `json:"title"`
-	Amount      float32 `json:"amount"`
-	CategoryId  *int32  `json:"categoryId"`
-	Description string  `json:"description"`
-	IsCompleted bool    `json:"isCompleted"`
-	CreatedAt   string  `json:"createdAt"`
-	UpdatedAt   string  `json:"updatedAt"`
-  ActualUsage float32 `json:"actualUsage"`
+	Id                      int32   `json:"id"`
+	BudgetDate              string  `json:"budgetDate"`
+	Title                   string  `json:"title"`
+	Amount                  float32 `json:"amount"`
+	CategoryId              *int32  `json:"categoryId"`
+	Description             string  `json:"description"`
+	IsCompleted             bool    `json:"isCompleted"`
+	CreatedAt               string  `json:"createdAt"`
+	UpdatedAt               string  `json:"updatedAt"`
+	SpentInOriginalCurrency float32 `db:"spentInOriginalCurrency"`
+	SpentInBaseCurrency     float32 `db:"spentInBaseCurrency"`
 }
 
 type JsonBudgetUsageResponse struct {

@@ -120,11 +120,17 @@ var updateRateSchema = `UPDATE rates SET currency_id=$1, rate_date=$2, rate=$3, 
 var getAllBudgetSchema = `SELECT * FROM budget`
 var getBudgetSchema = `SELECT * FROM budget WHERE id=$1`
 var getBudgetForPeriod = `
-  SELECT b.*, t.amount as actual_usage
+  SELECT b.*, t.amount as spent_in_original_currency,                                                                                                                                                             
+    CASE WHEN t.currency_id is NULL THEN t.amount
+      WHEN c.is_base THEN t.amount
+      ELSE t.amount * r.rate
+    END as spent_in_base_currency
   FROM budget AS b
-  RIGHT JOIN transactions t on b.id = t.budget_id
-  WHERE b.budget_date 
-  BETWEEN '%s' AND '%s' 
+    RIGHT JOIN transactions t on b.id = t.budget_id
+    LEFT JOIN rates r ON r.currency_id = t.currency_id AND r.rate_date = t.transaction_date
+    LEFT JOIN currencies c ON c.id = t.currency_id  
+  WHERE b.budget_date   
+  BETWEEN '%s' AND '%s'
   ORDER BY b.title
 `
 var insertBudgetSchema = `INSERT INTO budget(budget_date, title, amount, category_id, description) VALUES($1, $2, $3, $4, $5) RETURNING id, created_at, updated_at`
