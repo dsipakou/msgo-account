@@ -23,8 +23,8 @@ type ExtendedBudget struct {
 	IsCompleted             bool    `db:"is_completed"`
 	CreatedAt               string  `db:"created_at"`
 	UpdatedAt               string  `db:"updated_at"`
-	SpentInOriginalCurrency float32 `db:"spent_in_original_currency"`
-	SpentInBaseCurrency     float32 `db:"spent_in_base_currency"`
+	SpentInOriginalCurrency *float32 `db:"spent_in_original_currency"`
+	SpentInBaseCurrency     *float32 `db:"spent_in_base_currency"`
 }
 
 type BudgetUsage struct {
@@ -78,8 +78,8 @@ type JsonExtendedBudgetResponse struct {
 	IsCompleted             bool    `json:"isCompleted"`
 	CreatedAt               string  `json:"createdAt"`
 	UpdatedAt               string  `json:"updatedAt"`
-	SpentInOriginalCurrency float32 `db:"spentInOriginalCurrency"`
-	SpentInBaseCurrency     float32 `db:"spentInBaseCurrency"`
+	SpentInOriginalCurrency *float32 `json:"spentInOriginalCurrency"`
+	SpentInBaseCurrency     *float32 `json:"spentInBaseCurrency"`
 }
 
 type JsonBudgetUsageResponse struct {

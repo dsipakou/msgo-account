@@ -126,7 +126,7 @@ var getBudgetForPeriod = `
       ELSE t.amount * r.rate
     END as spent_in_base_currency
   FROM budget AS b
-    RIGHT JOIN transactions t on b.id = t.budget_id
+    FULL JOIN transactions t on b.id = t.budget_id
     LEFT JOIN rates r ON r.currency_id = t.currency_id AND r.rate_date = t.transaction_date
     LEFT JOIN currencies c ON c.id = t.currency_id  
   WHERE b.budget_date   
