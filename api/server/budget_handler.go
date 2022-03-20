@@ -57,7 +57,7 @@ func (a *Api) GetBudgetUsageForPeriodHandler() http.HandlerFunc {
   }
 }
 
-func (a *Api) GetBudgetForPeriodHandler() http.HandlerFunc {
+func (a *Api) GetBudgetPlanForPeriodHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		dateFrom, err := time.Parse("2006-01-02", r.FormValue("dateFrom"))
     if err != nil {
@@ -71,16 +71,16 @@ func (a *Api) GetBudgetForPeriodHandler() http.HandlerFunc {
 			utils.SendResponse(w, r, "Incorrect date format", http.StatusBadRequest)
 			return
     }
-		usage, err := a.DB.GetBudgetUsage(dateFrom.Format("2006-01-02"), dateTo.Format("2006-01-02"))
+		plan, err := a.DB.GetBudgetPlan(dateFrom.Format("2006-01-02"), dateTo.Format("2006-01-02"))
 		if err != nil {
-			log.Printf("Cannot get budget usage, err %v \n", err)
+			log.Printf("Cannot get budget plan, err %v \n", err)
 			utils.SendResponse(w, r, nil, http.StatusInternalServerError)
 			return
 		}
 
-		var resp = make([]models.JsonBudgetUsageResponse, len(usage))
-		for idx, item := range usage {
-			resp[idx] = utils.MapBudgetUsageToJson(item)
+		var resp = make([]models.JsonBudgetPlanResponse, len(plan))
+		for idx, item := range plan {
+			resp[idx] = utils.MapBudgetPlanToJson(item)
 		}
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}

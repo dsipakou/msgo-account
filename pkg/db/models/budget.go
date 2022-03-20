@@ -27,7 +27,7 @@ type ExtendedBudget struct {
 	SpentInBaseCurrency     *float32 `db:"spent_in_base_currency"`
 }
 
-type BudgetUsage struct {
+type BudgetPlan struct {
 	Name   string  `db:"name"`
 	Amount float32 `db:"amount"`
 }
@@ -82,7 +82,7 @@ type JsonExtendedBudgetResponse struct {
 	SpentInBaseCurrency     *float32 `json:"spentInBaseCurrency"`
 }
 
-type JsonBudgetUsageResponse struct {
+type JsonBudgetPlanResponse struct {
 	Name   string  `json:"name"`
 	Amount float32 `json:"amount"`
 }

@@ -80,8 +80,8 @@ func MapExtendedBudgetToJson(m models.ExtendedBudget) models.JsonExtendedBudgetR
 	}
 }
 
-func MapBudgetUsageToJson(m models.BudgetUsage) models.JsonBudgetUsageResponse {
-	return models.JsonBudgetUsageResponse{
+func MapBudgetPlanToJson(m models.BudgetPlan) models.JsonBudgetPlanResponse {
+	return models.JsonBudgetPlanResponse{
 		Name:   m.Name,
 		Amount: m.Amount,
 	}

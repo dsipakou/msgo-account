@@ -9,7 +9,7 @@ import (
 type BudgetDB interface {
 	GetBudget() ([]models.Budget, error)
   GetBudgetForPeriod(dateFrom string, dateTo string) ([]models.ExtendedBudget, error)
-	GetBudgetUsage(dateFrom string, dateTo string) ([]models.BudgetUsage, error)
+	GetBudgetPlan(dateFrom string, dateTo string) ([]models.BudgetPlan, error)
 	CreateBudget(m *models.JsonBudgetCreate) (models.Budget, error)
 	DeleteBudget(m *models.JsonBudgetDelete) error
 	UpdateBudget(m *models.JsonBudgetUpdate) (models.Budget, error)
@@ -37,8 +37,8 @@ func (d *DB) GetBudgetForPeriod(dateFrom string, dateTo string) ([]models.Extend
   return budgetList, nil
 }
 
-func (d *DB) GetBudgetUsage(dateFrom string, dateTo string) ([]models.BudgetUsage, error) {
-	var usage []models.BudgetUsage
+func (d *DB) GetBudgetPlan(dateFrom string, dateTo string) ([]models.BudgetPlan, error) {
+	var usage []models.BudgetPlan
 	query := fmt.Sprintf(getPeriodBudgetUsage, dateFrom, dateTo)
   log.Println(query)
 	err := d.db.Select(&usage, query)

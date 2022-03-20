@@ -52,7 +52,7 @@ func (a *Api) initRoutes() {
 	a.Router.HandleFunc("/api/rates", a.UpdateRateHandler()).Methods("PATCH")
 	a.Router.HandleFunc("/api/budget", a.GetBudgetHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/budget/usage", a.GetBudgetUsageForPeriodHandler()).Methods("GET")
-	a.Router.HandleFunc("/api/budget/planned", a.GetBudgetForPeriodHandler()).Methods("GET")
+	a.Router.HandleFunc("/api/budget/planned", a.GetBudgetPlanForPeriodHandler()).Methods("GET")
 	a.Router.HandleFunc("/api/budget", a.CreateBudgetHandler()).Methods("POST")
 	a.Router.HandleFunc("/api/budget", a.DeleteBudgetHandler()).Methods("DELETE")
 	a.Router.HandleFunc("/api/budget", a.UpdateBudgetHandler()).Methods("PATCH")
