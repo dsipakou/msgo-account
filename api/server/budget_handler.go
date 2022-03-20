@@ -28,7 +28,7 @@ func (a *Api) GetBudgetHandler() http.HandlerFunc {
 	}
 }
 
-func (a *Api) GetBudgetForPeriodHandler() http.HandlerFunc {
+func (a *Api) GetBudgetUsageForPeriodHandler() http.HandlerFunc {
   return func(w http.ResponseWriter, r *http.Request) {
 		dateFrom, err := time.Parse("2006-01-02", r.FormValue("dateFrom"))
     if err != nil {
@@ -57,7 +57,7 @@ func (a *Api) GetBudgetForPeriodHandler() http.HandlerFunc {
   }
 }
 
-func (a *Api) GetBudgetUsageForPeriodHandler() http.HandlerFunc {
+func (a *Api) GetBudgetForPeriodHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		dateFrom, err := time.Parse("2006-01-02", r.FormValue("dateFrom"))
     if err != nil {
@@ -85,6 +85,7 @@ func (a *Api) GetBudgetUsageForPeriodHandler() http.HandlerFunc {
 		utils.SendResponse(w, r, resp, http.StatusOK)
 	}
 }
+
 func (a *Api) CreateBudgetHandler() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		request := models.JsonBudgetCreate{}
