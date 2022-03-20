@@ -82,8 +82,16 @@ func MapExtendedBudgetToJson(m models.ExtendedBudget) models.JsonExtendedBudgetR
 
 func MapBudgetPlanToJson(m models.BudgetPlan) models.JsonBudgetPlanResponse {
 	return models.JsonBudgetPlanResponse{
-		Name:   m.Name,
-		Amount: m.Amount,
+		Id:           m.Id,
+		BudgetDate:   m.BudgetDate,
+		Title:        m.Title,
+		Amount:       m.Amount,
+		CategoryId:   m.CategoryId,
+		Description:  m.Description,
+		IsCompleted:  m.IsCompleted,
+		CreatedAt:    m.CreatedAt,
+		UpdatedAt:    m.UpdatedAt,
+		CategoryName: m.CategoryName,
 	}
 }
 

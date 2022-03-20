@@ -39,7 +39,7 @@ func (d *DB) GetBudgetForPeriod(dateFrom string, dateTo string) ([]models.Extend
 
 func (d *DB) GetBudgetPlan(dateFrom string, dateTo string) ([]models.BudgetPlan, error) {
 	var usage []models.BudgetPlan
-	query := fmt.Sprintf(getPeriodBudgetUsage, dateFrom, dateTo)
+	query := fmt.Sprintf(getBudgetPlan, dateFrom, dateTo)
   log.Println(query)
 	err := d.db.Select(&usage, query)
 	if err != nil {

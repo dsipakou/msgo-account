@@ -136,10 +136,9 @@ var getBudgetForPeriod = `
 var insertBudgetSchema = `INSERT INTO budget(budget_date, title, amount, category_id, description) VALUES($1, $2, $3, $4, $5) RETURNING id, created_at, updated_at`
 var deleteBudgetSchema = `DELETE FROM budget WHERE id=$1`
 var updateBudgetSchema = `UPDATE budget SET budget_date=$1, title=$2, amount=$3, category_id=$4, description=$5, is_completed=$6 WHERE id=$7`
-var getPeriodBudgetUsage = `
-  SELECT c.name, sum(b.amount) as amount
+var getBudgetPlan = `
+  SELECT c.name as category_name, b.*
   FROM budget as b
   INNER JOIN categories c ON c.id = b.category_id
-  WHERE b.budget_date BETWEEN '%s' AND '%s'
-  GROUP BY c.name;
+  WHERE b.budget_date BETWEEN '%s' AND '%s';
 `
