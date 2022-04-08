@@ -17,6 +17,7 @@ type ExtendedBudget struct {
 	Id                      int32    `db:"id"`
 	BudgetDate              string   `db:"budget_date"`
 	CategoryId              *int32   `db:"category_id"`
+	CategoryName            string   `db:"category_name"`
 	Title                   string   `db:"title"`
 	Amount                  float32  `db:"amount"`
 	Description             string   `db:"description"`
@@ -82,6 +83,7 @@ type JsonExtendedBudgetResponse struct {
 	Title                   string   `json:"title"`
 	Amount                  float32  `json:"amount"`
 	CategoryId              *int32   `json:"categoryId"`
+	CategoryName            string   `json:"categoryName"`
 	Description             string   `json:"description"`
 	IsCompleted             bool     `json:"isCompleted"`
 	CreatedAt               string   `json:"createdAt"`

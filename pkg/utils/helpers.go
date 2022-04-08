@@ -71,6 +71,7 @@ func MapExtendedBudgetToJson(m models.ExtendedBudget) models.JsonExtendedBudgetR
 		Title:                   m.Title,
 		Amount:                  m.Amount,
 		CategoryId:              m.CategoryId,
+		CategoryName:            m.CategoryName,
 		Description:             m.Description,
 		IsCompleted:             m.IsCompleted,
 		CreatedAt:               m.CreatedAt,
